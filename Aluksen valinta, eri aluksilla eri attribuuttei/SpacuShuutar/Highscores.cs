@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -9,6 +10,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
+using System.Xml.Serialization;
 using Windows.Devices.Input;
 using Windows.UI.Xaml;
 using System.ServiceModel.Dispatcher;
@@ -18,12 +20,14 @@ using Windows.Storage;
 
 namespace SpacuShuutar
 {
-
+    
     public class Highscores
     {
         SpriteFont font;
         public string playerName;
         public string score;
+        //private string fileName;
+        //IAsyncResult result;
         
 
         public string CurrentFileBuffer

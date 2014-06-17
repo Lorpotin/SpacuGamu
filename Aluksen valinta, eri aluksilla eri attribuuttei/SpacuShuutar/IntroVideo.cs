@@ -40,11 +40,13 @@ namespace SpacuShuutar
 
         public void Update(GameTime gameTime)
         {
+            KeyboardState State = Keyboard.GetState();
             screenRectangle = new Rectangle(0,0,1920,1080);
             switch (level)
             {
                 case 0:
-                    
+                    if (State.IsKeyDown(Keys.Escape))
+                        level = 1;
                     //colour.R++;
                     if (colour.R == 255)
                         down = false;
@@ -56,6 +58,7 @@ namespace SpacuShuutar
                         colour.R--;
                         if (colour.R == 0)
                             level = 1;
+                        
                     }
                     
                     break;

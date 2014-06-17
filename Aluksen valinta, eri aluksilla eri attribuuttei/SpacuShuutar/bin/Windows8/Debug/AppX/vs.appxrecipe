@@ -13,20 +13,20 @@
     <RegisteredVersion>1.0.0.0</RegisteredVersion>
   </PropertyGroup>
   <ItemGroup>
-    <AppXManifest Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\bin\Windows8\Debug\AppxManifest.xml">
+    <AppXManifest Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\bin\Windows8\Debug\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2014-06-16T10:12:47.083</Modified>
+      <Modified>2014-06-17T11:14:40.878</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\bin\Windows8\Debug\SpacuShuutar.exe">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\bin\Windows8\Debug\SpacuShuutar.exe">
       <PackagePath>SpacuShuutar.exe</PackagePath>
-      <Modified>2014-06-16T10:25:27.008</Modified>
+      <Modified>2014-06-17T13:56:48.629</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\bin\Windows8\Debug\SpacuShuutar.pdb">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\bin\Windows8\Debug\SpacuShuutar.pdb">
       <PackagePath>SpacuShuutar.pdb</PackagePath>
-      <Modified>2014-06-16T10:25:26.720</Modified>
+      <Modified>2014-06-17T13:56:48.457</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\MSBuild\..\MonoGame\v3.0\Assemblies\Windows8\MonoGame.Framework.dll">
       <PackagePath>MonoGame.Framework.dll</PackagePath>
@@ -60,221 +60,229 @@
       <PackagePath>SharpDX.XInput.dll</PackagePath>
       <Modified>2014-04-05T20:51:04.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\alien.png">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\alien.png">
       <PackagePath>Content\alien.png</PackagePath>
       <Modified>2014-06-02T11:42:58.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\arrowtower.png">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\arrowtower.png">
       <PackagePath>Content\arrowtower.png</PackagePath>
       <Modified>2014-01-18T23:13:56.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\bigasteroid.png">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\bigasteroid.png">
       <PackagePath>Content\bigasteroid.png</PackagePath>
       <Modified>2014-04-13T18:42:43.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\bigbullet.png">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\bigbullet.png">
       <PackagePath>Content\bigbullet.png</PackagePath>
       <Modified>2014-03-30T21:48:53.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\bosstexture.png">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\bosstexture.png">
       <PackagePath>Content\bosstexture.png</PackagePath>
       <Modified>2014-04-06T16:55:49.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\bullet.png">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\bullet.png">
       <PackagePath>Content\bullet.png</PackagePath>
       <Modified>2014-03-24T19:00:00.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\Choose.png">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\Choose.png">
       <PackagePath>Content\Choose.png</PackagePath>
       <Modified>2014-06-04T13:24:04.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\circle.png">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\circle.png">
       <PackagePath>Content\circle.png</PackagePath>
       <Modified>2014-04-18T20:15:49.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\Credits.png">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\Credits.png">
       <PackagePath>Content\Credits.png</PackagePath>
       <Modified>2014-06-04T14:21:07.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\crosshair.png">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\crosshair.png">
       <PackagePath>Content\crosshair.png</PackagePath>
       <Modified>2014-04-04T18:26:17.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\diamond.png">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\diamond.png">
       <PackagePath>Content\diamond.png</PackagePath>
       <Modified>2014-04-18T20:16:03.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\explosion.png">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\explosion.png">
       <PackagePath>Content\explosion.png</PackagePath>
       <Modified>2014-04-19T13:18:59.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\intro.png">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\hpborders.png">
+      <PackagePath>Content\hpborders.png</PackagePath>
+      <Modified>2014-06-17T11:30:05.992</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\hpforeground.png">
+      <PackagePath>Content\hpforeground.png</PackagePath>
+      <Modified>2014-06-17T12:00:15.807</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\intro.png">
       <PackagePath>Content\intro.png</PackagePath>
       <Modified>2014-04-11T13:46:36.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\OPTIONS.png">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\OPTIONS.png">
       <PackagePath>Content\OPTIONS.png</PackagePath>
       <Modified>2014-05-30T13:02:03.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\PLAY.png">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\PLAY.png">
       <PackagePath>Content\PLAY.png</PackagePath>
       <Modified>2014-05-30T12:59:15.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\QUIT.png">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\QUIT.png">
       <PackagePath>Content\QUIT.png</PackagePath>
       <Modified>2014-05-30T13:04:01.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\ship.png">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\ship.png">
       <PackagePath>Content\ship.png</PackagePath>
       <Modified>2014-06-02T11:43:26.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\ship1info.png">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\ship1info.png">
       <PackagePath>Content\ship1info.png</PackagePath>
       <Modified>2014-06-16T08:59:36.946</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\ship2info.png">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\ship2info.png">
       <PackagePath>Content\ship2info.png</PackagePath>
       <Modified>2014-06-16T08:59:52.719</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\ship3info.png">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\ship3info.png">
       <PackagePath>Content\ship3info.png</PackagePath>
       <Modified>2014-06-16T09:00:30.407</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\Ship_1.png">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\Ship_1.png">
       <PackagePath>Content\Ship_1.png</PackagePath>
       <Modified>2014-06-04T13:31:10.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\Ship_2.png">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\Ship_2.png">
       <PackagePath>Content\Ship_2.png</PackagePath>
       <Modified>2014-06-04T13:32:51.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\Ship_3.png">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\Ship_3.png">
       <PackagePath>Content\Ship_3.png</PackagePath>
       <Modified>2014-06-04T13:33:04.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\SpaceBG.png">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\SpaceBG.png">
       <PackagePath>Content\SpaceBG.png</PackagePath>
       <Modified>2014-06-02T17:21:46.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\star2.png">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\star2.png">
       <PackagePath>Content\star2.png</PackagePath>
       <Modified>2014-04-18T20:15:58.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\VICTORY.png">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\VICTORY.png">
       <PackagePath>Content\VICTORY.png</PackagePath>
       <Modified>2014-05-30T13:12:07.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Assets\Logo.png">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Assets\Logo.png">
       <PackagePath>Assets\Logo.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
       <Modified>2013-01-06T12:37:42.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Assets\SmallLogo.png">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Assets\SmallLogo.png">
       <PackagePath>Assets\SmallLogo.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
       <Modified>2013-01-06T12:37:42.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Assets\SplashScreen.png">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Assets\SplashScreen.png">
       <PackagePath>Assets\SplashScreen.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
       <Modified>2013-01-06T12:37:42.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Assets\StoreLogo.png">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Assets\StoreLogo.png">
       <PackagePath>Assets\StoreLogo.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
       <Modified>2013-01-06T12:37:42.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\asteroid.png">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\asteroid.png">
       <PackagePath>Content\asteroid.png</PackagePath>
       <Modified>2014-03-13T00:39:32.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\gameover.png">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\gameover.png">
       <PackagePath>Content\gameover.png</PackagePath>
       <Modified>2014-03-30T20:26:16.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\highscore.png">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\highscore.png">
       <PackagePath>Content\highscore.png</PackagePath>
       <Modified>2014-03-31T13:47:18.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\mgunbullet.png">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\mgunbullet.png">
       <PackagePath>Content\mgunbullet.png</PackagePath>
       <Modified>2014-04-02T12:09:47.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\minigun.png">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\minigun.png">
       <PackagePath>Content\minigun.png</PackagePath>
       <Modified>2014-03-31T23:18:13.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\pause.png">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\pause.png">
       <PackagePath>Content\pause.png</PackagePath>
       <Modified>2014-03-12T02:04:20.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\plusammo.png">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\plusammo.png">
       <PackagePath>Content\plusammo.png</PackagePath>
       <Modified>2014-03-31T22:24:49.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\biisu3.wma">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\biisu3.wma">
       <PackagePath>Content\biisu3.wma</PackagePath>
       <Modified>2014-04-11T17:32:59.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\game.wma">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\game.wma">
       <PackagePath>Content\game.wma</PackagePath>
       <Modified>2014-05-28T10:02:34.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\gamuovar.wma">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\gamuovar.wma">
       <PackagePath>Content\gamuovar.wma</PackagePath>
       <Modified>2014-04-11T17:33:00.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\pomo.wma">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\pomo.wma">
       <PackagePath>Content\pomo.wma</PackagePath>
       <Modified>2014-05-28T10:02:36.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\winrar.wma">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\winrar.wma">
       <PackagePath>Content\winrar.wma</PackagePath>
       <Modified>2014-04-11T17:33:04.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\menu.wma">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\menu.wma">
       <PackagePath>Content\menu.wma</PackagePath>
       <Modified>2014-04-07T19:24:24.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\font.xnb">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\font.xnb">
       <PackagePath>Content\font.xnb</PackagePath>
       <Modified>2013-06-28T00:07:48.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\menu.xnb">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\menu.xnb">
       <PackagePath>Content\menu.xnb</PackagePath>
       <Modified>2014-04-07T19:24:24.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\biisu3.xnb">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\biisu3.xnb">
       <PackagePath>Content\biisu3.xnb</PackagePath>
       <Modified>2014-04-11T17:32:59.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\gamuovar.xnb">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\gamuovar.xnb">
       <PackagePath>Content\gamuovar.xnb</PackagePath>
       <Modified>2014-04-11T17:33:00.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\winrar.xnb">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\winrar.xnb">
       <PackagePath>Content\winrar.xnb</PackagePath>
       <Modified>2014-04-11T17:33:04.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\game.xnb">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\game.xnb">
       <PackagePath>Content\game.xnb</PackagePath>
       <Modified>2014-05-28T10:02:34.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\pomo.xnb">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\pomo.xnb">
       <PackagePath>Content\pomo.xnb</PackagePath>
       <Modified>2014-05-28T10:02:36.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\SpriteFont1.xnb">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\SpriteFont1.xnb">
       <PackagePath>Content\SpriteFont1.xnb</PackagePath>
       <Modified>2014-05-28T10:56:58.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\star.bmp">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\star.bmp">
       <PackagePath>Content\star.bmp</PackagePath>
       <Modified>2014-03-12T01:11:20.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Otto\Desktop\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\bin\Windows8\Debug\resources.pri">
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\bin\Windows8\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2014-06-16T10:12:47.018</Modified>
+      <Modified>2014-06-17T11:14:40.842</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

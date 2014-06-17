@@ -31,7 +31,7 @@ namespace SpacuShuutar
         public Texture2D ship1info, ship2info, ship3info;
         public Texture2D explosion;
         public Texture2D menu;
-        public Texture2D star, star2, diamond, circle;
+        public Texture2D star, star2, diamond, circle, foreGround, borders;
         public Texture2D pause;
         public Texture2D player;
         public Texture2D asteroid;
@@ -97,6 +97,7 @@ namespace SpacuShuutar
         public TimeSpan ShootInterval;
         public bool basic;
         Random random;
+        EpicHealthBar healthBar;
         SpriteFont font, epicfont;
         public int shootCounter = 20;
         public int mGunCounter = 10;
@@ -147,6 +148,8 @@ namespace SpacuShuutar
             plusAmmo = Content.Load<Texture2D>("plusammo");
             miniGun = Content.Load<Texture2D>("minigun");
             supaGun = Content.Load<Texture2D>("arrowtower");
+            foreGround = Content.Load<Texture2D>("hpforeground");
+            borders = Content.Load<Texture2D>("hpborders");
             mgunBulletTexture = Content.Load<Texture2D>("mgunbullet");
             crosshairTexture = Content.Load<Texture2D>("crosshair");
             bossTexture = Content.Load<Texture2D>("bosstexture");
@@ -194,6 +197,7 @@ namespace SpacuShuutar
             ParticleTextures.Add(diamond);
             particleEngine = new ParticleEngine(ParticleTextures, new Vector2(Player.Position.X, Player.Position.Y -45));
             spriteAnimation = new SpriteAnimation(explosion, 4, 3, true);
+            healthBar = new EpicHealthBar(foreGround, borders, Player);
           
            
         }
@@ -211,7 +215,7 @@ namespace SpacuShuutar
         public void AddUfos()
         {
                 random = new Random();
-                if (timer >= 1)
+                if (timer >= 2)
                 {
                     timer = 0;
                     if (ufoArray.Count < 4)
@@ -348,6 +352,7 @@ namespace SpacuShuutar
                 {
                     Player.health -= ufoArray[q].damage;
                     ufoArray[q].health = 0;
+                    healthBar.Width -= 10;
                 }
 
             }
@@ -358,7 +363,8 @@ namespace SpacuShuutar
                 if (rectangle1.Intersects(rectangle2))
                 {
                     Player.health -= asteroidArray[i].damage;
-                    asteroidArray[i].health = 0; 
+                    asteroidArray[i].health = 0;
+                    healthBar.Width -= 10;
                 }
                 if (asteroidArray[i].health == 0)
                 {
@@ -377,6 +383,7 @@ namespace SpacuShuutar
                 {
                     Player.health -= 100;
                     bossArray[i].hit = true;
+                    healthBar.Width -= 5;
                     if (bossArray[i].health <= 0)
                     {
                         Player.score += 5000;
@@ -905,7 +912,7 @@ namespace SpacuShuutar
                             {
                                 boss.Initialize(new Vector2(900, 600));
                                 for (int i = 0; i < bossArray.Count; i++)
-                                    bossArray[i].Update();
+                                    bossArray[i].Update(gameTime);
                             }
                         }
  
@@ -1130,7 +1137,8 @@ namespace SpacuShuutar
 
                 }
                 //Piirrellään ja päivitellään tietoja pelaajan statistiikoista.
-                spriteBatch.DrawString(font, "Health " + Player.health, new Vector2(50, 50), Color.White);
+                healthBar.Draw(spriteBatch);
+                spriteBatch.DrawString(font, "Health " + Player.health, new Vector2(50, 30), Color.White);
                 spriteBatch.DrawString(font, "Score " + Player.score, new Vector2(50, 100), Color.White);
                 spriteBatch.DrawString(font, "Gun: " + currentGun, new Vector2(50, 250), Color.White);
                 if (Player.homingammo > 0)
@@ -1203,6 +1211,7 @@ namespace SpacuShuutar
             else if (gameState == GameStates.Victory)
             {
                 spriteBatch.Draw(victory, new Rectangle(0, 0, 1920, 1080), Color.White);
+                spriteBatch.DrawString(epicfont, "Your score is: " + Player.score , new Vector2(700, 700), Color.White);
             }
             else if (gameState == GameStates.Pause)
             {

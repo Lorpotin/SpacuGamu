@@ -131,6 +131,7 @@
     <Compile Include="Asteroid.cs" />
     <Compile Include="Bullet2.cs" />
     <Compile Include="Button.cs" />
+    <Compile Include="EpicHealthBar.cs" />
     <Compile Include="IntroVideo.cs" />
     <Compile Include="LayeredBackground.cs" />
     <Compile Include="MiniGunBullet.cs" />
@@ -200,6 +201,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\gamuovar.wma">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\hpborders.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\hpforeground.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\intro.png">

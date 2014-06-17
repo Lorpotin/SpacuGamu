@@ -23,7 +23,7 @@ namespace SpacuShuutar
         public bool active = false;
         public int health;
         public int damage;
-        public float speed;
+        private float speed, timer;
         public Color bossColor;
         public bool hit;
         public bool victory;
@@ -52,14 +52,13 @@ namespace SpacuShuutar
             this.position = position;
         }
 
-        public void Update()
+        public void Update(GameTime gameTime)
         {
 
-            /*if (position.X <= 500)
-                position.X += speed;
-            if (position.X >= 1300)
-                position.X -= speed;
-             */
+            timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (timer >= 15)
+                position.Y += speed;
 
             if (hit)
                 bossColor.R -= 10;
