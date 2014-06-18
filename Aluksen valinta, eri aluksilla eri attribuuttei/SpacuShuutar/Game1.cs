@@ -16,7 +16,7 @@ using Microsoft.Xna.Framework.Media;
 using SpacuShuutar;
 namespace SpacuShuutar
 {
-    public class Game1 : Game
+    public class Game1 : Game /*lol*/
     {
         #region variables
 
