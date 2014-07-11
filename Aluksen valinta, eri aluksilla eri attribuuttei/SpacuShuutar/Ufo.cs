@@ -18,8 +18,10 @@ namespace SpacuShuutar
     public class Ufo
     {
         public Texture2D ufoTexture;
+        public Texture2D ufoTexture2;
         public Vector2 position;
         public Vector2 direction;
+        public Color color;
         public bool active;
         public int health;
         public float speed;
@@ -28,8 +30,10 @@ namespace SpacuShuutar
         int randX, randY;
         Random random = new Random();
         Player Player;
+        Player target;
+        private int timeUntilStart = 60;
 
-        public Ufo(Texture2D texture,  Player player)
+        public Ufo(Texture2D texture, Texture2D texture2,  Player player)
         {
             active = true;
             health = 200;
@@ -37,10 +41,13 @@ namespace SpacuShuutar
             score = 200;
             speed = 6f;
             this.Player = player;
+            this.target = player;
             ufoTexture = texture;
+            ufoTexture2 = texture2;
             position = CreateSpawnPoint();
             randY = random.Next(2, 6);
             randX = random.Next(-4, 4);
+            color = Color.Transparent;
         }
 
         public int Width
@@ -85,19 +92,60 @@ namespace SpacuShuutar
 
         public void Update()
         {
-            if ((position - Player.Position).Length() > 3f)
+
+            int number = random.Next(1, 2);
+            if (timeUntilStart <= 0)
             {
-                direction = Vector2.Normalize(Player.Position - position) * speed;
-                position += direction;
+                switch (number)
+                {
+                    case 1:
+                        if ((position - Player.Position).Length() > 3f)
+                        {
+                            direction = Vector2.Normalize(Player.Position - position) * speed;
+                            position += direction;
+                        }
+                        break;
+
+                    case 2:
+                        if ((position - Player.Position).Length() < 100f)
+                        {
+                            direction = Vector2.Normalize(Player.Position + position) * speed;
+                            position += direction;
+                        }
+                        else
+                        {
+                            direction = Vector2.Normalize(Player.Position - position) * speed;
+                            position += direction;
+                        }
+                        break;
+                }
+                if (health <= 0)
+                {
+                    active = false;
+                }
             }
-            if (health <= 0)
+            else
             {
-                active = false;
+                timeUntilStart--;
+                color = Color.White * (1 - timeUntilStart / 60f);
             }
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(ufoTexture, position, Color.White);
+            int number = random.Next(1, 2);
+            switch (number)
+            {
+                case 1:
+                    spriteBatch.Draw(ufoTexture, position, color);
+                    break;
+
+                case 2:
+                    spriteBatch.Draw(ufoTexture2, position, color);
+                    break;
+
+            }
+            
+            
         }
 
 

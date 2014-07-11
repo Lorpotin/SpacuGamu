@@ -16,7 +16,7 @@ using Microsoft.Xna.Framework.Media;
 using SpacuShuutar;
 namespace SpacuShuutar
 {
-    public class Game1 : Game
+    public class Game1 : Game /*lol*/
     {
         #region variables
 
@@ -29,7 +29,7 @@ namespace SpacuShuutar
         public GameStates NextGameState = GameStates.Intro;
         public GunState gunState = GunState.Basic;
         public Texture2D ship1info, ship2info, ship3info;
-        public Texture2D explosion;
+        public Texture2D explosionTexture, particleTexture;
         public Texture2D menu;
         public Texture2D star, star2, diamond, circle, foreGround, borders;
         public Texture2D pause;
@@ -39,9 +39,10 @@ namespace SpacuShuutar
         public Texture2D bigBulletTexture;
         public Texture2D fadeTexture;
         public Texture2D bulletTexture;
-        public Texture2D gameover;
+        public Texture2D gameover, again;
         public Texture2D backGroundTexture;
         public Texture2D bigAsteroid;
+        public Texture2D alien;
         public Texture2D supaGun;
         public Texture2D highScores;
         public Texture2D victory;
@@ -62,6 +63,7 @@ namespace SpacuShuutar
         public Button ship1;
         public Button ship2;
         public Button ship3;
+        public Button playAgain;
         public Texture2D Choose;
         public Texture2D ship_1, ship_2, ship_3, _credits;
         public Texture2D MenuBackground;
@@ -91,6 +93,7 @@ namespace SpacuShuutar
         public List<HomingMinigunPowarUp> homingArray = new List<HomingMinigunPowarUp>();
         public List<Ufo> ufoArray = new List<Ufo>();
         public List<Texture2D> ParticleTextures = new List<Texture2D>();
+        public List<SpriteAnimation> explosions = new List<SpriteAnimation>();
         public TimeSpan asteroidSpawnTime;
         public TimeSpan previousSpawnTime;
         public TimeSpan lastBulletShot;
@@ -107,7 +110,7 @@ namespace SpacuShuutar
         public float timer;
         public float startGameTimer;
         public float gameTimer;
-        public ParticleEngine particleEngine;
+        public JetParticle particleEngine;
         public SpriteAnimation spriteAnimation;
 
         
@@ -126,6 +129,7 @@ namespace SpacuShuutar
             asteroidSpawnTime = TimeSpan.FromSeconds(1.0f);
             ShootInterval = TimeSpan.FromSeconds(1);
             IsMouseVisible = true;
+            
             
             base.Initialize();
         }
@@ -156,14 +160,14 @@ namespace SpacuShuutar
             menuSong = Content.Load<Song>("menu");
             bossSong = Content.Load<Song>("pomo");
             gameSong = Content.Load<Song>("game");
+            alien = Content.Load<Texture2D>("alien_2");
             Choose = Content.Load<Texture2D>("Choose");
             intro = Content.Load<Texture2D>("intro");
-            explosion = Content.Load<Texture2D>("explosion");
+            explosionTexture = Content.Load<Texture2D>("explosion");
             playTexture = Content.Load<Texture2D>("PLAY");
             quitTexture = Content.Load<Texture2D>("QUIT");
             optionsTexture = Content.Load<Texture2D>("OPTIONS");
             ufoTexture = Content.Load<Texture2D>("alien");
-            MenuBackground = Content.Load<Texture2D>("SpaceBG");
             gamuover = Content.Load<Song>("gamuovar");
             victory = Content.Load<Texture2D>("VICTORY");
             winner = Content.Load<Song>("winrar");
@@ -171,6 +175,7 @@ namespace SpacuShuutar
             diamond = Content.Load<Texture2D>("diamond");
             circle = Content.Load<Texture2D>("circle");
             star2 = Content.Load<Texture2D>("star2");
+            again = Content.Load<Texture2D>("AGAIN");
             ship_1 = Content.Load<Texture2D>("Ship_1");
             ship_2 = Content.Load<Texture2D>("Ship_2");
             ship_3 = Content.Load<Texture2D>("Ship_3");
@@ -181,28 +186,34 @@ namespace SpacuShuutar
             Player = new Player(Bullet, crosshairTexture);
             starfield = new StarField(1920,1080, 300, new Vector2(0,75), star, new Rectangle(1920, 1080, 2, 2));
             MiniGun = new Minigun(supaGun, Player);
-            hiScores = new Highscores(font);
+            //hiScores = new Highscores(font);
             introScreen = new IntroVideo(intro);
             boss = new Boss(bossTexture);
             bossArray.Add(boss);
             play = new Button(playTexture, new Vector2(700, 300), new Vector2(500,250));
             quit = new Button(quitTexture, new Vector2(660, 600), new Vector2(500, 250));
             options = new Button(optionsTexture, new Vector2(700, 450), new Vector2(500, 250));
+            playAgain = new Button(again, new Vector2(700, 100), new Vector2(700, 350));
             //Nämä meinaa aluksen valinnassa olevia näppäimiä
             ship1 = new Button(ship_1, new Vector2(200, 600), new Vector2(150, 267));
             ship2 = new Button(ship_2, new Vector2(600, 600), new Vector2(150, 212));
             ship3 = new Button(ship_3, new Vector2(1000, 600), new Vector2(150, 212));
+
             ParticleTextures.Add(circle);
             ParticleTextures.Add(star2);
             ParticleTextures.Add(diamond);
-            particleEngine = new ParticleEngine(ParticleTextures, new Vector2(Player.Position.X, Player.Position.Y -45));
-            spriteAnimation = new SpriteAnimation(explosion, 4, 3, true);
+            particleEngine = new JetParticle(ParticleTextures, new Vector2(Player.Position.X, Player.Position.Y -45));
+            //spriteAnimation = new SpriteAnimation(explosion, 4, 3, true);
             healthBar = new EpicHealthBar(foreGround, borders, Player);
           
            
         }
-        
-      
+
+        public void AddExplosion(Vector2 position)
+        {
+            SpriteAnimation explosion = new SpriteAnimation(explosionTexture, position, 134, 134, 12, 45, Color.White, 1f, false);
+            explosions.Add(explosion);
+        }
         //Luodaan uusi asteroidi
         public void AddEnemy()
         {
@@ -220,7 +231,7 @@ namespace SpacuShuutar
                     timer = 0;
                     if (ufoArray.Count < 4)
                     {
-                        Ufo ufo = new Ufo(ufoTexture, Player);
+                        Ufo ufo = new Ufo(ufoTexture, alien, Player);
                         ufoArray.Add(ufo);
                     }
                 } 
@@ -235,13 +246,16 @@ namespace SpacuShuutar
 
                 if (ufoArray != null)
                 {
-                    for (int i = 0; i < ufoArray.Count; i++)
+                    for (int i = ufoArray.Count - 1; i >= 0; i--)
                     {
                         ufoArray[i].Update();
+                        
                         if (ufoArray[i].active == false)
                         {
+                            AddExplosion(ufoArray[i].position);
                             ufoArray.RemoveAt(i);
                         }
+                        
                     }
                 }
                 foreach (Ufo u in ufoArray)
@@ -269,11 +283,16 @@ namespace SpacuShuutar
                 {
 
                     asteroidArray[i].Update(gameTime);
-
+                   
                     if (asteroidArray[i].active == false)
                     {
+                        if (asteroidArray[i].health <= 0)
+                        {
+                            AddExplosion(asteroidArray[i].position);
+                        }
                         asteroidArray.RemoveAt(i);
                     }
+                    
                 }
                 foreach (Asteroid a in asteroidArray)
                 {
@@ -344,6 +363,7 @@ namespace SpacuShuutar
                     Player.homingammo += homingArray[a].plusAmmo;
                     homingArray[a].pickedUp = true;
                 }
+               
             }
             for (int q = 0; q < ufoArray.Count; q++)
             {
@@ -353,6 +373,10 @@ namespace SpacuShuutar
                     Player.health -= ufoArray[q].damage;
                     ufoArray[q].health = 0;
                     healthBar.Width -= 10;
+                }
+                if (ufoArray[q].health <= 0)
+                {
+                    Player.score += ufoArray[q].score;
                 }
 
             }
@@ -368,7 +392,7 @@ namespace SpacuShuutar
                 }
                 if (asteroidArray[i].health == 0)
                 {
-                    Player.score += asteroidArray[i].score;
+                    Player.score += asteroidArray[i].score;                
                 }
                 if (Player.health <= 0)
                 {
@@ -740,6 +764,19 @@ namespace SpacuShuutar
                 }
             }
         }
+
+        private void UpdateExplosions(GameTime gameTime)
+        {
+            for (int i = explosions.Count - 1; i >= 0; i--)
+            {
+                explosions[i].Update(gameTime);
+                if (explosions[i].Active == false)
+                {
+                    explosions.RemoveAt(i);
+                }
+            }
+        }
+         
         //Kaippa tätäkin vois käyttää... :D
         public void ClearEverything()
         {
@@ -834,7 +871,7 @@ namespace SpacuShuutar
                     if ((Keyboard.GetState().IsKeyDown(Keys.Enter)))
                     {
                         gameState = GameStates.Highscores;
-                        hiScores.ReadTextFile();
+                        //hiScores.ReadTextFile();
                     }
                     break;
 
@@ -900,9 +937,10 @@ namespace SpacuShuutar
                         //starfield.Update(gameTime);
                         UpdateEnemies(gameTime);
                         UpdateUfos(gameTime);
+                        
                         particleEngine.EmitterLocation = new Vector2(Player.Position.X, Player.Position.Y);
                         particleEngine.Update();
-                        spriteAnimation.Update(gameTime);
+                        //spriteAnimation.Update(gameTime);
                         if (Player.score >= 2000)
                         {
                             MediaPlayer.Stop();
@@ -981,6 +1019,7 @@ namespace SpacuShuutar
                                 }
                             }
                         }
+                       
                         //Poistetaan minigun powerup kun kerätty!
                         if (homingArray != null)
                         {
@@ -1004,6 +1043,7 @@ namespace SpacuShuutar
                         MiniGun.Update(gameTime);
                         ClosestEnemy(asteroidArray, ufoArray, bossArray);
                         UpdateHomingCollisions();
+                       
                         
                         if (mouse.RightButton == ButtonState.Pressed)
                         {
@@ -1024,6 +1064,9 @@ namespace SpacuShuutar
                             //hiScores.ReadOldDataToList();
                             //hiScores.WriteTextFile(points);
                         }
+                        UpdateExplosions(gameTime);
+
+                        base.Update(gameTime);
                     }
                     break;
 
@@ -1057,13 +1100,15 @@ namespace SpacuShuutar
                 case GameStates.GameOver:
                     {
                         //Jos valitaan uusi peli, tuhotaan kaikki vanhat tiedot ja alustetaan uusi peli :)
-                        if ((Keyboard.GetState().IsKeyDown(Keys.N)))
+                        quit.Update(mouse);
+                        playAgain.Update(mouse);
+                        if (quit.isClicked)
                         {
                             MediaPlayer.Play(menuSong);
                             ClearEverything();
                             gameState = GameStates.Menu;
                         }
-                        if ((Keyboard.GetState().IsKeyDown(Keys.Y)))
+                        if (playAgain.isClicked)
                         {
                             //Edelleenkin tuhotaan kaikki paska ja aloitetaan uusi peli.
                             ClearEverything();
@@ -1076,7 +1121,7 @@ namespace SpacuShuutar
                     break;
                 case GameStates.Highscores:
                     {
-                        hiScores.ReadTextFile();
+                        
                         if ((Keyboard.GetState().IsKeyDown(Keys.Escape)))
                         {
                             gameState = GameStates.Menu;
@@ -1126,7 +1171,6 @@ namespace SpacuShuutar
 
                 //starfield.Draw(spriteBatch);
                 particleEngine.Draw(spriteBatch);
-
                 if (bossActive == true)
                 {
                     for (int i = 0; i < bossArray.Count; i++)
@@ -1138,6 +1182,7 @@ namespace SpacuShuutar
                 }
                 //Piirrellään ja päivitellään tietoja pelaajan statistiikoista.
                 healthBar.Draw(spriteBatch);
+                
                 spriteBatch.DrawString(font, "Health " + Player.health, new Vector2(50, 30), Color.White);
                 spriteBatch.DrawString(font, "Score " + Player.score, new Vector2(50, 100), Color.White);
                 spriteBatch.DrawString(font, "Gun: " + currentGun, new Vector2(50, 250), Color.White);
@@ -1179,12 +1224,7 @@ namespace SpacuShuutar
 
                 for (int i = 0; i < asteroidArray.Count; i++)
                 {
-
                     asteroidArray[i].Draw(spriteBatch);
-                    if(asteroidArray[i].health <= 0)
-                        spriteAnimation.Draw(spriteBatch, asteroidArray[i].position);
-
-
                 }
                 foreach (Ufo u in ufoArray)
                 {
@@ -1203,6 +1243,10 @@ namespace SpacuShuutar
                     if (b != null)
                         b.Draw(spriteBatch);
                 }
+                for (int i = 0; i < explosions.Count; i++)
+                {
+                    explosions[i].Draw(spriteBatch);
+                }
                 Player.Draw(spriteBatch);
                 MiniGun.Draw(spriteBatch);
                 
@@ -1220,7 +1264,8 @@ namespace SpacuShuutar
 
             else if (gameState == GameStates.GameOver)
             {
-                spriteBatch.Draw(gameover, new Rectangle(0, 0, 1920, 1080), Color.White);
+                quit.Draw(spriteBatch);
+                playAgain.Draw(spriteBatch);
                 spriteBatch.DrawString(font, "Your Score is " + Player.score, new Vector2(900, 900), Color.White);
             }
             else if (gameState == GameStates.Highscores)

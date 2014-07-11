@@ -18,52 +18,70 @@ namespace SpacuShuutar
     public class SpriteAnimation
     {
 
-        public Texture2D Texture { get; set; }
-        public int Rows { get; set; }
-        public int Columns { get; set; }
-        public float timer;
-        public float frametime = 50f;
-        private int currentFrame;
-        private int totalFrames;
-        public bool active;
+        Texture2D spriteStrip;
+
+      
+        float scale;
+        int elapsedTime;
+        int frameTime;
+        int frameCount;
+        int currentFrame;
+        Color color;
+        
+        public int FrameWidth;
+        public int FrameHeight;
+        public bool Active;
+        public bool Looping;
+        public Vector2 Position;
  
-        public SpriteAnimation(Texture2D texture, int rows, int columns, bool active)
+        public SpriteAnimation(Texture2D texture, Vector2 position, int frameWidth, int frameHeight, int frameCount, int frametime, Color color, float scale, bool looping)
         {
-            Texture = texture;
-            Rows = rows;
-            Columns = columns;
+            this.color = color;
+            this.FrameWidth = frameWidth;
+            this.FrameHeight = frameHeight;
+            this.frameCount = frameCount;
+            this.frameTime = frametime;
+            this.scale = scale;
+
+            Looping = looping;
+            Position = position;
+            spriteStrip = texture;
+
+            elapsedTime = 0;
             currentFrame = 0;
-            totalFrames = Rows * Columns;
-            active = true;
+
+            Active = true;
         }
  
         public void Update(GameTime gameTime)
         {
-            
-                timer += (float)gameTime.ElapsedGameTime.Milliseconds;
-                while (timer > frametime)
+            if (Active == false)
+                return;
+            elapsedTime += (int)gameTime.ElapsedGameTime.TotalMilliseconds;
+                if (elapsedTime > frameTime)
                 {
                     currentFrame++;
-                    timer = 0;
+                    
 
-                    if (currentFrame == totalFrames)
+                    if (currentFrame == frameCount)
                     {
                         currentFrame = 0;
-                        active = false;
+                        if (Looping == false)
+                            Active = false;
+                        
                     }
+                    elapsedTime = 0;
                 }
+                
         }
-        public void Draw(SpriteBatch spriteBatch, Vector2 location)
+        public void Draw(SpriteBatch spriteBatch)
         {
-            int width = Texture.Width / Columns;
-            int height = Texture.Height / Rows;
-            int row = (int)((float)currentFrame / (float)Columns);
-            int column = currentFrame % Columns;
-            
-            Rectangle sourceRectangle = new Rectangle(width * column, height * row, width, height);
-            Rectangle destinationRectangle = new Rectangle((int)location.X, (int)location.Y, width, height);
-            spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, Color.White);
-
+            Rectangle sourceRect = new Rectangle(currentFrame * FrameWidth, 0, FrameWidth, FrameHeight);
+            Rectangle destinationRect = new Rectangle((int)Position.X - (int)(FrameWidth * scale) / 2, (int)Position.Y - (int)(FrameHeight * scale) / 2, (int)(FrameWidth * scale), (int)(FrameHeight * scale));
+            if (Active)
+            {
+                spriteBatch.Draw(spriteStrip, destinationRect, sourceRect, Color.White);
+            }
         }
     }
 }

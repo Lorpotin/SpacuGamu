@@ -21,6 +21,7 @@ namespace SpacuShuutar
         public Vector2 direction;
         public Texture2D asteroidTexture;
         public Texture2D bigAsteroidTexture;
+        public Color color;
         public bool active;
         public int health;
         public int health2;
@@ -29,6 +30,7 @@ namespace SpacuShuutar
         float speed;
         Player Player;
         Random random = new Random();
+        private int timeUntilStart = 60;
         
         
         public Asteroid(Texture2D tex, Texture2D bigTex, Player player)
@@ -40,9 +42,10 @@ namespace SpacuShuutar
             health = 100;
             health2 = 500;
             damage = 10;
-            speed = 5f;
+            speed = randomizeSpeed();
             score = 100;
             Player = player;
+            color = Color.Transparent;
             
         }
         
@@ -64,6 +67,7 @@ namespace SpacuShuutar
 
             int number = random.Next(1, 4);
             Vector2 spawnPoint = new Vector2();
+            
             switch (number)
             {
                 case 1:
@@ -85,19 +89,56 @@ namespace SpacuShuutar
 
             return spawnPoint;
         }
+        public float randomizeSpeed()
+        {
+            int number = random.Next(1, 4);
+            float speed = 0f;
+            switch (number)
+            {
+                case 1:
+                    speed = 1f;
+                    break;
+
+                case 2:
+                    speed = 4f;
+                    break;
+
+                case 3:
+                    speed = 7f;
+                    break;
+
+                case 4:
+                    speed = 10f;
+                    break;
+
+            }
+            return speed;
+        }
+      
+     
 
         public void Update(GameTime gameTime)
         {
+            if (timeUntilStart <= 0)
+            {
+                if ((position - Player.Position).Length() > 3f)
+                {
+                    direction = Vector2.Normalize(Player.Position - position) * speed;
+                    position += direction;
+                }
 
-            if ((position - Player.Position).Length() > 3f)
-            {
-                direction = Vector2.Normalize(Player.Position - position) * speed;
-                position += direction;
+
+                if (health <= 0)
+                {
+                    active = false;
+                }
             }
-            if (health <= 0)
+            else
             {
-                active = false;
+                timeUntilStart--;
+                color = Color.White * (1 - timeUntilStart / 60f);
             }
+                
         }
         public void DrawBig(SpriteBatch spriteBatch)
         {
@@ -106,7 +147,7 @@ namespace SpacuShuutar
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(asteroidTexture, position, Color.White);
+            spriteBatch.Draw(asteroidTexture, position, color);
         }
     }
 }

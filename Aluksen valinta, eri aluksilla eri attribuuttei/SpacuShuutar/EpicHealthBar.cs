@@ -24,7 +24,6 @@ namespace SpacuShuutar
         Vector2 position, position2;
         Player player;
         public int Width;
-        private float startHp;
 
       
         public EpicHealthBar(Texture2D fg, Texture2D border, Player player)
