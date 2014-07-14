@@ -38,7 +38,7 @@ namespace SpacuShuutar
             active = true;
             health = 200;
             damage = 10;
-            score = 200;
+            score = 100;
             speed = 6f;
             this.Player = player;
             this.target = player;
@@ -106,18 +106,7 @@ namespace SpacuShuutar
                         }
                         break;
 
-                    case 2:
-                        if ((position - Player.Position).Length() < 100f)
-                        {
-                            direction = Vector2.Normalize(Player.Position + position) * speed;
-                            position += direction;
-                        }
-                        else
-                        {
-                            direction = Vector2.Normalize(Player.Position - position) * speed;
-                            position += direction;
-                        }
-                        break;
+                    
                 }
                 if (health <= 0)
                 {

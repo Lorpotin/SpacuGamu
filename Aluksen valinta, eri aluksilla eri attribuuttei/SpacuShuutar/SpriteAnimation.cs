@@ -34,7 +34,7 @@ namespace SpacuShuutar
         public bool Looping;
         public Vector2 Position;
  
-        public SpriteAnimation(Texture2D texture, Vector2 position, int frameWidth, int frameHeight, int frameCount, int frametime, Color color, float scale, bool looping)
+        public SpriteAnimation(Texture2D texture, int frameWidth, int frameHeight, int frameCount, int frametime, Color color, float scale, bool looping)
         {
             this.color = color;
             this.FrameWidth = frameWidth;
@@ -44,13 +44,16 @@ namespace SpacuShuutar
             this.scale = scale;
 
             Looping = looping;
-            Position = position;
             spriteStrip = texture;
 
             elapsedTime = 0;
             currentFrame = 0;
 
             Active = true;
+        }
+        public void Initialize(Vector2 position)
+        {
+            Position = position;
         }
  
         public void Update(GameTime gameTime)
@@ -83,6 +86,7 @@ namespace SpacuShuutar
                 spriteBatch.Draw(spriteStrip, destinationRect, sourceRect, Color.White);
             }
         }
+        
     }
 }
 

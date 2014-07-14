@@ -26,7 +26,6 @@ Content\gameover.png
 Content\gamuovar.wma
 Content\gamuovar.xnb
 Content\highscore.png
-Content\highscores.txt
 Content\hpborders.png
 Content\hpforeground.png
 Content\intro.png
@@ -55,3 +54,4 @@ Content\star2.png
 Content\VICTORY.png
 Content\winrar.wma
 Content\winrar.xnb
+highscores.txt

@@ -166,6 +166,9 @@
     <Content Include="Content\arrowtower.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\asteroid.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\bigasteroid.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -209,7 +212,7 @@
     <Content Include="Content\gamuovar.wma">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\highscores.txt">
+    <Content Include="highscores.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\hpborders.png">
@@ -295,9 +298,6 @@
     <Content Include="Assets\SmallLogo.png" />
     <Content Include="Assets\SplashScreen.png" />
     <Content Include="Assets\StoreLogo.png" />
-    <Content Include="Content\asteroid.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Content\gameover.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

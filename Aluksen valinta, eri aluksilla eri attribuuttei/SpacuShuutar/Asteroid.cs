@@ -19,8 +19,8 @@ namespace SpacuShuutar
     {
         public Vector2 position;
         public Vector2 direction;
-        public Texture2D asteroidTexture;
-        public Texture2D bigAsteroidTexture;
+        //public Texture2D asteroidTexture;
+        //public Texture2D bigAsteroidTexture;
         public Color color;
         public bool active;
         public int health;
@@ -31,12 +31,12 @@ namespace SpacuShuutar
         Player Player;
         Random random = new Random();
         private int timeUntilStart = 60;
+        SpriteAnimation enemyAnimation;
         
         
-        public Asteroid(Texture2D tex, Texture2D bigTex, Player player)
+        public Asteroid(Player player, SpriteAnimation animation)
         {
-            asteroidTexture = tex;
-            bigAsteroidTexture = bigTex;
+           
             position = CreateSpawnPoint();
             active = true;
             health = 100;
@@ -46,21 +46,23 @@ namespace SpacuShuutar
             score = 100;
             Player = player;
             color = Color.Transparent;
+            enemyAnimation = animation;
             
         }
         
 
         public int Width
         {
-            get { return asteroidTexture.Width; }
+            get { return enemyAnimation.FrameWidth; }
         }
         public int Height
         {
-            get { return asteroidTexture.Height; }
+            get { return enemyAnimation.FrameHeight; }
         }
 
         public Vector2 CreateSpawnPoint()
         {
+            
 
             //Tehdään sittenkin semmonen spawni, että vihut tulee joka puolelta
             //Ja alkaa seuraamaan sua.
@@ -96,19 +98,19 @@ namespace SpacuShuutar
             switch (number)
             {
                 case 1:
-                    speed = 1f;
+                    speed = 2f;
                     break;
 
                 case 2:
-                    speed = 4f;
+                    speed = 5f;
                     break;
 
                 case 3:
-                    speed = 7f;
+                    speed = 8f;
                     break;
 
                 case 4:
-                    speed = 10f;
+                    speed = 11f;
                     break;
 
             }
@@ -126,28 +128,29 @@ namespace SpacuShuutar
                     direction = Vector2.Normalize(Player.Position - position) * speed;
                     position += direction;
                 }
+                enemyAnimation.Position = position;
+                enemyAnimation.Update(gameTime);
+                
 
 
                 if (health <= 0)
                 {
                     active = false;
-                }
+                } 
             }
             else
             {
                 timeUntilStart--;
                 color = Color.White * (1 - timeUntilStart / 60f);
             }
+            
                 
         }
-        public void DrawBig(SpriteBatch spriteBatch)
-        {
-            //animation.Draw(spriteBatch);
-            spriteBatch.Draw(bigAsteroidTexture, position, Color.White);
-        }
+        
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(asteroidTexture, position, color);
+            //spriteBatch.Draw(asteroidTexture, position, color);
+            enemyAnimation.Draw(spriteBatch);
         }
     }
 }

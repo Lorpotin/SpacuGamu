@@ -57,8 +57,10 @@ namespace SpacuShuutar
 
             timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (timer >= 15)
+            if (timer >= 15 && timer >= 20)
                 position.Y += speed;
+            if (timer >= 20 && timer >= 25)
+                position.Y -= speed;
 
             if (hit)
                 bossColor.R -= 10;
