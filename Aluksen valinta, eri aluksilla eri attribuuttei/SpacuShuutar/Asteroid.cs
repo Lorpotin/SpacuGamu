@@ -17,7 +17,7 @@ namespace SpacuShuutar
 {
     public class Asteroid
     {
-        public Vector2 position;
+        public Vector2 position, deathPosition;
         public Vector2 direction;
         //public Texture2D asteroidTexture;
         //public Texture2D bigAsteroidTexture;
@@ -31,10 +31,10 @@ namespace SpacuShuutar
         Player Player;
         Random random = new Random();
         private int timeUntilStart = 60;
-        SpriteAnimation enemyAnimation;
+        public SpriteAnimation animation;
         
         
-        public Asteroid(Player player, SpriteAnimation animation)
+        public Asteroid(Player player, SpriteAnimation Animation)
         {
            
             position = CreateSpawnPoint();
@@ -46,18 +46,18 @@ namespace SpacuShuutar
             score = 100;
             Player = player;
             color = Color.Transparent;
-            enemyAnimation = animation;
+            animation = Animation;
             
         }
         
 
         public int Width
         {
-            get { return enemyAnimation.FrameWidth; }
+            get { return animation.FrameWidth; }
         }
         public int Height
         {
-            get { return enemyAnimation.FrameHeight; }
+            get { return animation.FrameHeight; }
         }
 
         public Vector2 CreateSpawnPoint()
@@ -128,14 +128,15 @@ namespace SpacuShuutar
                     direction = Vector2.Normalize(Player.Position - position) * speed;
                     position += direction;
                 }
-                enemyAnimation.Position = position;
-                enemyAnimation.Update(gameTime);
+                animation.Position = position;
+                animation.Update(gameTime);
                 
 
 
                 if (health <= 0)
                 {
                     active = false;
+                    
                 } 
             }
             else
@@ -150,7 +151,7 @@ namespace SpacuShuutar
         public void Draw(SpriteBatch spriteBatch)
         {
             //spriteBatch.Draw(asteroidTexture, position, color);
-            enemyAnimation.Draw(spriteBatch);
+            animation.Draw(spriteBatch);
         }
     }
 }

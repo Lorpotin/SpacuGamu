@@ -16,17 +16,17 @@
     <AppXManifest Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\bin\Windows8\x86\Debug\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2014-07-14T12:58:25.961</Modified>
+      <Modified>2014-07-18T10:44:16.354</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\bin\Windows8\x86\Debug\SpacuShuutar.exe">
       <PackagePath>SpacuShuutar.exe</PackagePath>
-      <Modified>2014-07-14T14:26:23.110</Modified>
+      <Modified>2014-07-18T14:02:17.778</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\bin\Windows8\x86\Debug\SpacuShuutar.pdb">
       <PackagePath>SpacuShuutar.pdb</PackagePath>
-      <Modified>2014-07-14T14:26:23.090</Modified>
+      <Modified>2014-07-18T14:02:17.759</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\MSBuild\..\MonoGame\v3.0\Assemblies\Windows8\MonoGame.Framework.dll">
       <PackagePath>MonoGame.Framework.dll</PackagePath>
@@ -127,6 +127,10 @@
     <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\explosion.png">
       <PackagePath>Content\explosion.png</PackagePath>
       <Modified>2011-04-01T06:42:38.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\smallasteroid.png">
+      <PackagePath>Content\smallasteroid.png</PackagePath>
+      <Modified>2014-07-18T10:01:19.261</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\hpborders.png">
       <PackagePath>Content\hpborders.png</PackagePath>
@@ -292,9 +296,37 @@
       <PackagePath>Content\SpriteFont1.xnb</PackagePath>
       <Modified>2014-05-28T10:56:58.000</Modified>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\Laser_Blue_Dual.jpg">
+      <PackagePath>Content\Laser_Blue_Dual.jpg</PackagePath>
+      <Modified>2014-04-07T20:51:55.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\Laser_Blue_Single.jpg">
+      <PackagePath>Content\Laser_Blue_Single.jpg</PackagePath>
+      <Modified>2014-04-07T20:51:56.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\Laser_Green_Dual.jpg">
+      <PackagePath>Content\Laser_Green_Dual.jpg</PackagePath>
+      <Modified>2014-04-07T20:51:53.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\Laser_Green_Single.jpg">
+      <PackagePath>Content\Laser_Green_Single.jpg</PackagePath>
+      <Modified>2014-04-07T20:51:54.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\Laser_Red_Dual.jpg">
+      <PackagePath>Content\Laser_Red_Dual.jpg</PackagePath>
+      <Modified>2014-04-07T20:51:51.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\Laser_Red_Single.jpg">
+      <PackagePath>Content\Laser_Red_Single.jpg</PackagePath>
+      <Modified>2014-04-07T20:51:52.000</Modified>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\highscores.txt">
       <PackagePath>highscores.txt</PackagePath>
-      <Modified>2014-07-14T14:10:48.682</Modified>
+      <Modified>2014-07-16T12:17:21.106</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\tiedosto.txt">
+      <PackagePath>tiedosto.txt</PackagePath>
+      <Modified>2014-07-16T11:59:31.892</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\star.bmp">
       <PackagePath>Content\star.bmp</PackagePath>
@@ -302,7 +334,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\bin\Windows8\x86\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2014-07-14T12:58:25.311</Modified>
+      <Modified>2014-07-18T10:40:56.062</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

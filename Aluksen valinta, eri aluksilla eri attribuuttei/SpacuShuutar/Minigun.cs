@@ -28,6 +28,7 @@ namespace SpacuShuutar
         public Boss target2;
         public float rotation;
         public float rotation2;
+        public bool isActive;
         Player player;
 
 
@@ -53,13 +54,14 @@ namespace SpacuShuutar
             get { return gunTexture.Height; }
         }
 
-        public Minigun(Texture2D text, Player player)
+        public Minigun(Texture2D text, Player player, bool active)
         {
             this.gunTexture = text;
             this.player = player;
             position = new Vector2(player.arrowPosition.X + 35, player.arrowPosition.Y + 15);
             center = new Vector2(position.X + gunTexture.Width / 2, position.Y + gunTexture.Height / 2);
             origin = new Vector2(gunTexture.Width / 2, gunTexture.Height / 2);
+            isActive = active;
         }
 
         public bool IsInRange(Vector2 position)
@@ -72,18 +74,7 @@ namespace SpacuShuutar
             direction.Normalize();
             rotation = (float)Math.Atan2(-direction.X, direction.Y);
         }
-        public void TurnTurret1()
-        {
-            Vector2 direction = position - target1.position;
-            direction.Normalize();
-            rotation = (float)Math.Atan2(-direction.X, direction.Y);
-        }
-        public void TurnTurret2()
-        {
-            Vector2 direction = position - target2.position;
-            direction.Normalize();
-            rotation = (float)Math.Atan2(-direction.X, direction.Y);
-        }
+       
 
         public void Update(GameTime gameTime)
         {
@@ -92,14 +83,7 @@ namespace SpacuShuutar
             {
                 TurnTurret();
             }
-            if (target1 != null)
-            {
-                TurnTurret1();
-            }
-            if (target2 != null)
-            {
-                TurnTurret2();
-            }
+            
         }
         public void Draw(SpriteBatch spriteBatch)
         {

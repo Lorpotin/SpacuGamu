@@ -56,7 +56,6 @@ namespace SpacuShuutar
         public StarField starfield;
         public Player Player;
         public Bullet Bullet;
-        public Bullet2 Bullet2;
         public Button play;
         public Button quit;
         public Button options;
@@ -77,7 +76,6 @@ namespace SpacuShuutar
         public Boss boss;
         public Minigun MiniGun;
         public Highscores hiScores;
-        public MoreAmmo powerUp;
         public MiniGunBullet Bullet3;
         public int machineGunCounter;
         public int gunCounter;
@@ -87,9 +85,7 @@ namespace SpacuShuutar
         public List<Asteroid> asteroidArray = new List<Asteroid>();
         public List<Boss> bossArray = new List<Boss>();
         public List<Bullet> bulletArray = new List<Bullet>();
-        public List<Bullet2> bigBulletArray = new List<Bullet2>();
         public List<MiniGunBullet> mgunBulletArray = new List<MiniGunBullet>();
-        public List<MoreAmmo> powerUpArray = new List<MoreAmmo>();
         public List<HomingMinigunPowarUp> homingArray = new List<HomingMinigunPowarUp>();
         public List<Ufo> ufoArray = new List<Ufo>();
         public List<Texture2D> ParticleTextures = new List<Texture2D>();
@@ -108,7 +104,7 @@ namespace SpacuShuutar
    
         public Texture2D intro;
         public float timer;
-        public float startGameTimer;
+        public float startGameTimer, minigunTimer;
         public float gameTimer;
         public JetParticle particleEngine;
         public SpriteAnimation spriteAnimation;
@@ -190,7 +186,7 @@ namespace SpacuShuutar
             //Luodaan erilaisia olioita
             Player = new Player(Bullet, crosshairTexture);
             starfield = new StarField(1920,1080, 300, new Vector2(0,75), star, new Rectangle(1920, 1080, 2, 2));
-            MiniGun = new Minigun(supaGun, Player);
+            MiniGun = new Minigun(supaGun, Player, false);
             hiScores = new Highscores(font);
             introScreen = new IntroVideo(intro);
             boss = new Boss(bossTexture);
@@ -325,23 +321,6 @@ namespace SpacuShuutar
                     MiniGun.target = asteroid;
                 }
             }
-            foreach (Ufo ufo in ufoArray)
-            {
-                if (Vector2.Distance(MiniGun.position, ufo.position) < smallestRange)
-                {
-                    smallestRange = Vector2.Distance(MiniGun.position, ufo.position);
-                    MiniGun.target1 = ufo;
-                }
-            }
-            foreach (Boss boss in bossArray)
-            {
-                if (Vector2.Distance(MiniGun.position, boss.position) < smallestRange)
-                {
-                    smallestRange = Vector2.Distance(MiniGun.position, boss.position);
-                    MiniGun.target2 = boss;
-                }
-            }
-
         }
 
         private void UpdateCollisions(GameTime gameTime)
@@ -349,21 +328,11 @@ namespace SpacuShuutar
             Rectangle rectangle1;
             Rectangle rectangle2;
             Rectangle ufoRectangle;
-            Rectangle powerUpRectangle;
             Rectangle homingRectangle;
             Rectangle bossRectangle;
 
 
             rectangle1 = new Rectangle((int)Player.Position.X, (int)Player.arrowPosition.Y, Player.Width, Player.Height);
-            for (int c = 0; c < powerUpArray.Count; c++)
-            {
-                powerUpRectangle = new Rectangle((int)powerUpArray[c].position.X, (int)powerUpArray[c].position.Y, powerUpArray[c].Width, powerUpArray[c].Height);
-                if (rectangle1.Intersects(powerUpRectangle))
-                {
-                    Player.ammo += powerUpArray[c].plusAmmo;
-                    powerUpArray[c].pickedUp = true;
-                }
-            }
             for (int a = 0; a < homingArray.Count; a++)
             {
                 homingRectangle = new Rectangle((int)homingArray[a].position.X, (int)homingArray[a].position.Y, homingArray[a].Width, homingArray[a].Height);
@@ -455,106 +424,7 @@ namespace SpacuShuutar
             return basic;
         }
 
-        private void updateBulletCollisions2(GameTime gameTime)
-        {
-
-            Rectangle rectangle3;
-            Rectangle rectangle4;
-            Rectangle UfoRectangle;
-            Rectangle bossRectangle;
-            Random random;
-            MouseState mouse;
-            mouse = Mouse.GetState();
-
-
-            if (mouse.LeftButton == ButtonState.Pressed)
-            {
-                //Purkka jolla poistetaan "railgun" :D
-                if (shootCounter > 25)
-                {
-                    Bullet2 bullet = new Bullet2(new Vector2(Player.arrowPosition.X, Player.arrowPosition.Y), Player.arrowDirection, bigBulletTexture, Player);
-                    if (Player.ammo > 0)
-                    {
-                        bigBulletArray.Add(bullet);
-                        shootCounter = 0;
-                        Player.ammo--;
-                    }
-                }
-                else
-                    shootCounter++;
-            }
-            //Käydään läpi kaikki ammutut luodit
-            for (int a = 0; a < bigBulletArray.Count; a++)
-            {
-                //Katsotaan luodin alkusijainti, ja käydään läpi asteroidit, jos nämä kaksi rectanglea collide -> tuhotaan luoti sekä asteroidi ja kasvatetaan scorea
-                rectangle3 = new Rectangle((int)bigBulletArray[a].position.X, (int)bigBulletArray[a].position.Y, bigBulletArray[a].Width, bigBulletArray[a].Height);
-                for (int i = 0; i < asteroidArray.Count; i++)
-                {
-                    rectangle4 = new Rectangle((int)asteroidArray[i].position.X, (int)asteroidArray[i].position.Y, asteroidArray[i].Width, asteroidArray[i].Height);
-                    if (rectangle3.Intersects(rectangle4))
-                    {
-                        asteroidArray[i].health -= bigBulletArray[a].damage;
-                        if (asteroidArray[i].health <= 0)
-                        {
-                            Player.score += asteroidArray[i].score;
-                            random = new Random();
-                            int letsRoll = random.Next(1, 5);
-                            int letsRollaBitRare = random.Next(1, 5);
-                            if (letsRoll == 3)
-                            {
-                                MoreAmmo powerUp = new MoreAmmo(plusAmmo, new Vector2(asteroidArray[i].position.X, asteroidArray[i].position.Y));
-                                powerUpArray.Add(powerUp);
-                            }
-                            if (letsRollaBitRare == 3)
-                            {
-                                HomingMinigunPowarUp muchPower = new HomingMinigunPowarUp(miniGun, new Vector2(asteroidArray[i].position.X, asteroidArray[i].position.Y));
-                                homingArray.Add(muchPower);
-                            }
-                        }
-                    }
-                }
-                for (int i = 0; i < ufoArray.Count; i++)
-                {
-                    UfoRectangle = new Rectangle((int)ufoArray[i].position.X, (int)ufoArray[i].position.Y, ufoArray[i].Width, ufoArray[i].Height);
-                    if (rectangle3.Intersects(UfoRectangle))
-                    {
-                        ufoArray[i].health -= bigBulletArray[a].damage;
-                        if (ufoArray[i].health <= 0)
-                        {
-
-                            Player.score += ufoArray[i].score;
-                            random = new Random();
-                            int letsRoll = random.Next(1, 5);
-                            int letsRollaBitRare = random.Next(1, 5);
-                            if (letsRoll == 3)
-                            {
-                                MoreAmmo powerUp = new MoreAmmo(plusAmmo, new Vector2(ufoArray[i].position.X, ufoArray[i].position.Y));
-                                powerUpArray.Add(powerUp);
-                            }
-                            if (letsRollaBitRare == 3)
-                            {
-                                HomingMinigunPowarUp muchPower = new HomingMinigunPowarUp(miniGun, new Vector2(ufoArray[i].position.X, ufoArray[i].position.Y));
-                                homingArray.Add(muchPower);
-                            }
-                        }
-
-                    }
-                }
-                for (int i = 0; i < bossArray.Count; i++)
-                {
-                    bossRectangle = new Rectangle((int)bossArray[i].position.X, (int)bossArray[i].position.Y, bossArray[i].Width, bossArray[i].Height);
-                    if (rectangle3.Intersects(bossRectangle))
-                    {
-                        bossArray[i].health -= bigBulletArray[a].damage;
-                        bossArray[i].hit = true;
-                        if (bossArray[i].health <= 0)
-                        {
-                            bossArray[i].active = false;
-                        }
-                    }
-                }
-            }
-        }
+        
         private void updateBulletCollisions(GameTime gameTime, bool basic)
         {
             Rectangle rectangle1;
@@ -596,16 +466,13 @@ namespace SpacuShuutar
                                     Player.score += asteroidArray[i].score;
                                     //Rollaillaan vähän ettei ihan liian helposti tule powarUpsei
                                     random = new Random();
-                                    int letsRoll = random.Next(1, 5);
-                                    int letsRollaBitRare = random.Next(1, 5);
-                                    if (letsRoll == 3)
+                                  
+                                    int letsRollaBitRare = random.Next(1, 15);
+                                   
+                                    if (letsRollaBitRare == 3 && MiniGun.isActive == false)
                                     {
-                                        MoreAmmo powerUp = new MoreAmmo(plusAmmo, new Vector2(asteroidArray[i].position.X, asteroidArray[i].position.Y));
-                                        powerUpArray.Add(powerUp);
-                                    }
-                                    if (letsRollaBitRare == 3)
-                                    {
-                                        HomingMinigunPowarUp muchPower = new HomingMinigunPowarUp(miniGun, new Vector2(asteroidArray[i].position.X, asteroidArray[i].position.Y));
+                                        MiniGun.isActive = true;
+                                        HomingMinigunPowarUp muchPower = new HomingMinigunPowarUp(supaGun, new Vector2(asteroidArray[i].position.X, asteroidArray[i].position.Y));
                                         homingArray.Add(muchPower);
                                     }
                                     
@@ -623,16 +490,12 @@ namespace SpacuShuutar
                                 {
                                     Player.score += ufoArray[i].score;
                                     random = new Random();
-                                    int letsRoll = random.Next(1, 5);
-                                    int letsRollaBitRare = random.Next(1, 5);
-                                    if (letsRoll == 3)
+                                    int letsRollaBitRare = random.Next(1, 15);
+
+                                    if (letsRollaBitRare == 3 && MiniGun.isActive == false)
                                     {
-                                        MoreAmmo powerUp = new MoreAmmo(plusAmmo, new Vector2(ufoArray[i].position.X, ufoArray[i].position.Y));
-                                        powerUpArray.Add(powerUp);
-                                    }
-                                    if (letsRollaBitRare == 3)
-                                    {
-                                        HomingMinigunPowarUp muchPower = new HomingMinigunPowarUp(miniGun, new Vector2(ufoArray[i].position.X, ufoArray[i].position.Y));
+                                        MiniGun.isActive = true;
+                                        HomingMinigunPowarUp muchPower = new HomingMinigunPowarUp(supaGun, new Vector2(asteroidArray[i].position.X, asteroidArray[i].position.Y));
                                         homingArray.Add(muchPower);
                                     }
                                 }
@@ -679,7 +542,7 @@ namespace SpacuShuutar
             Rectangle bossRectangle;
 
 
-            if (Player.homingammo > 0 && mGunCounter > 10 && MiniGun.target != null)
+            if (Player.homingammo > 0 && mGunCounter > 10 && MiniGun.target != null && MiniGun.isActive)
             {
                 
                 MiniGunBullet bullet = new MiniGunBullet(mgunBulletTexture, Vector2.Subtract(MiniGun.center, new Vector2(mgunBulletTexture.Width / 2)), MiniGun.rotation, Player);
@@ -710,15 +573,12 @@ namespace SpacuShuutar
                             //Rollaillaan vähän ettei ihan liian helposti tule powarUpsei
                             random = new Random();
                             int letsRoll = random.Next(1, 5);
-                            int letsRollaBitRare = random.Next(1, 5);
-                            if (letsRoll == 3)
+                            int letsRollaBitRare = random.Next(1, 15);
+                           
+                            if (letsRollaBitRare == 3 && MiniGun.isActive == false)
                             {
-                                MoreAmmo powerUp = new MoreAmmo(plusAmmo, new Vector2(asteroidArray[a].position.X, asteroidArray[a].position.Y));
-                                powerUpArray.Add(powerUp);
-                            }
-                            if (letsRollaBitRare == 3)
-                            {
-                                HomingMinigunPowarUp muchPower = new HomingMinigunPowarUp(miniGun, new Vector2(asteroidArray[a].position.X, asteroidArray[a].position.Y));
+                                MiniGun.isActive = true;
+                                HomingMinigunPowarUp muchPower = new HomingMinigunPowarUp(supaGun, new Vector2(asteroidArray[a].position.X, asteroidArray[a].position.Y));
                                 homingArray.Add(muchPower);
                             }
 
@@ -737,15 +597,12 @@ namespace SpacuShuutar
                             Player.score += ufoArray[b].score;
                             random = new Random();
                             int letsRoll = random.Next(1, 5);
-                            int letsRollaBitRare = random.Next(1, 5);
-                            if (letsRoll == 3)
+                            int letsRollaBitRare = random.Next(1, 15);
+
+                            if (letsRollaBitRare == 3 && MiniGun.isActive == false)
                             {
-                                MoreAmmo powerUp = new MoreAmmo(plusAmmo, new Vector2(ufoArray[b].position.X, ufoArray[b].position.Y));
-                                powerUpArray.Add(powerUp);
-                            }
-                            if (letsRollaBitRare == 3)
-                            {
-                                HomingMinigunPowarUp muchPower = new HomingMinigunPowarUp(miniGun, new Vector2(ufoArray[b].position.X, ufoArray[b].position.Y));
+                                MiniGun.isActive = true;
+                                HomingMinigunPowarUp muchPower = new HomingMinigunPowarUp(supaGun, new Vector2(asteroidArray[b].position.X, asteroidArray[b].position.Y));
                                 homingArray.Add(muchPower);
                             }
                         }
@@ -800,14 +657,8 @@ namespace SpacuShuutar
             {
                 bulletArray.Clear();
             }
-            for (int b = 0; b < bigBulletArray.Count; b++)
-            {
-                bigBulletArray.Clear();
-            }
-            for (int c = 0; c < powerUpArray.Count; c++)
-            {
-                powerUpArray.Clear();
-            }
+         
+            
             for (int x = 0; x < homingArray.Count; x++)
             {
                 homingArray.Clear();
@@ -980,21 +831,9 @@ namespace SpacuShuutar
                         }
                         if (basic == true)
                         {                         
-                            updateBulletCollisions2(gameTime);                        
+                                            
                         }
-                        //Poistetaan jos lennetään ulos kentästä tai osutaan viholliseen
-                        if (bigBulletArray != null)
-                        {
-                            for (int i = 0; i < bigBulletArray.Count; i++)
-                            {
-                                bigBulletArray[i].Update();
-                                if (bigBulletArray[i].Dead == true)
-                                {
-                                    bigBulletArray.RemoveAt(i);
-                                    i--;
-                                }
-                            }
-                        }
+                       
                        
                         if (mgunBulletArray != null)
                         {
@@ -1016,19 +855,7 @@ namespace SpacuShuutar
                         }
 
                         //Poistetaan powerUp kun kerätty!
-                        if (powerUpArray != null)
-                        {
-                            for (int i = 0; i < powerUpArray.Count; i++)
-                            {
-                                powerUpArray[i].Update();
-                                if (powerUpArray[i].active == false)
-                                {
-                                    powerUpArray.RemoveAt(i);
-                                    i--;
-                                }
-                            }
-                        }
-                       
+
                         //Poistetaan minigun powerup kun kerätty!
                         if (homingArray != null)
                         {
@@ -1052,7 +879,8 @@ namespace SpacuShuutar
                         }
                         UpdateCollisions(gameTime);
                         Player.Update(gameTime);
-                        MiniGun.Update(gameTime);
+                        if (MiniGun.isActive)
+                            MiniGun.Update(gameTime);
                         ClosestEnemy(asteroidArray, ufoArray, bossArray);
                         UpdateHomingCollisions();
                        
@@ -1073,7 +901,6 @@ namespace SpacuShuutar
                             string points = Player.score.ToString();
                             gameState = GameStates.GameOver;
                             MediaPlayer.Play(gamuover);
-                            hiScores.ReadFile();
                             hiScores.WriteFile(Player.score);
                         }
                         UpdateExplosions(gameTime);
@@ -1134,19 +961,14 @@ namespace SpacuShuutar
                 case GameStates.Highscores:
                     {
                         hiScores.ReadFile();
+                        /*int score = 5998;
+                        hiScores.WriteFile(score);*/
                         if ((Keyboard.GetState().IsKeyDown(Keys.Escape)))
                         {
                             gameState = GameStates.Menu;
                             MediaPlayer.Play(menuSong);
                         }
-                        if ((Keyboard.GetState().IsKeyDown(Keys.Enter)))
-                        {
-                            int score = 5999;
-                            hiScores.WriteFile(score);
-                        }
-                        
-                            
-
+                       
                     }
                     break;
             }
@@ -1211,19 +1033,21 @@ namespace SpacuShuutar
                     spriteBatch.DrawString(font, "HomingAmmo: " + Player.homingammo, new Vector2(50, 300), Color.White);
                 else if (Player.homingammo == 0)
                     spriteBatch.DrawString(font, "You are out of ammunition!", new Vector2(50, 300), Color.White);
-                if (Player.ammo > 0)
-                    spriteBatch.DrawString(font, "Special ammo " + Player.ammo, new Vector2(50, 200), Color.White);
-                else if (Player.ammo == 0)
-                    spriteBatch.DrawString(font, "You are out of ammunition!", new Vector2(50, 200), Color.White);
                 spriteBatch.DrawString(font, "Velocity " + Player.velocity, new Vector2(50, 400), Color.White);
                 spriteBatch.DrawString(font, "Position " + Player.arrowPosition, new Vector2(50, 450), Color.White);
                 //Pelin alkuspiikkei
                 if (startGameTimer > 2 && startGameTimer < 7)
                     spriteBatch.DrawString(epicfont, "WELCOME....", new Vector2(650, 400), Color.White);
                 else if (startGameTimer > 7 && startGameTimer < 11)
-                    spriteBatch.DrawString(epicfont, "PREPARE YOURSELVES!", new Vector2(650, 400), Color.White);
+                    spriteBatch.DrawString(epicfont, "PREPARE YOUR ANUS!", new Vector2(650, 400), Color.White);
                 else if (startGameTimer > 11.5 && startGameTimer < 13)
                     spriteBatch.DrawString(epicfont, "LETS GO!", new Vector2(650, 400), Color.White);
+                else if (MiniGun.isActive)
+                {
+                    minigunTimer++;
+                    if (minigunTimer < 25)
+                        spriteBatch.DrawString(epicfont, "Minigun Activated!", new Vector2(650, 400), Color.White);
+                }
 
                 foreach (MiniGunBullet b in mgunBulletArray)
                 {
@@ -1236,12 +1060,8 @@ namespace SpacuShuutar
                     if (d != null)
                         d.Draw(spriteBatch);
                 }
-
-                foreach (MoreAmmo p in powerUpArray)
-                {
-                    if (p != null)
-                        p.Draw(spriteBatch);
-                }
+                
+              
 
                 for (int i = 0; i < asteroidArray.Count; i++)
                 {
@@ -1251,12 +1071,6 @@ namespace SpacuShuutar
                 {
                     if (u != null)
                         u.Draw(spriteBatch);
-                }
-
-                foreach (Bullet2 a in bigBulletArray)
-                {
-                    if (a != null)
-                        a.Draw(spriteBatch);
                 }
 
                 foreach (Bullet b in bulletArray)
@@ -1269,7 +1083,8 @@ namespace SpacuShuutar
                     explosions[i].Draw(spriteBatch);
                 }
                 Player.Draw(spriteBatch);
-                MiniGun.Draw(spriteBatch);
+                if (MiniGun.isActive)
+                    MiniGun.Draw(spriteBatch);
                 
 
             }

@@ -29,7 +29,7 @@ namespace SpacuShuutar
     
     public class Highscores
     {
-        //private StorageFolder localFolder;
+        public StorageFolder localFolder = KnownFolders.DocumentsLibrary;
         SpriteFont font;
         //StreamReader reader;
         public string playerName { get; set; }
@@ -38,13 +38,14 @@ namespace SpacuShuutar
         public int scoreCounter;
         
         
+        
 
 
         public Highscores(SpriteFont fontz)
         {
             font = fontz;
         }
-        public async void ReadFile()
+        public async void ReadFile()    //Toimii
         {
             try
             {
@@ -61,15 +62,16 @@ namespace SpacuShuutar
                 Debug.WriteLine(exception);
             }
         }
-        public async void WriteFile(int score)
+        public async void WriteFile(int score)      //Eipä toimi..
         {
             try
             {
-                scores.Add((score.ToString()));
-                //var folder = Windows.ApplicationModel.Package.Current.InstalledLocation;
-                //var file = await folder.GetFileAsync("highscores.txt");
-                StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync("highscores.txt");
-                await PathIO.WriteLinesAsync(file.Path, scores);
+                //scores.Add((score.ToString()));
+
+                StorageFile storageFile = await localFolder.CreateFileAsync("highscores.txt", CreationCollisionOption.OpenIfExists);
+                await FileIO.AppendTextAsync(storageFile, score.ToString());
+
+                Debug.WriteLine("Success!");
             }
             catch(FileNotFoundException exception)
             {

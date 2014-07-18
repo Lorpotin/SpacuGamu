@@ -30,6 +30,12 @@ Content\hpborders.png
 Content\hpforeground.png
 Content\intro.png
 Content\Laser.png
+Content\Laser_Blue_Dual.jpg
+Content\Laser_Blue_Single.jpg
+Content\Laser_Green_Dual.jpg
+Content\Laser_Green_Single.jpg
+Content\Laser_Red_Dual.jpg
+Content\Laser_Red_Single.jpg
 Content\menu.wma
 Content\menu.xnb
 Content\mgunbullet.png
@@ -48,6 +54,7 @@ Content\Ship_3.png
 Content\ship1info.png
 Content\ship2info.png
 Content\ship3info.png
+Content\smallasteroid.png
 Content\SpriteFont1.xnb
 Content\star.bmp
 Content\star2.png
@@ -55,3 +62,4 @@ Content\VICTORY.png
 Content\winrar.wma
 Content\winrar.xnb
 highscores.txt
+tiedosto.txt

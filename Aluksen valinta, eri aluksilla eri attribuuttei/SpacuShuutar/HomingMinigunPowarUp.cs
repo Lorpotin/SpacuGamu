@@ -21,7 +21,9 @@ namespace SpacuShuutar
 
         public Texture2D gunTexture;
         public Vector2 position;
+        public Color colour = new Color(0, 0, 0);
         public bool active;
+        public bool down;
         public bool pickedUp;
         public int plusAmmo;
 
@@ -47,6 +49,17 @@ namespace SpacuShuutar
 
         public void Update()
         {
+            if (colour.B == 255)
+                down = false;
+            if (colour.B == 50)
+                down = true;
+            if (down) colour.B += 5;
+            else
+            {
+                colour.B -= 5;
+
+            }
+                    
             if (pickedUp == true)
                 active = false;
 
@@ -54,7 +67,7 @@ namespace SpacuShuutar
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(gunTexture, position, Color.White);
+            spriteBatch.Draw(gunTexture, position, colour);
         }
 
 
