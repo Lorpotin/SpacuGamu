@@ -23,12 +23,13 @@ namespace SpacuShuutar
         public Vector2 origin;
         public Player player;
         public Texture2D bulletTexture;
+        public GraphicsDeviceManager gManager;
         public bool Dead;
         public float angle;
         public int damage;
         public float speed;
         
-        public Bullet(Vector2 spawn, Vector2 direction, Texture2D tex, Player player)
+        public Bullet(Vector2 spawn, Vector2 direction, Texture2D tex, Player player, GraphicsDeviceManager graphics)
         {
             this.direction = direction;
             this.player = player;
@@ -38,6 +39,7 @@ namespace SpacuShuutar
             damage = 150;
             Dead = false;
             origin = new Vector2(bulletTexture.Width / 2, bulletTexture.Height / 2);
+            gManager = graphics;
         }
 
         public int Width
@@ -51,11 +53,19 @@ namespace SpacuShuutar
         
         public void Update()
         {
+
             direction.Normalize();
             position += direction * speed;
-            
-            if (position.Y < 0 && position.Y > 1080 && position.X < 0 && position.X > 1920)
+
+            if (position.Y > gManager.GraphicsDevice.Viewport.Height | position.Y < 0 | position.X > gManager.GraphicsDevice.Viewport.Width
+                | position.X < 0)
+            {
                 Dead = true;
+                player.combo = 0;
+            }
+            
+               
+            
         }
         public void Draw(SpriteBatch spriteBatch)
         {

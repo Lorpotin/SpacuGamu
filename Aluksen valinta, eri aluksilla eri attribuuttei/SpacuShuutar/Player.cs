@@ -33,13 +33,15 @@ namespace SpacuShuutar
         public float rotationAcceleration;
         public float rotationDecceleration;
         public float topSpeed;
+        public int combo, gunStage;
+        public string currentGun;
         //Penus
         public int damage;
         public float health;
         public int score;
         //public Healthbar healthBar;
         public SoundEffect splat;
-        public bool active;
+        public bool active, ready;
         public int ammo;
         public int homingammo;
         public Bullet bullet;
@@ -86,12 +88,12 @@ namespace SpacuShuutar
             acceleration = new Vector2(0, 0);
             direction = new Vector2(0, 0);
             angle = 0;  //Rotaatio
+            ready = false;
         }
 
         public float Vector2ToRadian(Vector2 direction)
         {
             return (float)Math.Atan2(direction.X, -direction.Y);
-            
         }
 
         public Vector2 SetOrigin(Vector2 origin)
@@ -101,10 +103,11 @@ namespace SpacuShuutar
         }
         public void Update(GameTime gameTime)
         {
-            //Timeri eeppistä "Lähtöä" varten, alotetaan peli kun musassa droppi, lel.
+            //Timeri eeppistä "Lähtöä" varten, alotetaan peli kun musassa droppi
             timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (timer >= 12.5)
             {
+                ready = true;
                 float radius = playerTexture.Width / 2;
                 float deltaTime = 0.5f;
                 deltaTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -155,6 +158,26 @@ namespace SpacuShuutar
                 {
                     velocity.Y *= -0.3f;
                 }
+                //Ase kehittyy combon mukaan
+                
+            }
+            if (combo < 5)
+            {
+                gunStage = 1;
+                currentGun = "Basic Lazer";
+
+            }
+            else if (combo > 10)
+            {
+                gunStage = 3;
+                currentGun = "Mega Annihilation";
+
+            }
+            else
+            {
+                gunStage = 2;
+                currentGun = "Triple Lazers";
+
             }
    
         }

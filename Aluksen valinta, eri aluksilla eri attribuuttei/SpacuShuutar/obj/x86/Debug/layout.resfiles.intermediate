@@ -18,6 +18,12 @@ Content\circle.png
 Content\Credits.png
 Content\crosshair.png
 Content\diamond.png
+Content\exp1.wav
+Content\exp1.xnb
+Content\exp2.wav
+Content\exp2.xnb
+Content\exp3.wav
+Content\exp3.xnb
 Content\explosion.png
 Content\font.xnb
 Content\game.wma
@@ -35,7 +41,10 @@ Content\Laser_Blue_Single.jpg
 Content\Laser_Green_Dual.jpg
 Content\Laser_Green_Single.jpg
 Content\Laser_Red_Dual.jpg
-Content\Laser_Red_Single.jpg
+Content\laser1.wav
+Content\laser1.xnb
+Content\machinegun1.wav
+Content\machinegun1.xnb
 Content\menu.wma
 Content\menu.xnb
 Content\mgunbullet.png
@@ -47,6 +56,7 @@ Content\plusammo.png
 Content\pomo.wma
 Content\pomo.xnb
 Content\QUIT.png
+Content\redlaser.jpg
 Content\ship.png
 Content\Ship_1.png
 Content\Ship_2.png
@@ -61,5 +71,5 @@ Content\star2.png
 Content\VICTORY.png
 Content\winrar.wma
 Content\winrar.xnb
-highscores.txt
+Highscore.txt
 tiedosto.txt

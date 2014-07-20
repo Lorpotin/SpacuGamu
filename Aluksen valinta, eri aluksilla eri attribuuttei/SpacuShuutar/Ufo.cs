@@ -105,18 +105,16 @@ namespace SpacuShuutar
                             position += direction;
                         }
                         break;
-
-                    
-                }
-                if (health <= 0)
-                {
-                    active = false;
                 }
             }
             else
             {
                 timeUntilStart--;
                 color = Color.White * (1 - timeUntilStart / 60f);
+            }
+            if (health <= 0)
+            {
+                active = false;
             }
         }
         public void Draw(SpriteBatch spriteBatch)
@@ -133,11 +131,6 @@ namespace SpacuShuutar
                     break;
 
             }
-            
-            
         }
-
-
-
     }
 }
