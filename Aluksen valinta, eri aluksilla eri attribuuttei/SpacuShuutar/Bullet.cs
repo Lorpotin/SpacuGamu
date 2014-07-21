@@ -40,6 +40,7 @@ namespace SpacuShuutar
             Dead = false;
             origin = new Vector2(bulletTexture.Width / 2, bulletTexture.Height / 2);
             gManager = graphics;
+            
         }
 
         public int Width

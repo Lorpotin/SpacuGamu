@@ -19,7 +19,7 @@ namespace SpacuShuutar
     {
         public Texture2D ufoTexture;
         public Texture2D ufoTexture2;
-        public Vector2 position;
+        public Vector2 position, wavePosition;
         public Vector2 direction;
         public Color color;
         public bool active;
@@ -45,6 +45,7 @@ namespace SpacuShuutar
             ufoTexture = texture;
             ufoTexture2 = texture2;
             position = CreateSpawnPoint();
+           
             randY = random.Next(2, 6);
             randX = random.Next(-4, 4);
             color = Color.Transparent;
@@ -58,7 +59,7 @@ namespace SpacuShuutar
         {
             get { return ufoTexture.Height; }
         }
-
+      
         public Vector2 CreateSpawnPoint()
         {
 
@@ -117,6 +118,7 @@ namespace SpacuShuutar
                 active = false;
             }
         }
+       
         public void Draw(SpriteBatch spriteBatch)
         {
             int number = random.Next(1, 2);
@@ -132,5 +134,6 @@ namespace SpacuShuutar
 
             }
         }
+       
     }
 }

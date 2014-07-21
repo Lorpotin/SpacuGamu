@@ -18,6 +18,9 @@ Content\circle.png
 Content\Credits.png
 Content\crosshair.png
 Content\diamond.png
+Content\Exp_type_A.png
+Content\Exp_type_B.png
+Content\Exp_type_C.png
 Content\exp1.wav
 Content\exp1.xnb
 Content\exp2.wav
@@ -47,6 +50,7 @@ Content\machinegun1.wav
 Content\machinegun1.xnb
 Content\menu.wma
 Content\menu.xnb
+Content\menuship.png
 Content\mgunbullet.png
 Content\minigun.png
 Content\OPTIONS.png

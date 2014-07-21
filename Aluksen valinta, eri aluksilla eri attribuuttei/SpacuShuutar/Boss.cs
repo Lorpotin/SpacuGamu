@@ -19,7 +19,7 @@ namespace SpacuShuutar
 
         public Texture2D bossTexture;
         public Vector2 position;
-        public Vector2 velocity;
+        public Vector2 velocity, direction;
         public bool active = false;
         public int health;
         public int damage;
@@ -57,10 +57,11 @@ namespace SpacuShuutar
 
             timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (timer >= 15 && timer >= 20)
-                position.Y += speed;
-            if (timer >= 20 && timer >= 25)
-                position.Y -= speed;
+            if (timer >= 5)
+            {
+                direction = Vector2.Normalize(position - new Vector2(500, 100));
+                position += direction * speed;
+            }
 
             if (hit)
                 bossColor.R -= 10;

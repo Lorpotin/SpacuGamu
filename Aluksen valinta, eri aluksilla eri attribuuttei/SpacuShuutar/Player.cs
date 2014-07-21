@@ -18,10 +18,11 @@ namespace SpacuShuutar
 {
     public class Player
     {
-        public Texture2D playerTexture;
+        public Texture2D playerTexture, menuTexture;
         Texture2D crossHairTexture;
-
         //Näillä lähetään rakentamaan vähän hienompaa lentelyä..
+        public Vector2 menuPosition, startPos;
+        //position vektori ^ menun alukseen, EI varsinaiseen peliin
         public Vector2 arrowPosition;   //Kohde mihin piirretään
         public Vector2 direction;  //Kohde mihin matkustetaan
         public Vector2 origin;
@@ -33,7 +34,7 @@ namespace SpacuShuutar
         public float rotationAcceleration;
         public float rotationDecceleration;
         public float topSpeed;
-        public int combo, gunStage;
+        public int combo, gunStage, timeUntilStart;
         public string currentGun;
         //Penus
         public int damage;
@@ -89,6 +90,8 @@ namespace SpacuShuutar
             direction = new Vector2(0, 0);
             angle = 0;  //Rotaatio
             ready = false;
+            startPos = new Vector2(-500, 700);
+
         }
 
         public float Vector2ToRadian(Vector2 direction)
@@ -100,6 +103,18 @@ namespace SpacuShuutar
         {
             origin = new Vector2(playerTexture.Width / 2, playerTexture.Height / 2);
             return origin;
+        }
+        public void UpdateMenu(GameTime gameTime)
+        {
+            timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+           
+                if (timer >= 0.4f)
+                {
+                    Vector2 endPos = new Vector2(2500, 700);
+                    Vector2 direction = Vector2.Normalize(endPos - startPos);
+                    menuPosition += direction * 13f;
+                }
+
         }
         public void Update(GameTime gameTime)
         {
@@ -189,6 +204,10 @@ namespace SpacuShuutar
 
             spriteBatch.Draw(crossHairTexture, mousePosition, Color.White);
             
+        }
+        public void DrawMenu(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(playerTexture, menuPosition, Color.White);
         }
 
     }
