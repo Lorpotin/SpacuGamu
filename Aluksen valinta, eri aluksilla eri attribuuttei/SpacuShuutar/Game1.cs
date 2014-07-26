@@ -23,7 +23,7 @@ namespace SpacuShuutar
         public GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
         //Use enum to make own data type -> lets get the state where we are
-        public enum GameStates { Menu, Playing, GameOver, Pause, Highscores, Intro, Fade, Options, ShipChoose, Credits, Victory};
+        public enum GameStates { Menu, Level1, Boss, GameOver, Pause, Highscores, Intro, Fade, Options, ShipChoose, Credits, Victory };
         public GameStates gameState = GameStates.Intro;
         public GameStates NextGameState = GameStates.Intro;
         public Texture2D ship1info, ship2info, ship3info;
@@ -99,7 +99,7 @@ namespace SpacuShuutar
         public int shootCounter = 20;
         public int mGunCounter = 10;
         public Song menuSong, gameSong, bossSong, winner, gamuover;
-   
+
         public Texture2D intro;
         public float timer;
         public float startGameTimer, minigunTimer, hsTimer;
@@ -107,18 +107,18 @@ namespace SpacuShuutar
         public JetParticle particleEngine;
         public SpriteAnimation spriteAnimation;
         public Player menuPlayer;
-        
 
-        
-        
+
+
+
         #endregion
-        
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            
-            
+
+
         }
 
         protected override void Initialize()
@@ -127,10 +127,10 @@ namespace SpacuShuutar
             asteroidSpawnTime = TimeSpan.FromSeconds(0.9f);
             ShootInterval = TimeSpan.FromSeconds(1);
             IsMouseVisible = true;
-            
+
             base.Initialize();
         }
- 
+
         protected override void LoadContent()
         {
             //Luodaan uusi SpriteBatch, jota käytetään grafiikoiden piirtämiseen
@@ -193,16 +193,15 @@ namespace SpacuShuutar
             ship1info = Content.Load<Texture2D>("ship1info");
             //Luodaan erilaisia olioita
             Player = new Player(Bullet, crosshairTexture);
-            starfield = new StarField(1920,1080, 300, new Vector2(0,75), star, new Rectangle(1920, 1080, 2, 2));
+            starfield = new StarField(1920, 1080, 300, new Vector2(0, 75), star, new Rectangle(1920, 1080, 2, 2));
             MiniGun = new Minigun(supaGun, Player, false);
             hiScores = new Highscore(font);
             introScreen = new IntroVideo(intro);
-            boss = new Boss(bossTexture);
-            bossArray.Add(boss);
+            
             //Menua varten
             menuPlayer = new Player(Bullet, menuShip);
             //Menu-valikon näppäimet
-            play = new Button(playTexture, new Vector2(700, 300), new Vector2(500,250));
+            play = new Button(playTexture, new Vector2(700, 300), new Vector2(500, 250));
             quit = new Button(quitTexture, new Vector2(660, 600), new Vector2(500, 250));
             options = new Button(optionsTexture, new Vector2(700, 450), new Vector2(500, 250));
             playAgain = new Button(again, new Vector2(700, 100), new Vector2(700, 350));
@@ -214,25 +213,27 @@ namespace SpacuShuutar
             ParticleTextures.Add(circle);
             ParticleTextures.Add(star2);
             ParticleTextures.Add(diamond);
-            particleEngine = new JetParticle(ParticleTextures, new Vector2(Player.Position.X, Player.Position.Y -45));
+            particleEngine = new JetParticle(ParticleTextures, new Vector2(Player.Position.X, Player.Position.Y - 45));
             //Luodaan hpBar, kesken
             healthBar = new EpicHealthBar(foreGround, borders, Player);
             //Luetaan tiedostosta nykyinen highscore
             hiScores.ReadFile();
-            
-            
-          
-           
+            //
+
+
+
+
+
         }
 
         public void AddExplosion(Vector2 position)
         {
             int number = random.Next(1, 5);
-            
+
             switch (number)
             {
                 case 1:
-                    
+
                     SpriteAnimation explosion = new SpriteAnimation(explosionTexture2, 128, 128, 33, 50, Color.White, 1f, false);
                     explosion.Initialize(position);
                     explosions.Add(explosion);
@@ -257,10 +258,10 @@ namespace SpacuShuutar
                     break;
 
 
-                
+
             }
             //Luodaan räjähdysanimaatio
-          
+
         }
         //Luodaan uusi asteroidi
         public void AddAsteroid()
@@ -275,54 +276,54 @@ namespace SpacuShuutar
         public void AddUfos(GameTime gameTime)
         {
             float helpTimer = (float)gameTime.ElapsedGameTime.TotalSeconds;
-                //Luodaan ufoja, ei luoda enempää kuin 4 ufoa kerrallaan näytölle
-                if (timer >= 2)
+            //Luodaan ufoja, ei luoda enempää kuin 4 ufoa kerrallaan näytölle
+            if (timer >= 2)
+            {
+                timer = 0;
+                if (helpTimer < 80)
                 {
-                    timer = 0;
-                    if (helpTimer < 80)
+                    if (ufoArray.Count < 5)
                     {
-                        if (ufoArray.Count < 5)
-                        {
-                            Ufo ufo = new Ufo(ufoTexture, alien, Player);
-                            ufoArray.Add(ufo);
-                        }
+                        Ufo ufo = new Ufo(ufoTexture, alien, Player);
+                        ufoArray.Add(ufo);
                     }
-                    if (helpTimer > 80)
+                }
+                if (helpTimer > 80)
+                {
+                    if (ufoArray.Count < 8)
                     {
-                        if (ufoArray.Count < 8)
-                        {
-                            Ufo ufo = new Ufo(ufoTexture, alien, Player);
-                            ufoArray.Add(ufo);
-                        }
+                        Ufo ufo = new Ufo(ufoTexture, alien, Player);
+                        ufoArray.Add(ufo);
                     }
-                } 
+                }
+            }
         }
-       
+
         public void UpdateUfos(GameTime gameTime)
         {
             gameTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (gameTimer >= 12.5)
             {
-                if (gameTimer <= 150)
+                if (gameTimer <= 20)
                 {
                     AddUfos(gameTime);
-                    
+
                 }
-                
+
 
                 if (ufoArray != null)
                 {
                     for (int i = ufoArray.Count - 1; i >= 0; i--)
                     {
                         ufoArray[i].Update();
-                        
-                        
+
+
                         if (ufoArray[i].active == false)
                         {
                             AddExplosion(ufoArray[i].position);
                             ufoArray.RemoveAt(i);
                         }
-                        
+
                     }
                 }
             }
@@ -338,14 +339,14 @@ namespace SpacuShuutar
                 {
                     previousSpawnTime = gameTime.TotalGameTime;
                     //BOSSIA VARTEN@@
-                    if (startGameTimer <= 150)
+                    if (startGameTimer <= 20)
                         AddAsteroid();
                 }
                 for (int i = asteroidArray.Count - 1; i >= 0; i--)
                 {
 
                     asteroidArray[i].Update(gameTime);
-                   
+
                     if (asteroidArray[i].active == false)
                     {
                         if (asteroidArray[i].health <= 0)
@@ -354,7 +355,7 @@ namespace SpacuShuutar
                         }
                         asteroidArray.RemoveAt(i);
                     }
-                    
+
                 }
                 foreach (Asteroid a in asteroidArray)
                 {
@@ -398,7 +399,7 @@ namespace SpacuShuutar
                     Player.homingammo += homingArray[a].plusAmmo;
                     homingArray[a].pickedUp = true;
                 }
-               
+
             }
             for (int q = 0; q < ufoArray.Count; q++)
             {
@@ -475,7 +476,7 @@ namespace SpacuShuutar
             }
         }
 
-       
+
 
         //Hoidetaan ampuminen ja ammusten collisionit
         private void updateBulletCollisionsAndShoot(GameTime gameTime)
@@ -545,128 +546,117 @@ namespace SpacuShuutar
                         shootCounter++;
                 }
             }
-                    //Käydään läpi kaikki ammutut luodit
-                    for (int a = 0; a < bulletArray.Count; a++)
+            //Käydään läpi kaikki ammutut luodit
+            for (int a = 0; a < bulletArray.Count; a++)
+            {
+                //Katsotaan luodin alkusijainti, ja käydään läpi asteroidit, jos nämä kaksi rectanglea collide -> tuhotaan luoti sekä asteroidi ja kasvatetaan scorea
+                rectangle1 = new Rectangle((int)bulletArray[a].position.X, (int)bulletArray[a].position.Y, bulletArray[a].Width, bulletArray[a].Height);
+                for (int i = 0; i < asteroidArray.Count; i++)
+                {
+                    rectangle2 = new Rectangle((int)asteroidArray[i].position.X, (int)asteroidArray[i].position.Y, asteroidArray[i].Width, asteroidArray[i].Height);
+                    if (rectangle1.Intersects(rectangle2))
                     {
-                        //Katsotaan luodin alkusijainti, ja käydään läpi asteroidit, jos nämä kaksi rectanglea collide -> tuhotaan luoti sekä asteroidi ja kasvatetaan scorea
-                        rectangle1 = new Rectangle((int)bulletArray[a].position.X, (int)bulletArray[a].position.Y, bulletArray[a].Width, bulletArray[a].Height);
-                        for (int i = 0; i < asteroidArray.Count; i++)
+                        Player.combo++;
+                        enemiesKilled++;
+                        bulletArray[a].Dead = true;
+                        asteroidArray[i].health -= bulletArray[a].damage;
+                        if (asteroidArray[i].health <= 0)
                         {
-                            rectangle2 = new Rectangle((int)asteroidArray[i].position.X, (int)asteroidArray[i].position.Y, asteroidArray[i].Width, asteroidArray[i].Height);
-                            if (rectangle1.Intersects(rectangle2))
+                            random = new Random();
+                            int number = random.Next(1, 3);
+                            switch (number)
                             {
-                                Player.combo++;
-                                enemiesKilled++;
-                                bulletArray[a].Dead = true;
-                                asteroidArray[i].health -= bulletArray[a].damage;
-                                if (asteroidArray[i].health <= 0)
-                                {
-                                    random = new Random();
-                                    int number = random.Next(1, 3);
-                                    switch (number)
-                                    {
-                                        case 1:
-                                            exp1.Play(0.5f, 0, 0);
-                                            break;
+                                case 1:
+                                    exp1.Play(0.5f, 0, 0);
+                                    break;
 
-                                        case 2:
-                                            exp2.Play(0.5f, 0, 0);
-                                            break;
+                                case 2:
+                                    exp2.Play(0.5f, 0, 0);
+                                    break;
 
-                                        case 3:
-                                            exp3.Play(0.5f, 0, 0);
-                                            break;
-                                    }
-                                    //Mitä isompi combo, sitä enemmän saa pisteitä vihollisesta
-                                    Player.score += asteroidArray[i].score + (Player.combo * 2);
-
-                                    //Rollaillaan vähän ettei ihan liian helposti tule powarUpsei
-                                    int letsRollaBitRare = random.Next(1, 15);
-                                   
-                                    if (letsRollaBitRare == 3 && MiniGun.isActive == false)
-                                    {
-                                        MiniGun.isActive = true;
-                                        HomingMinigunPowarUp muchPower = new HomingMinigunPowarUp(supaGun, new Vector2(asteroidArray[i].position.X, asteroidArray[i].position.Y));
-                                        homingArray.Add(muchPower);
-                                    }
-                                    
-                                }
+                                case 3:
+                                    exp3.Play(0.5f, 0, 0);
+                                    break;
                             }
-                        }
-                        for (int i = 0; i < ufoArray.Count; i++)
-                        {
-                            UfoRectangle = new Rectangle((int)ufoArray[i].position.X, (int)ufoArray[i].position.Y, ufoArray[i].Width, ufoArray[i].Height);
-                            if (rectangle1.Intersects(UfoRectangle))
+                            //Mitä isompi combo, sitä enemmän saa pisteitä vihollisesta
+                            Player.score += asteroidArray[i].score + (Player.combo * 2);
+
+                            //Rollaillaan vähän ettei ihan liian helposti tule powarUpsei
+                            int letsRollaBitRare = random.Next(1, 15);
+
+                            if (letsRollaBitRare == 3 && MiniGun.isActive == false)
                             {
-                                bulletArray[a].Dead = true;
-                                Player.combo++;
-                                enemiesKilled++;
-                                ufoArray[i].health -= bulletArray[a].damage;
-                                if (ufoArray[i].health <= 0)
-                                {
-                                    random = new Random();
-                                    int number = random.Next(1, 3);
-                                    switch (number)
-                                    {
-                                        case 1:
-                                            exp1.Play(0.5f, 0, 0);
-                                            break;
-
-                                        case 2:
-                                            exp2.Play(0.5f, 0, 0);
-                                            break;
-
-                                        case 3:
-                                            exp3.Play(0.5f, 0, 0);
-                                            break;
-                                    }
-                                    //Mitä isompi combo, sitä enemmän saa pisteitä vihollisesta
-                                    Player.score += ufoArray[i].score + (Player.combo * 2);
-                                    
-                                    int letsRollaBitRare = random.Next(1, 15);
-
-                                    if (letsRollaBitRare == 3 && MiniGun.isActive == false)
-                                    {
-                                        MiniGun.isActive = true;
-                                        HomingMinigunPowarUp muchPower = new HomingMinigunPowarUp(supaGun, new Vector2(asteroidArray[i].position.X, asteroidArray[i].position.Y));
-                                        homingArray.Add(muchPower);
-                                    }
-                                }
-
+                                MiniGun.isActive = true;
+                                HomingMinigunPowarUp muchPower = new HomingMinigunPowarUp(supaGun, new Vector2(asteroidArray[i].position.X, asteroidArray[i].position.Y));
+                                homingArray.Add(muchPower);
                             }
-                        }
-                        for (int i = 0; i < bossArray.Count; i++)
-                        {
-                            bossRectangle = new Rectangle((int)bossArray[i].position.X, (int)bossArray[i].position.Y, bossArray[i].Width, bossArray[i].Height);
-                            if (rectangle1.Intersects(bossRectangle))
-                            {
-                                bulletArray[a].Dead = true;
-                                bossArray[i].health -= bulletArray[a].damage;
-                                bossArray[i].hit = true;
-                                if (bossArray[i].health <= 0)
-                                {
-                                    Player.score += 5000;
-                                    bossArray[i].active = false;
-                                }
-                            }
+
                         }
                     }
-        }
-        public bool LetsSpawnThisBeast(GameTime gameTime)
-        {
-            MediaPlayer.Play(bossSong);
-            timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (timer >= 10)
-            {
-                boss.active = true;
-                return bossActive = true;
+                }
+                for (int i = 0; i < ufoArray.Count; i++)
+                {
+                    UfoRectangle = new Rectangle((int)ufoArray[i].position.X, (int)ufoArray[i].position.Y, ufoArray[i].Width, ufoArray[i].Height);
+                    if (rectangle1.Intersects(UfoRectangle))
+                    {
+                        bulletArray[a].Dead = true;
+                        Player.combo++;
+                        enemiesKilled++;
+                        ufoArray[i].health -= bulletArray[a].damage;
+                        if (ufoArray[i].health <= 0)
+                        {
+                            random = new Random();
+                            int number = random.Next(1, 3);
+                            switch (number)
+                            {
+                                case 1:
+                                    exp1.Play(0.5f, 0, 0);
+                                    break;
+
+                                case 2:
+                                    exp2.Play(0.5f, 0, 0);
+                                    break;
+
+                                case 3:
+                                    exp3.Play(0.5f, 0, 0);
+                                    break;
+                            }
+                            //Mitä isompi combo, sitä enemmän saa pisteitä vihollisesta
+                            Player.score += ufoArray[i].score + (Player.combo * 2);
+
+                            int letsRollaBitRare = random.Next(1, 15);
+
+                            if (letsRollaBitRare == 3 && MiniGun.isActive == false)
+                            {
+                                MiniGun.isActive = true;
+                                HomingMinigunPowarUp muchPower = new HomingMinigunPowarUp(supaGun, new Vector2(asteroidArray[i].position.X, asteroidArray[i].position.Y));
+                                homingArray.Add(muchPower);
+                            }
+                        }
+
+                    }
+                }
+                for (int i = 0; i < bossArray.Count; i++)
+                {
+                    bossRectangle = new Rectangle((int)bossArray[i].position.X, (int)bossArray[i].position.Y, bossArray[i].Width, bossArray[i].Height);
+                    if (rectangle1.Intersects(bossRectangle))
+                    {
+                        bulletArray[a].Dead = true;
+                        bossArray[i].health -= bulletArray[a].damage;
+                        bossArray[i].hit = true;
+                        if (bossArray[i].health <= 0)
+                        {
+                            Player.score += 5000;
+                            bossArray[i].active = false;
+                        }
+                    }
+                }
             }
-            else
-                return bossActive = false;
         }
         
+
         // JUU ELIKKÄS SE TOIMII...Bossille ei nyt ihan vielä ":D" :D::D:D
-        
+
         private void UpdateHomingCollisions()
         {
             Rectangle rectangle1;
@@ -677,7 +667,7 @@ namespace SpacuShuutar
 
             if (Player.homingammo > 0 && mGunCounter > 10 && MiniGun.target != null && MiniGun.isActive)
             {
-                
+
                 MiniGunBullet bullet = new MiniGunBullet(mgunBulletTexture, Vector2.Subtract(MiniGun.center, new Vector2(mgunBulletTexture.Width / 2)), MiniGun.rotation, Player);
                 machinegun.Play(0.2f, 0.0f, 0.0f);
                 mgunBulletArray.Add(bullet);
@@ -724,7 +714,7 @@ namespace SpacuShuutar
                             }
                             int letsRoll = random.Next(1, 5);
                             int letsRollaBitRare = random.Next(1, 15);
-                           
+
                             if (letsRollaBitRare == 3 && MiniGun.isActive == false)
                             {
                                 MiniGun.isActive = true;
@@ -773,7 +763,7 @@ namespace SpacuShuutar
                         }
                     }
                 }
-                
+
                 for (int c = 0; c < bossArray.Count; c++)
                 {
                     if (bossArray[c].active == true)
@@ -806,7 +796,7 @@ namespace SpacuShuutar
                 }
             }
         }
-         
+
         //Kaippa tätäkin vois käyttää... :D
         public void ClearEverything()
         {
@@ -859,7 +849,7 @@ namespace SpacuShuutar
             //Katotaan missä mennään ja perus päivittelyt
             switch (gameState)
             {
-               
+
                 case GameStates.Intro:
                     introScreen.Update(gameTime);
                     if (introScreen.Level == 1)
@@ -868,8 +858,8 @@ namespace SpacuShuutar
                         MediaPlayer.Play(menuSong);
                     }
                     break;
-                
-                
+
+
                 case GameStates.Menu:
 
                     starfield.Update(gameTime);
@@ -882,11 +872,11 @@ namespace SpacuShuutar
                     particleEngine.Update();
                     if (play.isClicked == true)
                     {
-                            gameState = GameStates.ShipChoose;
+                        gameState = GameStates.ShipChoose;
                     }
                     if (options.isClicked == true)
                         gameState = GameStates.Options;
-                    
+
                     if (quit.isClicked)
                     {
                         Exit();
@@ -914,8 +904,8 @@ namespace SpacuShuutar
                         Player.health = 100;
                         MediaPlayer.Stop();
                         MediaPlayer.Play(gameSong);
-                        gameState = GameStates.Playing;
-                        
+                        gameState = GameStates.Level1;
+
                     }
                     if (ship2.isClicked == true)
                     {
@@ -924,18 +914,18 @@ namespace SpacuShuutar
                         Player.health = 200;
                         MediaPlayer.Stop();
                         MediaPlayer.Play(gameSong);
-                        gameState = GameStates.Playing;
-                       
+                        gameState = GameStates.Level1;
+
                     }
                     if (ship3.isClicked == true)
                     {
                         Player.playerTexture = ship_3;
-                        Player.health = 500;
+                        Player.health = 500000;
                         Player.damage = 25;
                         MediaPlayer.Stop();
                         MediaPlayer.Play(gameSong);
-                        gameState = GameStates.Playing;
-                        
+                        gameState = GameStates.Level1;
+
                     }
                     if (ship1.showInfo)
                     {
@@ -956,28 +946,23 @@ namespace SpacuShuutar
                         ship3active = true;
                     }
                     break;
-                   
 
-                case GameStates.Playing:
+
+                case GameStates.Level1:
                     {
-                        
+
                         //starfield.Update(gameTime);
                         UpdateEnemies(gameTime);
                         UpdateUfos(gameTime);
                         particleEngine.EmitterLocation = new Vector2(Player.Position.X, Player.Position.Y);
                         particleEngine.Update();
                         //spriteAnimation.Update(gameTime);
-                        if (gameTimer > 150)
+                        if (gameTimer > 20)
                         {
-                            LetsSpawnThisBeast(gameTime);
-                            if (bossActive == true)
-                            {
-                                boss.Initialize(new Vector2(900, 600));
-                                for (int i = 0; i < bossArray.Count; i++)
-                                    bossArray[i].Update(gameTime);
-                            }
+                            gameState = GameStates.Boss;
+                            MediaPlayer.Play(bossSong);
                         }
- 
+
                         if (Player.ready)
                             updateBulletCollisionsAndShoot(gameTime);
 
@@ -1008,7 +993,7 @@ namespace SpacuShuutar
                                     mgunBulletArray.RemoveAt(i);
                                     i--;
                                 }
-                                
+
                             }
                         }
 
@@ -1027,29 +1012,51 @@ namespace SpacuShuutar
                                 }
                             }
                         }
-                        if (boss.victory == true)
-                        {
-                            MediaPlayer.Play(winner);
-                            hiScores.ReadFile();
-                            hiScores.WriteFile(Player.score);
-                            gameState = GameStates.Victory;
-                            
-                        }
+                      
                         UpdateCollisions(gameTime);
                         Player.Update(gameTime);
                         if (MiniGun.isActive)
                             MiniGun.Update(gameTime);
                         ClosestEnemy(asteroidArray, ufoArray, bossArray);
                         UpdateHomingCollisions();
-                       
+                        if (bulletArray != null)
+                        {
+                            for (int i = 0; i < bulletArray.Count; i++)
+                            {
+                                bulletArray[i].Update();
+                                if (bulletArray[i].Dead)
+                                {
+                                    bulletArray.RemoveAt(i);
+                                    i--;
+                                }
+                            }
+                        }
+                        if (mgunBulletArray != null)
+                        {
+                            for (int i = 0; i < mgunBulletArray.Count; i++)
+                            {
+                                mgunBulletArray[i].SetRotation();
+                                mgunBulletArray[i].Update(gameTime);
+                                if (!MiniGun.IsInRange(mgunBulletArray[i].center))
+                                {
+                                    mgunBulletArray[i].Destroy();
+                                }
+                                if (mgunBulletArray[i].dead == true)
+                                {
+                                    mgunBulletArray.RemoveAt(i);
+                                    i--;
+                                }
+
+                            }
+                        }
                         if ((Keyboard.GetState().IsKeyDown(Keys.Escape)))
                         {
                             gameState = GameStates.Pause;
-                            
+
                         }
                         if (Player.health <= 0)
                         {
-                           
+
                             string points = Player.score.ToString();
                             gameState = GameStates.GameOver;
                             MediaPlayer.Play(gamuover);
@@ -1061,12 +1068,97 @@ namespace SpacuShuutar
                     }
                     break;
 
-             
+                case GameStates.Boss:
+                    {
+                        timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                        if (timer >= 10 && bossArray.Count < 1)
+                        {
+                            boss = new Boss(bossTexture);
+                            bossArray.Add(boss);
+                            boss.active = true;
+                            bossActive = true;
+                        }
+                      
+                        UpdateEnemies(gameTime);
+                        UpdateUfos(gameTime);
+                        particleEngine.EmitterLocation = new Vector2(Player.Position.X, Player.Position.Y);
+                        particleEngine.Update();
+                        UpdateExplosions(gameTime);
+                        UpdateCollisions(gameTime);
+                        updateBulletCollisionsAndShoot(gameTime);
+                        Player.Update(gameTime);
+                        if (MiniGun.isActive)
+                            MiniGun.Update(gameTime);
+                        ClosestEnemy(asteroidArray, ufoArray, bossArray);
+                        UpdateHomingCollisions();
+                        if (bossActive == true)
+                        {
+                            for (int i = 0; i < bossArray.Count; i++)
+                            {
+                                bossArray[i].Shot(gameTime);
+                                bossArray[i].Update(gameTime);
+                                if (bossArray[i].victory == true)
+                                {
+                                    MediaPlayer.Play(winner);
+                                    hiScores.ReadFile();
+                                    hiScores.WriteFile(Player.score);
+                                    gameState = GameStates.Victory;
+
+                                }
+                            }
+                        }
+                        if (bulletArray != null)
+                        {
+                            for (int i = 0; i < bulletArray.Count; i++)
+                            {
+                                bulletArray[i].Update();
+                                if (bulletArray[i].Dead)
+                                {
+                                    bulletArray.RemoveAt(i);
+                                    i--;
+                                }
+                            }
+                        }
+                        if (mgunBulletArray != null)
+                        {
+                            for (int i = 0; i < mgunBulletArray.Count; i++)
+                            {
+                                mgunBulletArray[i].SetRotation();
+                                mgunBulletArray[i].Update(gameTime);
+                                if (!MiniGun.IsInRange(mgunBulletArray[i].center))
+                                {
+                                    mgunBulletArray[i].Destroy();
+                                }
+                                if (mgunBulletArray[i].dead == true)
+                                {
+                                    mgunBulletArray.RemoveAt(i);
+                                    i--;
+                                }
+
+                            }
+                        }
+                       
+                        if ((Keyboard.GetState().IsKeyDown(Keys.Escape)))
+                        {
+                            gameState = GameStates.Pause;
+
+                        }
+                        if (Player.health <= 0)
+                        {
+
+                            string points = Player.score.ToString();
+                            gameState = GameStates.GameOver;
+                            MediaPlayer.Play(gamuover);
+                            hiScores.WriteFile(Player.score);
+                        }
+                        base.Update(gameTime);
+                    }
+                    break;
                 case GameStates.Pause:
                     {
                         if ((Keyboard.GetState().IsKeyDown(Keys.Enter)))
                         {
-                            gameState = GameStates.Playing;
+                            gameState = GameStates.Level1;
                         }
                         else if ((Keyboard.GetState().IsKeyDown(Keys.X)))
                         {
@@ -1105,7 +1197,7 @@ namespace SpacuShuutar
                             ClearEverything();
                             boss.active = false;
                             boss.victory = false;
-                            gameState = GameStates.Playing;
+                            gameState = GameStates.Level1;
                             MediaPlayer.Play(gameSong);
                         }
                     }
@@ -1120,13 +1212,13 @@ namespace SpacuShuutar
                             gameState = GameStates.Menu;
                             MediaPlayer.Play(menuSong);
                         }
-                       
+
                     }
                     break;
             }
             base.Update(gameTime);
         }
-#endregion
+        #endregion
         #region PIIRROT
         protected override void Draw(GameTime gameTime)
         {
@@ -1136,7 +1228,7 @@ namespace SpacuShuutar
             spriteBatch.Begin();
             if (gameState == GameStates.Intro)
                 introScreen.Draw(spriteBatch);
-           
+
             if (gameState == GameStates.Menu)
             {
                 play.Draw(spriteBatch);
@@ -1150,9 +1242,9 @@ namespace SpacuShuutar
                 menuPlayer.DrawMenu(spriteBatch);
                 particleEngine.Draw(spriteBatch);
                 starfield.Draw(spriteBatch);
-              
-                
-                
+
+
+
             }
 
             else if (gameState == GameStates.ShipChoose)
@@ -1168,29 +1260,20 @@ namespace SpacuShuutar
                 if (ship3active)
                     spriteBatch.Draw(ship3info, new Rectangle(700, 200, 450, 275), Color.White);
             }
-            else if (gameState == GameStates.Playing)
+            else if (gameState == GameStates.Level1)
             {
                 //Purkka jolla muutetaan hiscore.scores listasta stringi intiks. 
                 int hiscore;
                 Int32.TryParse(hiScores.scores[0], out hiscore);
 
                 timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-                
+
 
                 //starfield.Draw(spriteBatch);
                 particleEngine.Draw(spriteBatch);
-                if (bossActive == true)
-                {
-                    for (int i = 0; i < bossArray.Count; i++)
-                    {
-                        bossArray[i].Draw(spriteBatch);
-                        spriteBatch.DrawString(font, "Boss Health " + bossArray[i].health, new Vector2(900, 15), Color.White);
-                    }
-
-                }
                 //Piirrellään ja päivitellään tietoja pelaajan statistiikoista.
                 healthBar.Draw(spriteBatch);
-                
+
                 spriteBatch.DrawString(font, "Health " + Player.health, new Vector2(50, 30), Color.White);
                 spriteBatch.DrawString(font, "Score " + Player.score, new Vector2(50, 150), Color.White);
                 spriteBatch.DrawString(font, "HighScore " + hiScores.scores[0], new Vector2(50, 200), Color.White);
@@ -1222,7 +1305,7 @@ namespace SpacuShuutar
                     if (minigunTimer < 35)
                         spriteBatch.DrawString(epicfont, "Minigun Activated!", new Vector2(650, 400), Color.White);
                 }
-               
+
 
                 foreach (MiniGunBullet b in mgunBulletArray)
                 {
@@ -1235,8 +1318,8 @@ namespace SpacuShuutar
                     if (d != null)
                         d.Draw(spriteBatch);
                 }
-                
-              
+
+
 
                 for (int i = 0; i < asteroidArray.Count; i++)
                 {
@@ -1247,7 +1330,7 @@ namespace SpacuShuutar
                     if (u != null)
                     {
                         u.Draw(spriteBatch);
-                      
+
                     }
                 }
 
@@ -1263,13 +1346,104 @@ namespace SpacuShuutar
                 Player.Draw(spriteBatch);
                 if (MiniGun.isActive)
                     MiniGun.Draw(spriteBatch);
+
+
+            }
+            else if (gameState == GameStates.Boss)
+            {
+                int hiscore;
+                Int32.TryParse(hiScores.scores[0], out hiscore);
+
+                timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+
+                //starfield.Draw(spriteBatch);
+                particleEngine.Draw(spriteBatch);
+                if (bossActive == true)
+                {
+                    for (int i = 0; i < bossArray.Count; i++)
+                    {
+                        bossArray[i].Draw(spriteBatch);
+                        spriteBatch.DrawString(font, "Boss Health " + bossArray[i].health, new Vector2(900, 15), Color.White);
+                    }
+
+                }
+                //Piirrellään ja päivitellään tietoja pelaajan statistiikoista.
+                healthBar.Draw(spriteBatch);
+                if (timer > 1 && timer < 11)
+                    spriteBatch.DrawString(epicfont, "DANGER AHEAD!", new Vector2(650, 400), Color.White);
+                spriteBatch.DrawString(font, "Health " + Player.health, new Vector2(50, 30), Color.White);
+                spriteBatch.DrawString(font, "Score " + Player.score, new Vector2(50, 150), Color.White);
+                spriteBatch.DrawString(font, "HighScore " + hiScores.scores[0], new Vector2(50, 200), Color.White);
+                spriteBatch.DrawString(font, "Combo " + Player.combo, new Vector2(50, 100), Color.White);
+                spriteBatch.DrawString(font, "Gun: " + Player.currentGun, new Vector2(50, 250), Color.White);
+                if (Player.homingammo > 0)
+                    spriteBatch.DrawString(font, "HomingAmmo: " + Player.homingammo, new Vector2(50, 300), Color.White);
+                else if (Player.homingammo == 0)
+                    spriteBatch.DrawString(font, "You are out of ammunition!", new Vector2(50, 300), Color.White);
+                spriteBatch.DrawString(font, "Enemies killed: " + enemiesKilled, new Vector2(50, 400), Color.White);
+                spriteBatch.DrawString(font, "Velocity " + Player.velocity, new Vector2(50, 500), Color.White);
+                spriteBatch.DrawString(font, "Position " + Player.arrowPosition, new Vector2(50, 550), Color.White);
                 
+                if (Player.score > hiscore)
+                {
+                    hsTimer++;
+                    if (hsTimer < 75)
+                        spriteBatch.DrawString(epicfont, "New Highscore!!", new Vector2(650, 400), Color.White);
+                }
+                else if (MiniGun.isActive)
+                {
+                    minigunTimer++;
+                    if (minigunTimer < 35)
+                        spriteBatch.DrawString(epicfont, "Minigun Activated!", new Vector2(650, 400), Color.White);
+                }
+
+
+                foreach (MiniGunBullet b in mgunBulletArray)
+                {
+                    if (b != null)
+                        b.Draw(spriteBatch);
+                }
+
+                foreach (HomingMinigunPowarUp d in homingArray)
+                {
+                    if (d != null)
+                        d.Draw(spriteBatch);
+                }
+
+
+
+                for (int i = 0; i < asteroidArray.Count; i++)
+                {
+                    asteroidArray[i].Draw(spriteBatch);
+                }
+                foreach (Ufo u in ufoArray)
+                {
+                    if (u != null)
+                    {
+                        u.Draw(spriteBatch);
+
+                    }
+                }
+
+                foreach (Bullet b in bulletArray)
+                {
+                    if (b != null)
+                        b.Draw(spriteBatch);
+                }
+                for (int i = 0; i < explosions.Count; i++)
+                {
+                    explosions[i].Draw(spriteBatch);
+                }
+                Player.Draw(spriteBatch);
+                if (MiniGun.isActive)
+                    MiniGun.Draw(spriteBatch);
 
             }
             else if (gameState == GameStates.Victory)
             {
                 spriteBatch.Draw(victory, new Rectangle(0, 0, 1920, 1080), Color.White);
-                spriteBatch.DrawString(epicfont, "Your score is: " + Player.score , new Vector2(700, 700), Color.White);
+                spriteBatch.DrawString(epicfont, "Your score is: " + Player.score, new Vector2(700, 700), Color.White);
             }
             else if (gameState == GameStates.Pause)
             {
@@ -1290,7 +1464,7 @@ namespace SpacuShuutar
             spriteBatch.End();
             base.Draw(gameTime);
         }
-       
+
     }
 }
         #endregion

@@ -22,11 +22,11 @@
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\bin\Windows8\x86\Debug\SpacuShuutar.exe">
       <PackagePath>SpacuShuutar.exe</PackagePath>
-      <Modified>2014-07-21T13:32:39.481</Modified>
+      <Modified>2014-07-26T19:48:57.061</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\bin\Windows8\x86\Debug\SpacuShuutar.pdb">
       <PackagePath>SpacuShuutar.pdb</PackagePath>
-      <Modified>2014-07-21T13:32:39.462</Modified>
+      <Modified>2014-07-26T19:48:56.511</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\MSBuild\..\MonoGame\v3.0\Assemblies\Windows8\MonoGame.Framework.dll">
       <PackagePath>MonoGame.Framework.dll</PackagePath>
