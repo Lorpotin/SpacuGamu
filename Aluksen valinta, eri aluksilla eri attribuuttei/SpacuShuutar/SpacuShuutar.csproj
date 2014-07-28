@@ -167,6 +167,9 @@
     <Content Include="Content\asteroid.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\background.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\bigasteroid.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

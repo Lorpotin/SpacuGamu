@@ -16,17 +16,17 @@
     <AppXManifest Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\bin\Windows8\x86\Debug\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2014-07-21T09:50:19.638</Modified>
+      <Modified>2014-07-28T18:17:17.564</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\bin\Windows8\x86\Debug\SpacuShuutar.exe">
       <PackagePath>SpacuShuutar.exe</PackagePath>
-      <Modified>2014-07-27T14:46:52.485</Modified>
+      <Modified>2014-07-28T18:17:16.301</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\bin\Windows8\x86\Debug\SpacuShuutar.pdb">
       <PackagePath>SpacuShuutar.pdb</PackagePath>
-      <Modified>2014-07-27T14:46:52.465</Modified>
+      <Modified>2014-07-28T18:17:16.279</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\MSBuild\..\MonoGame\v3.0\Assemblies\Windows8\MonoGame.Framework.dll">
       <PackagePath>MonoGame.Framework.dll</PackagePath>
@@ -88,6 +88,10 @@
       <PackagePath>Content\asteroid.png</PackagePath>
       <Modified>2014-07-13T07:56:09.355</Modified>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\background.png">
+      <PackagePath>Content\background.png</PackagePath>
+      <Modified>2014-07-28T16:04:58.000</Modified>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\bigasteroid.png">
       <PackagePath>Content\bigasteroid.png</PackagePath>
       <Modified>2014-04-13T18:42:43.000</Modified>
@@ -102,7 +106,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\bullet.png">
       <PackagePath>Content\bullet.png</PackagePath>
-      <Modified>2014-03-24T19:00:00.000</Modified>
+      <Modified>2014-07-28T15:57:16.000</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\Choose.png">
       <PackagePath>Content\Choose.png</PackagePath>
@@ -390,7 +394,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\bin\Windows8\x86\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2014-07-21T09:50:19.587</Modified>
+      <Modified>2014-07-28T18:17:16.948</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

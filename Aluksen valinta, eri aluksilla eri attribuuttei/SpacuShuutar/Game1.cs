@@ -23,7 +23,7 @@ namespace SpacuShuutar
         public GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
         //Use enum to make own data type -> lets get the state where we are
-        public enum GameStates { Menu, Level1, Boss, GameOver, Pause, Highscores, Intro, Fade, Options, ShipChoose, Credits, Victory};
+        public enum GameStates { Menu, Level1, Boss, GameOver, Pause, Highscores, Intro, Fade, Options, ShipChoose, Credits, Victory };
         public GameStates gameState = GameStates.Intro;
         public GameStates NextGameState = GameStates.Intro;
         public Texture2D ship1info, ship2info, ship3info;
@@ -56,10 +56,9 @@ namespace SpacuShuutar
         public Player Player;
         public Bullet Bullet;
         public Button play, quit, options, ship1, ship2, ship3, playAgain;
-      
+
         public Texture2D Choose;
         public Texture2D ship_1, ship_2, ship_3, _credits;
-        public Texture2D MenuBackground;
         public Texture2D playTexture;
         public Texture2D quitTexture;
         public Texture2D helpTexture;
@@ -129,6 +128,7 @@ namespace SpacuShuutar
             spriteBatch = new SpriteBatch(GraphicsDevice);
             //Ladataan grafiikat Content-pipelineen
             star = Content.Load<Texture2D>("star");
+            backGroundTexture = Content.Load<Texture2D>("background");
             pause = Content.Load<Texture2D>("pause");
             player = Content.Load<Texture2D>("ship");
             menuShip = Content.Load<Texture2D>("menuship");
@@ -189,7 +189,7 @@ namespace SpacuShuutar
             MiniGun = new Minigun(supaGun, Player, false);
             hiScores = new Highscore(font);
             introScreen = new IntroVideo(intro);
-            
+
             //Menua varten
             menuPlayer = new Player(Bullet, menuShip);
             //Menu-valikon näppäimet
@@ -644,7 +644,7 @@ namespace SpacuShuutar
                 }
             }
         }
-        
+
 
         // JUU ELIKKÄS SE TOIMII...Bossille ei nyt ihan vielä ":D" :D::D:D
 
@@ -942,7 +942,7 @@ namespace SpacuShuutar
                 case GameStates.Level1:
                     {
 
-                        //starfield.Update(gameTime);
+                        starfield.Update(gameTime);
                         UpdateEnemies(gameTime);
                         UpdateUfos(gameTime);
                         particleEngine.EmitterLocation = new Vector2(Player.Position.X, Player.Position.Y);
@@ -988,8 +988,6 @@ namespace SpacuShuutar
                             }
                         }
 
-                        //Poistetaan powerUp kun kerätty!
-
                         //Poistetaan minigun powerup kun kerätty!
                         if (homingArray != null)
                         {
@@ -1003,7 +1001,7 @@ namespace SpacuShuutar
                                 }
                             }
                         }
-                      
+
                         UpdateCollisions(gameTime);
                         Player.Update(gameTime);
                         if (MiniGun.isActive)
@@ -1069,12 +1067,12 @@ namespace SpacuShuutar
                         timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
                         if (timer >= 10 && bossArray.Count < 1)
                         {
-                            boss = new Boss(bossTexture, Player);
+                            boss = new Boss(bossTexture, Player, bulletTexture);
                             bossArray.Add(boss);
                             boss.active = true;
                             bossActive = true;
                         }
-                      
+                        starfield.Update(gameTime);
                         UpdateEnemies(gameTime);
                         UpdateUfos(gameTime);
                         particleEngine.EmitterLocation = new Vector2(Player.Position.X, Player.Position.Y);
@@ -1133,7 +1131,7 @@ namespace SpacuShuutar
 
                             }
                         }
-                       
+
                         if ((Keyboard.GetState().IsKeyDown(Keys.Escape)))
                         {
                             gameState = GameStates.Pause;
@@ -1231,13 +1229,14 @@ namespace SpacuShuutar
 
             if (gameState == GameStates.Menu)
             {
+                spriteBatch.Draw(backGroundTexture, new Rectangle(0, 0, 1920, 1080), Color.White);
                 play.Draw(spriteBatch);
                 options.Draw(spriteBatch);
                 quit.Draw(spriteBatch);
                 if (menuPlayer.menuPosition.X >= 1200)
-                    spriteBatch.DrawString(epicfont, "Spacu Shooter", new Vector2(670, 70), Color.Cyan);
+                    spriteBatch.DrawString(epicfont, "Spauc Shuutar", new Vector2(670, 70), Color.Cyan);
                 if (menuPlayer.menuPosition.X >= 2100)
-                    spriteBatch.DrawString(epicfont, "Wow", new Vector2(825, 145), Color.Cyan);
+                    spriteBatch.DrawString(epicfont, "It's over OOOO ", new Vector2(680, 145), Color.Cyan);
                 menuPlayer.playerTexture = menuShip;
                 menuPlayer.DrawMenu(spriteBatch);
                 particleEngine.Draw(spriteBatch);
@@ -1245,11 +1244,12 @@ namespace SpacuShuutar
 
 
 
+
             }
 
             else if (gameState == GameStates.ShipChoose)
             {
-                spriteBatch.Draw(Choose, new Rectangle(0, 0, 1920, 1080), Color.White);
+                spriteBatch.Draw(backGroundTexture, new Rectangle(0, 0, 1920, 1080), Color.White);
                 ship1.Draw(spriteBatch);
                 ship2.Draw(spriteBatch);
                 ship3.Draw(spriteBatch);
@@ -1268,8 +1268,8 @@ namespace SpacuShuutar
 
                 timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-
-                //starfield.Draw(spriteBatch);
+                spriteBatch.Draw(backGroundTexture, new Rectangle(0, 0, 1920, 1080), Color.White);
+                starfield.Draw(spriteBatch);
                 particleEngine.Draw(spriteBatch);
                 //Piirrellään ja päivitellään tietoja pelaajan statistiikoista.
                 healthBar.Draw(spriteBatch);
@@ -1319,8 +1319,6 @@ namespace SpacuShuutar
                         d.Draw(spriteBatch);
                 }
 
-
-
                 for (int i = 0; i < asteroidArray.Count; i++)
                 {
                     asteroidArray[i].Draw(spriteBatch);
@@ -1356,8 +1354,8 @@ namespace SpacuShuutar
 
                 timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-
-                //starfield.Draw(spriteBatch);
+                spriteBatch.Draw(backGroundTexture, new Rectangle(0, 0, 1920, 1080), Color.White);
+                starfield.Draw(spriteBatch);
                 particleEngine.Draw(spriteBatch);
                 if (bossActive == true)
                 {
@@ -1384,7 +1382,7 @@ namespace SpacuShuutar
                 spriteBatch.DrawString(font, "Enemies killed: " + enemiesKilled, new Vector2(50, 400), Color.White);
                 spriteBatch.DrawString(font, "Velocity " + Player.velocity, new Vector2(50, 500), Color.White);
                 spriteBatch.DrawString(font, "Position " + Player.arrowPosition, new Vector2(50, 550), Color.White);
-                
+
                 if (Player.score > hiscore)
                 {
                     hsTimer++;
