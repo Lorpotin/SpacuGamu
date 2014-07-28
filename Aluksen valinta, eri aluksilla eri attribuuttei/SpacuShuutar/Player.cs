@@ -155,8 +155,8 @@ namespace SpacuShuutar
 
                 //Tarkastellaan ettei mennä ulos ruudusta
 
-                arrowPosition.X = MathHelper.Clamp(arrowPosition.X, playerTexture.Width, 1980 - playerTexture.Width);
-                if (arrowPosition.X >= 1980 - playerTexture.Width)
+                arrowPosition.X = MathHelper.Clamp(arrowPosition.X, playerTexture.Width, 1920);
+                if (arrowPosition.X >= 1920)
                 {
                     velocity.X *= -0.3f;
                 }
@@ -164,8 +164,8 @@ namespace SpacuShuutar
                 {
                     velocity.X *= -0.3f;
                 }
-                arrowPosition.Y = MathHelper.Clamp(arrowPosition.Y, playerTexture.Height, 1080 - playerTexture.Height);
-                if (arrowPosition.Y >= 1080 - playerTexture.Height)
+                arrowPosition.Y = MathHelper.Clamp(arrowPosition.Y, playerTexture.Height, 1080);
+                if (arrowPosition.Y >= 1080)
                 {
                     velocity.Y *= -0.3f;
                 }

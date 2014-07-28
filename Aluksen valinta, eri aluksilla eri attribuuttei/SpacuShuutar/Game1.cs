@@ -23,7 +23,7 @@ namespace SpacuShuutar
         public GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
         //Use enum to make own data type -> lets get the state where we are
-        public enum GameStates { Menu, Level1, Boss, GameOver, Pause, Highscores, Intro, Fade, Options, ShipChoose, Credits, Victory };
+        public enum GameStates { Menu, Level1, Boss, GameOver, Pause, Highscores, Intro, Fade, Options, ShipChoose, Credits, Victory};
         public GameStates gameState = GameStates.Intro;
         public GameStates NextGameState = GameStates.Intro;
         public Texture2D ship1info, ship2info, ship3info;
@@ -55,13 +55,8 @@ namespace SpacuShuutar
         public StarField starfield;
         public Player Player;
         public Bullet Bullet;
-        public Button play;
-        public Button quit;
-        public Button options;
-        public Button ship1;
-        public Button ship2;
-        public Button ship3;
-        public Button playAgain;
+        public Button play, quit, options, ship1, ship2, ship3, playAgain;
+      
         public Texture2D Choose;
         public Texture2D ship_1, ship_2, ship_3, _credits;
         public Texture2D MenuBackground;
@@ -88,10 +83,7 @@ namespace SpacuShuutar
         public List<Ufo> ufoArray = new List<Ufo>();
         public List<Texture2D> ParticleTextures = new List<Texture2D>();
         public List<SpriteAnimation> explosions = new List<SpriteAnimation>();
-        public TimeSpan asteroidSpawnTime;
-        public TimeSpan previousSpawnTime;
-        public TimeSpan lastBulletShot;
-        public TimeSpan ShootInterval;
+        public TimeSpan asteroidSpawnTime, previousSpawnTime, lastBulletShot, ShootInterval;
         public SoundEffect exp1, exp2, exp3, laser, machinegun;
         Random random;
         EpicHealthBar healthBar;
@@ -102,7 +94,7 @@ namespace SpacuShuutar
 
         public Texture2D intro;
         public float timer;
-        public float startGameTimer, minigunTimer, hsTimer;
+        public float startGameTimer, minigunTimer, hsTimer, deathTimer;
         public float gameTimer;
         public JetParticle particleEngine;
         public SpriteAnimation spriteAnimation;
@@ -229,11 +221,11 @@ namespace SpacuShuutar
         public void AddExplosion(Vector2 position)
         {
             int number = random.Next(1, 5);
-
+            //Vaihdellaan neljän eri räjähdysanimaation väliltä
             switch (number)
             {
                 case 1:
-
+                    //Luodaan uusi räjähdysanimaatio, eri animaatio eri parametreillä(yhden kuvan koko, leveys, kuvien määrä)
                     SpriteAnimation explosion = new SpriteAnimation(explosionTexture2, 128, 128, 33, 50, Color.White, 1f, false);
                     explosion.Initialize(position);
                     explosions.Add(explosion);
@@ -307,7 +299,6 @@ namespace SpacuShuutar
                 if (gameTimer <= 20)
                 {
                     AddUfos(gameTime);
-
                 }
 
 
@@ -410,15 +401,15 @@ namespace SpacuShuutar
                     switch (number)
                     {
                         case 1:
-                            exp1.Play();
+                            exp1.Play(0.8f, 0.0f, 0.0f);
                             break;
 
                         case 2:
-                            exp2.Play();
+                            exp2.Play(0.8f, 0.0f, 0.0f);
                             break;
 
                         case 3:
-                            exp3.Play();
+                            exp3.Play(0.8f, 0.0f, 0.0f);
                             break;
                     }
                     Player.health -= ufoArray[q].damage;
@@ -437,15 +428,15 @@ namespace SpacuShuutar
                     switch (number)
                     {
                         case 1:
-                            exp1.Play();
+                            exp1.Play(0.8f, 0.0f, 0.0f);
                             break;
 
                         case 2:
-                            exp2.Play();
+                            exp2.Play(0.8f, 0.0f, 0.0f);
                             break;
 
                         case 3:
-                            exp3.Play();
+                            exp3.Play(0.8f, 0.0f, 0.0f);
                             break;
                     }
                     Player.health -= asteroidArray[i].damage;
@@ -1057,10 +1048,15 @@ namespace SpacuShuutar
                         if (Player.health <= 0)
                         {
 
-                            string points = Player.score.ToString();
-                            gameState = GameStates.GameOver;
-                            MediaPlayer.Play(gamuover);
-                            hiScores.WriteFile(Player.score);
+                            deathTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                            AddExplosion(Player.arrowPosition);
+                            if (deathTimer > 2)
+                            {
+                                string points = Player.score.ToString();
+                                gameState = GameStates.GameOver;
+                                MediaPlayer.Play(gamuover);
+                                hiScores.WriteFile(Player.score);
+                            }
                         }
                         UpdateExplosions(gameTime);
 
@@ -1073,7 +1069,7 @@ namespace SpacuShuutar
                         timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
                         if (timer >= 10 && bossArray.Count < 1)
                         {
-                            boss = new Boss(bossTexture);
+                            boss = new Boss(bossTexture, Player);
                             bossArray.Add(boss);
                             boss.active = true;
                             bossActive = true;
@@ -1145,11 +1141,15 @@ namespace SpacuShuutar
                         }
                         if (Player.health <= 0)
                         {
-
-                            string points = Player.score.ToString();
-                            gameState = GameStates.GameOver;
-                            MediaPlayer.Play(gamuover);
-                            hiScores.WriteFile(Player.score);
+                            deathTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                            AddExplosion(Player.arrowPosition);
+                            if (deathTimer > 2)
+                            {
+                                string points = Player.score.ToString();
+                                gameState = GameStates.GameOver;
+                                MediaPlayer.Play(gamuover);
+                                hiScores.WriteFile(Player.score);
+                            }
                         }
                         base.Update(gameTime);
                     }

@@ -21,7 +21,7 @@ namespace SpacuShuutar
 
         public Texture2D bossTexture;
         public Vector2 position;
-        public Vector2 velocity, direction, origin;
+        public Vector2 velocity, direction, origin, shootingDirection;
         public bool active = false;
         public int health;
         public int damage;
@@ -31,8 +31,9 @@ namespace SpacuShuutar
         public bool hit;
         public bool victory;
         Random random = new Random();
+        public Player target;
 
-        public Boss(Texture2D texture)
+        public Boss(Texture2D texture, Player player)
         {
             bossTexture = texture;
             health = 10000;
@@ -42,6 +43,8 @@ namespace SpacuShuutar
             victory = false;
             position = new Vector2(900, 0);
             origin = new Vector2(bossTexture.Width / 2, bossTexture.Height / 2);
+            target = player;
+        
 
         }
      
@@ -56,13 +59,13 @@ namespace SpacuShuutar
 
       
         
-        public void SpinAround()
+        public void SpinAroundAndShoot()
         {
             rotation += 5;
         }
         public void ShootPlayer()
         {
-
+            shootingDirection = Vector2.Normalize(position - target.arrowPosition);
         }
         public Vector2 Evade()
         {
@@ -97,13 +100,13 @@ namespace SpacuShuutar
                 position.Y += 0.4f;
             if (timer >= 18)
             {
-                SpinAround();
+                SpinAroundAndShoot();
             }
 
         }
         public void Shot(GameTime gameTime)
         {
-
+            //Tarkastetaan osuuko, jos osuu niin "Väläytetään" sen merkiksi
             if (hit)
             {
                 bossColor.R -= 10;
@@ -123,7 +126,6 @@ namespace SpacuShuutar
 
         public void Draw(SpriteBatch spriteBatch)
         {
-
             spriteBatch.Draw(bossTexture, position, null, bossColor, rotation, origin, 1.0f,  SpriteEffects.None, 0);
         }
 
