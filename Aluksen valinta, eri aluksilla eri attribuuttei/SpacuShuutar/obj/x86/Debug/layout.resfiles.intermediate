@@ -14,7 +14,10 @@ Content\biisu3.wma
 Content\biisu3.xnb
 Content\bosstexture.png
 Content\bullet.png
-Content\Choose.png
+Content\choosebackground.png
+Content\chooseblue.png
+Content\choosegreen.png
+Content\choosered.png
 Content\circle.png
 Content\Credits.png
 Content\crosshair.png
@@ -39,14 +42,11 @@ Content\highscore.png
 Content\hpborders.png
 Content\hpforeground.png
 Content\intro.png
+Content\IT'S OVER 9000!.png
 Content\Laser.png
-Content\Laser_Blue_Dual.jpg
-Content\Laser_Blue_Single.jpg
-Content\Laser_Green_Dual.jpg
-Content\Laser_Green_Single.jpg
-Content\Laser_Red_Dual.jpg
 Content\laser1.wav
 Content\laser1.xnb
+Content\Line.png
 Content\machinegun1.wav
 Content\machinegun1.xnb
 Content\menu.wma
@@ -54,7 +54,6 @@ Content\menu.xnb
 Content\menuship.png
 Content\mgunbullet.png
 Content\minigun.png
-Content\OPTIONS.png
 Content\pause.png
 Content\PLAY.png
 Content\plusammo.png
@@ -66,10 +65,8 @@ Content\ship.png
 Content\Ship_1.png
 Content\Ship_2.png
 Content\Ship_3.png
-Content\ship1info.png
-Content\ship2info.png
-Content\ship3info.png
 Content\smallasteroid.png
+Content\SpaucShuutar.png
 Content\SpriteFont1.xnb
 Content\star.bmp
 Content\star2.png

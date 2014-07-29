@@ -28,7 +28,7 @@ namespace SpacuShuutar
         public GameStates NextGameState = GameStates.Intro;
         public Texture2D ship1info, ship2info, ship3info;
         public Texture2D explosionTexture, particleTexture, explosionTexture2, explosionTexture3, explosionTexture4;
-        public Texture2D menu;
+        public Texture2D menu, title1, title2;
         public Texture2D redLaser;
         public Texture2D star, star2, diamond, circle, foreGround, borders;
         public Texture2D pause;
@@ -57,7 +57,7 @@ namespace SpacuShuutar
         public Bullet Bullet;
         public Button play, quit, options, ship1, ship2, ship3, playAgain;
 
-        public Texture2D Choose;
+        public Texture2D Choose, menuLine;
         public Texture2D ship_1, ship_2, ship_3, _credits;
         public Texture2D playTexture;
         public Texture2D quitTexture;
@@ -128,6 +128,8 @@ namespace SpacuShuutar
             spriteBatch = new SpriteBatch(GraphicsDevice);
             //Ladataan grafiikat Content-pipelineen
             star = Content.Load<Texture2D>("star");
+            title1 = Content.Load <Texture2D>("SpaucShuutar");
+            title2 = Content.Load<Texture2D>("IT'S OVER 9000!");
             backGroundTexture = Content.Load<Texture2D>("background");
             pause = Content.Load<Texture2D>("pause");
             player = Content.Load<Texture2D>("ship");
@@ -145,6 +147,7 @@ namespace SpacuShuutar
             laser = Content.Load<SoundEffect>("laser1");
             machinegun = Content.Load<SoundEffect>("machinegun1");
             highScores = Content.Load<Texture2D>("highscore");
+            menuLine = Content.Load<Texture2D>("line");
             plusAmmo = Content.Load<Texture2D>("plusammo");
             miniGun = Content.Load<Texture2D>("minigun");
             supaGun = Content.Load<Texture2D>("arrowtower");
@@ -157,7 +160,7 @@ namespace SpacuShuutar
             bossSong = Content.Load<Song>("pomo");
             gameSong = Content.Load<Song>("game");
             alien = Content.Load<Texture2D>("alien_2");
-            Choose = Content.Load<Texture2D>("Choose");
+            Choose = Content.Load<Texture2D>("choosebackground");
             intro = Content.Load<Texture2D>("intro");
             explosionTexture = Content.Load<Texture2D>("explosion");
             explosionTexture2 = Content.Load<Texture2D>("Exp_type_A");
@@ -165,7 +168,7 @@ namespace SpacuShuutar
             explosionTexture4 = Content.Load<Texture2D>("Exp_type_B");
             playTexture = Content.Load<Texture2D>("PLAY");
             quitTexture = Content.Load<Texture2D>("QUIT");
-            optionsTexture = Content.Load<Texture2D>("OPTIONS");
+            optionsTexture = Content.Load<Texture2D>("Credits");
             ufoTexture = Content.Load<Texture2D>("alien");
             gamuover = Content.Load<Song>("gamuovar");
             victory = Content.Load<Texture2D>("VICTORY");
@@ -180,9 +183,9 @@ namespace SpacuShuutar
             ship_2 = Content.Load<Texture2D>("Ship_2");
             ship_3 = Content.Load<Texture2D>("Ship_3");
             _credits = Content.Load<Texture2D>("Credits");
-            ship3info = Content.Load<Texture2D>("ship3info");
-            ship2info = Content.Load<Texture2D>("ship2info");
-            ship1info = Content.Load<Texture2D>("ship1info");
+            ship3info = Content.Load<Texture2D>("choosered");
+            ship2info = Content.Load<Texture2D>("choosegreen");
+            ship1info = Content.Load<Texture2D>("chooseblue");
             //Luodaan erilaisia olioita
             Player = new Player(Bullet, crosshairTexture);
             starfield = new StarField(1920, 1080, 300, new Vector2(0, 75), star, new Rectangle(1920, 1080, 2, 2));
@@ -193,14 +196,14 @@ namespace SpacuShuutar
             //Menua varten
             menuPlayer = new Player(Bullet, menuShip);
             //Menu-valikon näppäimet
-            play = new Button(playTexture, new Vector2(700, 300), new Vector2(500, 250));
-            quit = new Button(quitTexture, new Vector2(660, 600), new Vector2(500, 250));
-            options = new Button(optionsTexture, new Vector2(700, 450), new Vector2(500, 250));
+            play = new Button(playTexture, new Vector2(1170, 500), new Vector2(377, 145));
+            quit = new Button(quitTexture, new Vector2(1200, 860), new Vector2(344, 110));
+            options = new Button(optionsTexture, new Vector2(1200, 680), new Vector2(594, 115));
             playAgain = new Button(again, new Vector2(700, 100), new Vector2(700, 350));
             //Aluksen valinnan näppäimet
-            ship1 = new Button(ship_1, new Vector2(200, 600), new Vector2(150, 267));
-            ship2 = new Button(ship_2, new Vector2(600, 600), new Vector2(150, 212));
-            ship3 = new Button(ship_3, new Vector2(1000, 600), new Vector2(150, 212));
+            ship1 = new Button(ship_1, new Vector2(200, 400), new Vector2(150, 267));
+            ship2 = new Button(ship_2, new Vector2(600, 400), new Vector2(150, 212));
+            ship3 = new Button(ship_3, new Vector2(1000, 400), new Vector2(150, 212));
             //"Pakokaasun" partikkeleita
             ParticleTextures.Add(circle);
             ParticleTextures.Add(star2);
@@ -1230,13 +1233,14 @@ namespace SpacuShuutar
             if (gameState == GameStates.Menu)
             {
                 spriteBatch.Draw(backGroundTexture, new Rectangle(0, 0, 1920, 1080), Color.White);
+                spriteBatch.Draw(menuLine, new Rectangle(0, 0, 1920, 1080), Color.White);
                 play.Draw(spriteBatch);
                 options.Draw(spriteBatch);
                 quit.Draw(spriteBatch);
                 if (menuPlayer.menuPosition.X >= 1200)
-                    spriteBatch.DrawString(epicfont, "Spauc Shuutar", new Vector2(670, 70), Color.Cyan);
+                    spriteBatch.Draw(title1, new Rectangle(0, 0, 1920, 1080), Color.White);
                 if (menuPlayer.menuPosition.X >= 2100)
-                    spriteBatch.DrawString(epicfont, "It's over OOOO ", new Vector2(680, 145), Color.Cyan);
+                    spriteBatch.Draw(title2, new Rectangle(0, 0, 1920, 1080), Color.White);
                 menuPlayer.playerTexture = menuShip;
                 menuPlayer.DrawMenu(spriteBatch);
                 particleEngine.Draw(spriteBatch);
@@ -1249,16 +1253,28 @@ namespace SpacuShuutar
 
             else if (gameState == GameStates.ShipChoose)
             {
-                spriteBatch.Draw(backGroundTexture, new Rectangle(0, 0, 1920, 1080), Color.White);
+                spriteBatch.Draw(Choose, new Rectangle(0, 0, 1920, 1080), Color.White);
                 ship1.Draw(spriteBatch);
                 ship2.Draw(spriteBatch);
                 ship3.Draw(spriteBatch);
                 if (ship1active)
-                    spriteBatch.Draw(ship1info, new Rectangle(700, 200, 450, 275), Color.White);
+                {
+                    spriteBatch.Draw(ship1info, new Rectangle(300, 700, 80, 142), Color.White);
+                    spriteBatch.Draw(ship1info, new Rectangle(330, 700, 80, 142), Color.White);
+                    spriteBatch.Draw(ship1info, new Rectangle(360, 700, 80, 142), Color.White);
+                }
                 if (ship2active)
-                    spriteBatch.Draw(ship2info, new Rectangle(700, 200, 450, 275), Color.White);
+                {
+                    spriteBatch.Draw(ship2info, new Rectangle(300, 700, 80, 142), Color.White);
+                    spriteBatch.Draw(ship2info, new Rectangle(330, 700, 80, 142), Color.White);
+                    spriteBatch.Draw(ship2info, new Rectangle(360, 700, 80, 142), Color.White);
+                }
                 if (ship3active)
-                    spriteBatch.Draw(ship3info, new Rectangle(700, 200, 450, 275), Color.White);
+                {
+                    spriteBatch.Draw(ship3info, new Rectangle(300, 700, 80, 142), Color.White);
+                    spriteBatch.Draw(ship3info, new Rectangle(330, 700, 80, 142), Color.White);
+                    spriteBatch.Draw(ship3info, new Rectangle(360, 700, 80, 142), Color.White);
+                }
             }
             else if (gameState == GameStates.Level1)
             {
