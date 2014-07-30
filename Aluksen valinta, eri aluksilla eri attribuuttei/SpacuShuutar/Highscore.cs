@@ -26,7 +26,7 @@ using Windows.Storage;
 
 namespace SpacuShuutar
 {
-    
+
     public class Highscore
     {
         public StorageFolder localFolder = KnownFolders.DocumentsLibrary;
@@ -36,9 +36,9 @@ namespace SpacuShuutar
         public int score { get; set; }
         public List<string> scores = new List<string>();
         public int scoreCounter;
-        
-        
-        
+
+
+
 
 
         public Highscore(SpriteFont fontz)
@@ -49,34 +49,29 @@ namespace SpacuShuutar
         {
             try
             {
-                var folder = Windows.ApplicationModel.Package.Current.InstalledLocation;
-                var file = await folder.GetFileAsync("highscore.txt");
+
+                //StorageFile file = await StorageFile.GetFileFromPathAsync(@"C:\myFile.txt");
+                var folder = KnownFolders.DocumentsLibrary;
+                var file = await folder.CreateFileAsync("Highscore.txt", CreationCollisionOption.OpenIfExists);
                 var contents = await FileIO.ReadLinesAsync(file);
                 foreach (var line in contents)
                 {
-                    scores.Add(line);                  
-                }       
+                    scores.Add(line);
+                }
             }
-            catch(FileNotFoundException exception)
+            catch (FileNotFoundException exception)
             {
                 Debug.WriteLine(exception);
             }
         }
-        public async void WriteFile(int score)      //Eipä toimi..
+        public async void WriteFile(int score)      //Toimii?
         {
-            try
-            {
-                //scores.Add((score.ToString()));
+            string hiscore = score.ToString();
 
-                StorageFile storageFile = await localFolder.CreateFileAsync("highscores.txt", CreationCollisionOption.OpenIfExists);
-                await FileIO.AppendTextAsync(storageFile, score.ToString());
+            var folder = KnownFolders.DocumentsLibrary;
+            var file = await folder.CreateFileAsync("Highscore.txt", CreationCollisionOption.OpenIfExists);
+            await FileIO.WriteTextAsync(file, hiscore);
 
-                Debug.WriteLine("Success!");
-            }
-            catch(FileNotFoundException exception)
-            {
-                Debug.WriteLine(exception);
-            }
         }
         public void Update()
         {
@@ -96,11 +91,11 @@ namespace SpacuShuutar
                         spriteBatch.DrawString(font, scores[i], new Vector2(70, (650 + (30 * i))), Color.White);
                     else
                         spriteBatch.DrawString(font, scores[i], new Vector2(85, (650 + (30 * i))), Color.White);
-                         
+
                 }
-                
-                    
-                
+
+
+
             }
         }
     }

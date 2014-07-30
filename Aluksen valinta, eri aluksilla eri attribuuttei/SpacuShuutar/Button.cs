@@ -45,22 +45,35 @@ namespace SpacuShuutar
                 if (colour.R == 255) down = false;
                 if (colour.R == 0) down = true;
                 if (down)
-                    colour.R += 5;
+                    colour.R += 10;
                 else
-                    colour.R -= 5;
+                    colour.R -= 10;
 
-                if (mouse.LeftButton == ButtonState.Pressed) 
+                if (mouse.LeftButton == ButtonState.Pressed)
                     isClicked = true;
             }
-    
+
             else if (colour.R < 255)
             {
-                colour.R += 5;
+                colour.R += 10;
                 isClicked = false;
             }
-            
+
         }
-       
+        public void UpdateShipChoose(MouseState mouse)
+        {
+            rectangle = new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y);
+            Rectangle mouseRectangle = new Rectangle(mouse.X, mouse.Y, 1, 1);
+            showInfo = false;
+            if (mouseRectangle.Intersects(rectangle))
+            {
+                showInfo = true;
+                if (mouse.LeftButton == ButtonState.Pressed)
+                    isClicked = true;
+            }
+        }
+
+
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, rectangle, colour);

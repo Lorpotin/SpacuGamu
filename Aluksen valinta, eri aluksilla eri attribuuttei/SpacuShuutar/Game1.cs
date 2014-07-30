@@ -90,7 +90,7 @@ namespace SpacuShuutar
         public int shootCounter = 20;
         public int mGunCounter = 10;
         public Song menuSong, gameSong, bossSong, winner, gamuover;
-
+        public int bossHitCounter = 20;
         public Texture2D intro;
         public float timer;
         public float startGameTimer, minigunTimer, hsTimer, deathTimer;
@@ -119,6 +119,8 @@ namespace SpacuShuutar
             ShootInterval = TimeSpan.FromSeconds(1);
             IsMouseVisible = true;
 
+
+
             base.Initialize();
         }
 
@@ -128,7 +130,7 @@ namespace SpacuShuutar
             spriteBatch = new SpriteBatch(GraphicsDevice);
             //Ladataan grafiikat Content-pipelineen
             star = Content.Load<Texture2D>("star");
-            title1 = Content.Load <Texture2D>("SpaucShuutar");
+            title1 = Content.Load<Texture2D>("SpaucShuutar");
             title2 = Content.Load<Texture2D>("IT'S OVER 9000!");
             backGroundTexture = Content.Load<Texture2D>("background");
             pause = Content.Load<Texture2D>("pause");
@@ -201,9 +203,9 @@ namespace SpacuShuutar
             options = new Button(optionsTexture, new Vector2(1200, 680), new Vector2(594, 115));
             playAgain = new Button(again, new Vector2(700, 100), new Vector2(700, 350));
             //Aluksen valinnan näppäimet
-            ship1 = new Button(ship_1, new Vector2(200, 400), new Vector2(150, 267));
-            ship2 = new Button(ship_2, new Vector2(600, 400), new Vector2(150, 212));
-            ship3 = new Button(ship_3, new Vector2(1000, 400), new Vector2(150, 212));
+            ship1 = new Button(ship_1, new Vector2(650, 370), new Vector2(150, 267));
+            ship2 = new Button(ship_2, new Vector2(900, 400), new Vector2(150, 212));
+            ship3 = new Button(ship_3, new Vector2(1150, 400), new Vector2(150, 212));
             //"Pakokaasun" partikkeleita
             ParticleTextures.Add(circle);
             ParticleTextures.Add(star2);
@@ -213,14 +215,9 @@ namespace SpacuShuutar
             healthBar = new EpicHealthBar(foreGround, borders, Player);
             //Luetaan tiedostosta nykyinen highscore
             hiScores.ReadFile();
+            hiScores.WriteFile(666);
             //
-
-
-
-
-
         }
-
         public void AddExplosion(Vector2 position)
         {
             int number = random.Next(1, 5);
@@ -390,6 +387,7 @@ namespace SpacuShuutar
                 homingRectangle = new Rectangle((int)homingArray[a].position.X, (int)homingArray[a].position.Y, homingArray[a].Width, homingArray[a].Height);
                 if (rectangle1.Intersects(homingRectangle))
                 {
+
                     Player.homingammo += homingArray[a].plusAmmo;
                     homingArray[a].pickedUp = true;
                 }
@@ -400,6 +398,7 @@ namespace SpacuShuutar
                 ufoRectangle = new Rectangle((int)ufoArray[q].position.X, (int)ufoArray[q].position.Y, ufoArray[q].Width, ufoArray[q].Height);
                 if (rectangle1.Intersects(ufoRectangle))
                 {
+                    Player.combo = 0;
                     int number = random.Next(1, 3);
                     switch (number)
                     {
@@ -423,10 +422,12 @@ namespace SpacuShuutar
             }
             for (int i = 0; i < asteroidArray.Count; i++)
             {
+
                 rectangle2 = new Rectangle((int)asteroidArray[i].position.X, (int)asteroidArray[i].position.Y, asteroidArray[i].Width, asteroidArray[i].Height);
                 //Katsotaan törmääkö rectanglet
                 if (rectangle1.Intersects(rectangle2))
                 {
+                    Player.combo = 0;
                     int number = random.Next(1, 3);
                     switch (number)
                     {
@@ -455,18 +456,24 @@ namespace SpacuShuutar
             for (int i = 0; i < bossArray.Count; i++)
             {
                 bossRectangle = new Rectangle((int)bossArray[i].position.X, (int)bossArray[i].position.Y, bossArray[i].Width, bossArray[i].Height);
-                if (rectangle1.Intersects(bossRectangle))
+                if (bossHitCounter > 20)
                 {
-                    Player.health -= 100;
-                    bossArray[i].hit = true;
-                    healthBar.Width -= 5;
-                    if (bossArray[i].health <= 0)
+                    if (rectangle1.Intersects(bossRectangle))
                     {
-                        Player.score += 5000;
-                        bossArray[i].active = false;
-                        boss.victory = true;
+                        bossHitCounter = 0;
+                        Player.health -= 50;
+                        bossArray[i].hit = true;
+                        healthBar.Width -= 5;
+                        if (bossArray[i].health <= 0)
+                        {
+                            Player.score += 5000;
+                            bossArray[i].active = false;
+                            boss.victory = true;
+                        }
                     }
                 }
+                else
+                    bossHitCounter++;
             }
         }
 
@@ -509,12 +516,11 @@ namespace SpacuShuutar
                     {
 
                         Bullet bull = new Bullet(new Vector2(Player.arrowPosition.X, Player.arrowPosition.Y), Player.arrowDirection, bulletTexture, Player, graphics);
-                        Bullet bull3 = new Bullet(new Vector2(Player.arrowPosition.X + 25, Player.arrowPosition.Y), Player.arrowDirection, bulletTexture, Player, graphics);
+
                         Bullet bull2 = new Bullet(new Vector2(Player.arrowPosition.X + 50, Player.arrowPosition.Y), Player.arrowDirection, bulletTexture, Player, graphics);
                         laser.Play(0.2f, 0.0f, 0.0f);
                         bulletArray.Add(bull);
                         bulletArray.Add(bull2);
-                        bulletArray.Add(bull3);
                         shootCounter = 0;
 
                     }
@@ -530,9 +536,13 @@ namespace SpacuShuutar
                     if (shootCounter > 20)
                     {
 
-                        Bullet bull = new Bullet(new Vector2(Player.arrowPosition.X + 55, Player.arrowPosition.Y), Player.arrowDirection, bulletTexture, Player, graphics);
+                        Bullet bull = new Bullet(new Vector2(Player.arrowPosition.X + 0, Player.arrowPosition.Y), Player.arrowDirection, bulletTexture, Player, graphics);
+                        Bullet bull2 = new Bullet(new Vector2(Player.arrowPosition.X + 25, Player.arrowPosition.Y), Player.arrowDirection, bulletTexture, Player, graphics);
+                        Bullet bull3 = new Bullet(new Vector2(Player.arrowPosition.X + 50, Player.arrowPosition.Y), Player.arrowDirection, bulletTexture, Player, graphics);
                         laser.Play(0.2f, 0.0f, 0.0f);
                         bulletArray.Add(bull);
+                        bulletArray.Add(bull2);
+                        bulletArray.Add(bull3);
                         shootCounter = 0;
 
                     }
@@ -888,14 +898,14 @@ namespace SpacuShuutar
                     {
                         gameState = GameStates.Menu;
                     }
-                    ship1.Update(mouse);
-                    ship2.Update(mouse);
-                    ship3.Update(mouse);
+                    ship1.UpdateShipChoose(mouse);
+                    ship2.UpdateShipChoose(mouse);
+                    ship3.UpdateShipChoose(mouse);
                     if (ship1.isClicked == true)
                     {
                         Player.playerTexture = ship_1;
                         Player.damage = 100;
-                        Player.health = 100;
+                        Player.health = 1000;
                         MediaPlayer.Stop();
                         MediaPlayer.Play(gameSong);
                         gameState = GameStates.Level1;
@@ -904,8 +914,8 @@ namespace SpacuShuutar
                     if (ship2.isClicked == true)
                     {
                         Player.playerTexture = ship_2;
-                        Player.damage = 50;
-                        Player.health = 200;
+                        Player.damage = 200;
+                        Player.health = 500;
                         MediaPlayer.Stop();
                         MediaPlayer.Play(gameSong);
                         gameState = GameStates.Level1;
@@ -944,7 +954,7 @@ namespace SpacuShuutar
 
                 case GameStates.Level1:
                     {
-
+                        IsMouseVisible = false;
                         starfield.Update(gameTime);
                         UpdateEnemies(gameTime);
                         UpdateUfos(gameTime);
@@ -1050,7 +1060,6 @@ namespace SpacuShuutar
                         {
 
                             deathTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-                            AddExplosion(Player.arrowPosition);
                             if (deathTimer > 2)
                             {
                                 string points = Player.score.ToString();
@@ -1259,21 +1268,31 @@ namespace SpacuShuutar
                 ship3.Draw(spriteBatch);
                 if (ship1active)
                 {
-                    spriteBatch.Draw(ship1info, new Rectangle(300, 700, 80, 142), Color.White);
-                    spriteBatch.Draw(ship1info, new Rectangle(330, 700, 80, 142), Color.White);
-                    spriteBatch.Draw(ship1info, new Rectangle(360, 700, 80, 142), Color.White);
+                    //dmg
+                    spriteBatch.Draw(ship1info, new Rectangle(410, 720, 80, 142), Color.White);
+                    //hela
+                    spriteBatch.Draw(ship1info, new Rectangle(1340, 720, 80, 142), Color.White);
+                    spriteBatch.Draw(ship1info, new Rectangle(1370, 720, 80, 142), Color.White);
+                    spriteBatch.Draw(ship1info, new Rectangle(1400, 720, 80, 142), Color.White);
+
                 }
                 if (ship2active)
                 {
-                    spriteBatch.Draw(ship2info, new Rectangle(300, 700, 80, 142), Color.White);
-                    spriteBatch.Draw(ship2info, new Rectangle(330, 700, 80, 142), Color.White);
-                    spriteBatch.Draw(ship2info, new Rectangle(360, 700, 80, 142), Color.White);
+                    //dmg
+                    spriteBatch.Draw(ship2info, new Rectangle(410, 720, 80, 142), Color.White);
+                    spriteBatch.Draw(ship2info, new Rectangle(440, 720, 80, 142), Color.White);
+                    //hela
+                    spriteBatch.Draw(ship2info, new Rectangle(1340, 720, 80, 142), Color.White);
+                    spriteBatch.Draw(ship2info, new Rectangle(1370, 720, 80, 142), Color.White);
                 }
                 if (ship3active)
                 {
-                    spriteBatch.Draw(ship3info, new Rectangle(300, 700, 80, 142), Color.White);
-                    spriteBatch.Draw(ship3info, new Rectangle(330, 700, 80, 142), Color.White);
-                    spriteBatch.Draw(ship3info, new Rectangle(360, 700, 80, 142), Color.White);
+                    //dmg
+                    spriteBatch.Draw(ship3info, new Rectangle(410, 720, 80, 142), Color.White);
+                    spriteBatch.Draw(ship3info, new Rectangle(440, 720, 80, 142), Color.White);
+                    spriteBatch.Draw(ship3info, new Rectangle(470, 720, 80, 142), Color.White);
+                    //Hela
+                    spriteBatch.Draw(ship3info, new Rectangle(1340, 720, 80, 142), Color.White);
                 }
             }
             else if (gameState == GameStates.Level1)
