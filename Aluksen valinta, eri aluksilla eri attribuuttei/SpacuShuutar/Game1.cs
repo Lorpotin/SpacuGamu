@@ -27,20 +27,17 @@ namespace SpacuShuutar
         public GameStates gameState = GameStates.Intro;
         public GameStates NextGameState = GameStates.Intro;
         public Texture2D ship1info, ship2info, ship3info;
-        public Texture2D explosionTexture, particleTexture, explosionTexture2, explosionTexture3, explosionTexture4;
-        public Texture2D menu, title1, title2;
+        public Texture2D explosionTexture, particleTexture, explosionTexture2, explosionTexture3, explosionTexture4, menu, title1, title2, star, star2, diamond, circle, foreGround, borders;
         public Texture2D redLaser;
-        public Texture2D star, star2, diamond, circle, foreGround, borders;
         public Texture2D pause;
         public Texture2D player, menuShip;
         public Texture2D asteroid;
-        public Texture2D bossTexture;
+        public Texture2D bossTexture, bossTurretTexture;
         public Texture2D bigBulletTexture;
         public Texture2D fadeTexture;
         public Texture2D bulletTexture;
         public Texture2D gameover, again;
         public Texture2D backGroundTexture;
-        public Texture2D bigAsteroid;
         public Texture2D alien;
         public Texture2D supaGun;
         public Texture2D highScores;
@@ -56,7 +53,6 @@ namespace SpacuShuutar
         public Player Player;
         public Bullet Bullet;
         public Button play, quit, options, ship1, ship2, ship3, playAgain;
-
         public Texture2D Choose, menuLine;
         public Texture2D ship_1, ship_2, ship_3, _credits;
         public Texture2D playTexture;
@@ -73,7 +69,7 @@ namespace SpacuShuutar
         public int machineGunCounter;
         public int gunCounter, enemiesKilled;
         public float angle;
-        public bool ship1active, ship2active, ship3active;
+        public bool ship1active, ship2active, ship3active, fading = true, fadeout = true;
         public List<Asteroid> asteroidArray = new List<Asteroid>();
         public List<Boss> bossArray = new List<Boss>();
         public List<Bullet> bulletArray = new List<Bullet>();
@@ -87,7 +83,7 @@ namespace SpacuShuutar
         Random random;
         EpicHealthBar healthBar;
         SpriteFont font, epicfont;
-        public int shootCounter = 20;
+        public int shootCounter = 20, fadeCounter = 0, optionsCounter = 10;
         public int mGunCounter = 10;
         public Song menuSong, gameSong, bossSong, winner, gamuover;
         public int bossHitCounter = 20;
@@ -137,7 +133,7 @@ namespace SpacuShuutar
             player = Content.Load<Texture2D>("ship");
             menuShip = Content.Load<Texture2D>("menuship");
             asteroid = Content.Load<Texture2D>("asteroid");
-            bigAsteroid = Content.Load<Texture2D>("bigasteroid");
+            bossTurretTexture = Content.Load<Texture2D>("bossturret");
             gameover = Content.Load<Texture2D>("gameover");
             font = Content.Load<SpriteFont>("font");
             epicfont = Content.Load<SpriteFont>("SpriteFont1");
@@ -188,13 +184,13 @@ namespace SpacuShuutar
             ship3info = Content.Load<Texture2D>("choosered");
             ship2info = Content.Load<Texture2D>("choosegreen");
             ship1info = Content.Load<Texture2D>("chooseblue");
+            fadeTexture = Content.Load<Texture2D>("fadetexture");
             //Luodaan erilaisia olioita
             Player = new Player(Bullet, crosshairTexture);
             starfield = new StarField(1920, 1080, 300, new Vector2(0, 75), star, new Rectangle(1920, 1080, 2, 2));
             MiniGun = new Minigun(supaGun, Player, false);
             hiScores = new Highscore(font);
             introScreen = new IntroVideo(intro);
-
             //Menua varten
             menuPlayer = new Player(Bullet, menuShip);
             //Menu-valikon näppäimet
@@ -215,8 +211,40 @@ namespace SpacuShuutar
             healthBar = new EpicHealthBar(foreGround, borders, Player);
             //Luetaan tiedostosta nykyinen highscore
             hiScores.ReadFile();
-            hiScores.WriteFile(666);
+            //hiScores.WriteFile(666);
             //
+        }
+        public void ResetFade()
+        {
+            fadeout = true;
+            fadeCounter = 0;
+            fading = true;
+        }
+        //Häivytetään ruutu mustan kautta ruudun vaihdoksissa, otetaan parametrina uusi GameState
+        public int FadeBetweenScreens(SpriteBatch spriteBatch, GameStates nextState)
+        {
+            //Nostetaan mustan ruudun Alpha-arvoa hiljalleen, jolloin saadaan häivytysefekti aikaiseksi
+            if (fadeout)
+            {
+                fadeCounter += 5;
+                if (fadeCounter >= 255)
+                {
+                    fadeout = false;
+                    gameState = nextState;
+                }
+            }
+            else
+            {
+                //Tehdään samatoisinpäin, häivytetään takaisin uudelle ruudulle ruudun vaihdon jälkeen
+                fadeCounter -= 5;
+                if (fadeCounter <= 0)
+                {
+                    fading = false;
+                }
+            }
+            //Piirretään häivitys käyttäen fadeCounteria, joka muuttaa kuvan alpha-arvoa.
+            spriteBatch.Draw(fadeTexture, GraphicsDevice.Viewport.Bounds, new Color(Color.Black, fadeCounter));
+            return fadeCounter;        
         }
         public void AddExplosion(Vector2 position)
         {
@@ -659,14 +687,13 @@ namespace SpacuShuutar
         }
 
 
-        // JUU ELIKKÄS SE TOIMII...Bossille ei nyt ihan vielä ":D" :D::D:D
+        // Toimii asteroideille, eikä nyt oikein ota tuulta alleen, joten ominaisuutena hakeutuvat vain asteroideille 
 
         private void UpdateHomingCollisions()
         {
             Rectangle rectangle1;
             Rectangle rectangle2;
             Rectangle UfoRectangle;
-            Rectangle bossRectangle;
 
 
             if (Player.homingammo > 0 && mGunCounter > 10 && MiniGun.target != null && MiniGun.isActive)
@@ -767,25 +794,6 @@ namespace SpacuShuutar
                         }
                     }
                 }
-
-                for (int c = 0; c < bossArray.Count; c++)
-                {
-                    if (bossArray[c].active == true)
-                    {
-                        bossRectangle = new Rectangle((int)bossArray[c].position.X, (int)bossArray[c].position.Y, bossArray[c].Width, bossArray[c].Height);
-                        if (rectangle1.Intersects(bossRectangle))
-                        {
-                            mgunBulletArray[i].dead = true;
-                            bossArray[c].health -= bulletArray[i].damage;
-                            bossArray[c].hit = true;
-                            if (bossArray[c].health <= 0)
-                            {
-                                Player.score += 5000;
-                                bossArray[c].active = false;
-                            }
-                        }
-                    }
-                }
             }
         }
 
@@ -874,12 +882,9 @@ namespace SpacuShuutar
                     menuPlayer.UpdateMenu(gameTime);
                     particleEngine.EmitterLocation = new Vector2(menuPlayer.menuPosition.X + 60, menuPlayer.menuPosition.Y + 100);
                     particleEngine.Update();
-                    if (play.isClicked == true)
-                    {
-                        gameState = GameStates.ShipChoose;
-                    }
+                 
                     if (options.isClicked == true)
-                        gameState = GameStates.Options;
+                       gameState = GameStates.Options;
 
                     if (quit.isClicked)
                     {
@@ -908,7 +913,7 @@ namespace SpacuShuutar
                         Player.health = 1000;
                         MediaPlayer.Stop();
                         MediaPlayer.Play(gameSong);
-                        gameState = GameStates.Level1;
+                        
 
                     }
                     if (ship2.isClicked == true)
@@ -918,7 +923,6 @@ namespace SpacuShuutar
                         Player.health = 500;
                         MediaPlayer.Stop();
                         MediaPlayer.Play(gameSong);
-                        gameState = GameStates.Level1;
 
                     }
                     if (ship3.isClicked == true)
@@ -928,7 +932,7 @@ namespace SpacuShuutar
                         Player.damage = 25;
                         MediaPlayer.Stop();
                         MediaPlayer.Play(gameSong);
-                        gameState = GameStates.Level1;
+                        
 
                     }
                     if (ship1.showInfo)
@@ -1079,11 +1083,12 @@ namespace SpacuShuutar
                         timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
                         if (timer >= 10 && bossArray.Count < 1)
                         {
-                            boss = new Boss(bossTexture, Player, bulletTexture);
+                            boss = new Boss(bossTexture, Player, bulletTexture, bossTurretTexture);
                             bossArray.Add(boss);
                             boss.active = true;
                             bossActive = true;
                         }
+                        
                         starfield.Update(gameTime);
                         UpdateEnemies(gameTime);
                         UpdateUfos(gameTime);
@@ -1103,6 +1108,7 @@ namespace SpacuShuutar
                             {
                                 bossArray[i].Shot(gameTime);
                                 bossArray[i].Update(gameTime);
+                                bossArray[i].UpdateTurret(gameTime);
                                 if (bossArray[i].victory == true)
                                 {
                                     MediaPlayer.Play(winner);
@@ -1174,8 +1180,7 @@ namespace SpacuShuutar
                         {
                             gameState = GameStates.Menu;
                             ClearEverything();
-                            boss.active = false;
-                            boss.victory = false;
+                           
                             MediaPlayer.Play(menuSong);
                         }
                     }
@@ -1254,10 +1259,11 @@ namespace SpacuShuutar
                 menuPlayer.DrawMenu(spriteBatch);
                 particleEngine.Draw(spriteBatch);
                 starfield.Draw(spriteBatch);
-
-
-
-
+                if (play.isClicked)
+                {
+                    FadeBetweenScreens(spriteBatch, GameStates.ShipChoose);
+                }
+              
             }
 
             else if (gameState == GameStates.ShipChoose)
@@ -1293,6 +1299,18 @@ namespace SpacuShuutar
                     spriteBatch.Draw(ship3info, new Rectangle(470, 720, 80, 142), Color.White);
                     //Hela
                     spriteBatch.Draw(ship3info, new Rectangle(1340, 720, 80, 142), Color.White);
+                }
+                if (ship1.isClicked == true)
+                {
+                    FadeBetweenScreens(spriteBatch, gameState = GameStates.Level1);
+                }
+                if (ship2.isClicked == true)
+                {
+                    FadeBetweenScreens(spriteBatch, gameState = GameStates.Level1);
+                }
+                if (ship3.isClicked == true)
+                {
+                    FadeBetweenScreens(spriteBatch, gameState = GameStates.Level1);
                 }
             }
             else if (gameState == GameStates.Level1)
@@ -1366,7 +1384,7 @@ namespace SpacuShuutar
 
                     }
                 }
-
+                FadeBetweenScreens(spriteBatch, gameState = GameStates.Level1);
                 foreach (Bullet b in bulletArray)
                 {
                     if (b != null)
@@ -1379,6 +1397,7 @@ namespace SpacuShuutar
                 Player.Draw(spriteBatch);
                 if (MiniGun.isActive)
                     MiniGun.Draw(spriteBatch);
+                
 
 
             }
@@ -1392,11 +1411,13 @@ namespace SpacuShuutar
                 spriteBatch.Draw(backGroundTexture, new Rectangle(0, 0, 1920, 1080), Color.White);
                 starfield.Draw(spriteBatch);
                 particleEngine.Draw(spriteBatch);
+                
                 if (bossActive == true)
                 {
                     for (int i = 0; i < bossArray.Count; i++)
                     {
                         bossArray[i].Draw(spriteBatch);
+                        bossArray[i].DrawTurret(spriteBatch);
                         spriteBatch.DrawString(font, "Boss Health " + bossArray[i].health, new Vector2(900, 15), Color.White);
                     }
 
@@ -1458,25 +1479,50 @@ namespace SpacuShuutar
 
                     }
                 }
-
-                foreach (Bullet b in bulletArray)
-                {
-                    if (b != null)
-                        b.Draw(spriteBatch);
-                }
+                
                 for (int i = 0; i < explosions.Count; i++)
                 {
                     explosions[i].Draw(spriteBatch);
                 }
                 Player.Draw(spriteBatch);
+                foreach (Bullet b in bulletArray)
+                {
+                    if (b != null)
+                        b.Draw(spriteBatch);
+                }
+                
+                    
                 if (MiniGun.isActive)
                     MiniGun.Draw(spriteBatch);
 
             }
             else if (gameState == GameStates.Victory)
             {
+                int hiscore, remainder;
+                Int32.TryParse(hiScores.scores[0], out hiscore);
                 spriteBatch.Draw(victory, new Rectangle(0, 0, 1920, 1080), Color.White);
                 spriteBatch.DrawString(epicfont, "Your score is: " + Player.score, new Vector2(700, 700), Color.White);
+                if (Player.score > hiscore)
+                    spriteBatch.DrawString(epicfont, "It's a new highscore! ", new Vector2(900, 900), Color.White);
+                if (Player.score < hiscore)
+                {
+                    remainder = hiscore - Player.score;
+                    spriteBatch.DrawString(epicfont, "Highscore was " + remainder + "better than your score!", new Vector2(900, 900), Color.White);
+                }
+            }
+            else if (gameState == GameStates.Options)
+            {
+                if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                {
+                    if (optionsCounter > 10)
+                    {
+                        optionsCounter = 0;
+                        gameState = GameStates.Menu;
+                    }
+                    else
+                        optionsCounter++;
+                }
+                spriteBatch.Draw(backGroundTexture, new Rectangle(0, 0, 1920, 1080), Color.White);
             }
             else if (gameState == GameStates.Pause)
             {

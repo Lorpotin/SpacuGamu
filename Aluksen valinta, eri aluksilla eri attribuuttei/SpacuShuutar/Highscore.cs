@@ -81,7 +81,7 @@ namespace SpacuShuutar
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.DrawString(font, "YOUR POINTS: ", new Vector2(600, 600), Color.White);
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 1; i++)
             {
                 spriteBatch.DrawString(font, (i + 1).ToString() + ".", new Vector2(50, (650 + (30 * i))), Color.White);
                 if (i < scores.Count)

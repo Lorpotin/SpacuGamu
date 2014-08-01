@@ -19,14 +19,13 @@ namespace SpacuShuutar
     public class Boss
     {
 
-        public Texture2D bossTexture, bulletTexture;
-        public Vector2 position;
-        public Vector2 velocity, direction, origin, shootingDirection;
+        public Texture2D bossTexture, bulletTexture, turretTexture;
+        public Vector2 velocity, direction, origin, shootingDirection, center, turretOrigin, position, turretPosition;
         public bool active = false;
         public int health, a;
         public int damage, bulletDamage;
         private float speed, timer;
-        public float rotation;
+        public float bossRotation, turretRotation;
         public Color bossColor;
         public bool hit;
         public bool victory;
@@ -37,12 +36,15 @@ namespace SpacuShuutar
         public GraphicsDeviceManager graphics;
         private float shootCounter;
         private float keissitimer1;
-        private int teleportDelay = 70;
+        public int level = 0, number = 0;
+        public bool down, teleportPossible;
 
 
-        public Boss(Texture2D texture, Player player, Texture2D bulletTexture)
+
+        public Boss(Texture2D texture, Player player, Texture2D bulletTexture, Texture2D turret)
         {
             bossTexture = texture;
+            turretTexture = turret;
             health = 10000;
             damage = 1;
             speed = 4f;
@@ -51,8 +53,12 @@ namespace SpacuShuutar
             victory = false;
             position = new Vector2(900, 0);
             origin = new Vector2(bossTexture.Width / 2, bossTexture.Height / 2);
+            turretOrigin = new Vector2(turretTexture.Width / 2, turretTexture.Height / 2);
             target = player;
             this.bulletTexture = bulletTexture;
+            center = new Vector2(position.X + turretTexture.Width / 2, position.Y + turretTexture.Height / 2);
+            turretPosition = new Vector2(position.X - 135, position.Y - 55);
+            teleportPossible = true;
 
         }
 
@@ -64,14 +70,17 @@ namespace SpacuShuutar
         {
             get { return bossTexture.Height; }
         }
-
+        public int FadeLevel
+        {
+            get { return level; }
+        }
         public void ShootPlayer()
         {
 
             if (shootCounter > 10)
             {
                 shootCounter = 0;
-                Bullet bullet = new Bullet(new Vector2(position.X + 50, position.Y), GetPlayerPosition(), bulletTexture, target, graphics);
+                Bullet bullet = new Bullet(new Vector2(turretPosition.X + 60, turretPosition.Y), GetPlayerPosition(), bulletTexture, target, graphics);
                 bulletList.Add(bullet);
             }
             else
@@ -81,13 +90,11 @@ namespace SpacuShuutar
 
         public void TeleportToAnotherLocation()
         {
-
             position = Evade();
-
         }
         public void SpinAroundAndRamPlayer()
         {
-            rotation += 0.1f;
+            bossRotation += 0.1f;
             direction = Vector2.Normalize(target.arrowPosition - position);
             position += direction * speed;
         }
@@ -140,13 +147,14 @@ namespace SpacuShuutar
                 }
                 else if (keissitimer1 < 10)
                 {
+
                     ShootPlayer();
-                    int number = random.Next(1, 100);
+                    number = random.Next(1, 200);
                     if (number == 2)
+                    {
                         TeleportToAnotherLocation();
+                    }
                 }
-
-
             }
             UpdateBullets();
             UpdateCollisions();
@@ -187,9 +195,9 @@ namespace SpacuShuutar
             //Tarkastetaan osuuko, jos osuu niin "Väläytetään" sen merkiksi
             if (hit)
             {
-                bossColor.R -= 10;
+                bossColor.R -= 15;
             }
-            if (bossColor.R <= 10)
+            if (bossColor.R <= 15)
             {
                 hit = false;
                 bossColor = Color.White;
@@ -201,6 +209,33 @@ namespace SpacuShuutar
             }
 
         }
+        /*public bool IsInRange(Vector2 position)
+        {
+            return Vector2.Distance(center, position) <= 300;
+        }*/
+        public void TurnTurret()
+        {
+            Vector2 direction = turretPosition - target.arrowPosition;
+            direction.Normalize();
+            turretRotation = (float)Math.Atan2(-direction.X, direction.Y);
+        }
+
+
+        public void UpdateTurret(GameTime gameTime)
+        {
+            turretPosition = position;
+            if (target != null)
+            {
+                TurnTurret();
+            }
+
+        }
+        public void DrawTurret(SpriteBatch spriteBatch)
+        {
+
+            spriteBatch.Draw(turretTexture, turretPosition, null, Color.White,
+                turretRotation, turretOrigin, 1.0f, SpriteEffects.None, 0);
+        }
 
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -209,7 +244,7 @@ namespace SpacuShuutar
                 foreach (Bullet bullet in bulletList)
                     bullet.Draw(spriteBatch);
             }
-            spriteBatch.Draw(bossTexture, position, null, bossColor, rotation, origin, 1.0f, SpriteEffects.None, 0);
+            spriteBatch.Draw(bossTexture, position, null, bossColor, bossRotation, origin, 1.0f, SpriteEffects.None, 0);
         }
 
     }

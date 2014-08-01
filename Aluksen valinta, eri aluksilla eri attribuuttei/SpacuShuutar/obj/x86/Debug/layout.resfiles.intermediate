@@ -13,6 +13,7 @@ Content\bigbullet.png
 Content\biisu3.wma
 Content\biisu3.xnb
 Content\bosstexture.png
+Content\bossturret.png
 Content\bullet.png
 Content\choosebackground.png
 Content\chooseblue.png
@@ -32,6 +33,7 @@ Content\exp2.xnb
 Content\exp3.wav
 Content\exp3.xnb
 Content\explosion.png
+Content\fadetexture.png
 Content\font.xnb
 Content\game.wma
 Content\game.xnb
@@ -73,5 +75,4 @@ Content\star2.png
 Content\VICTORY.png
 Content\winrar.wma
 Content\winrar.xnb
-Highscore.txt
 tiedosto.txt
