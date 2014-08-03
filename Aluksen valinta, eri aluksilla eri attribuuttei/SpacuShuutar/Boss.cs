@@ -37,7 +37,7 @@ namespace SpacuShuutar
         private float shootCounter;
         private float keissitimer1;
         public int level = 0, number = 0;
-        public bool down, teleportPossible;
+        public bool down, teleportPossible, ramming;
 
 
 
@@ -59,6 +59,7 @@ namespace SpacuShuutar
             center = new Vector2(position.X + turretTexture.Width / 2, position.Y + turretTexture.Height / 2);
             turretPosition = new Vector2(position.X - 135, position.Y - 55);
             teleportPossible = true;
+            ramming = false;
 
         }
 
@@ -77,10 +78,10 @@ namespace SpacuShuutar
         public void ShootPlayer()
         {
 
-            if (shootCounter > 10)
+            if (shootCounter > 7)
             {
                 shootCounter = 0;
-                Bullet bullet = new Bullet(new Vector2(turretPosition.X + 60, turretPosition.Y), GetPlayerPosition(), bulletTexture, target, graphics);
+                Bullet bullet = new Bullet(new Vector2(turretPosition.X + 60, turretPosition.Y - 10), GetPlayerPosition(), bulletTexture, target, graphics);
                 bulletList.Add(bullet);
             }
             else
@@ -92,11 +93,13 @@ namespace SpacuShuutar
         {
             position = Evade();
         }
-        public void SpinAroundAndRamPlayer()
+        public bool SpinAroundAndRamPlayer()
         {
+            ramming = true;
             bossRotation += 0.1f;
             direction = Vector2.Normalize(target.arrowPosition - position);
             position += direction * speed;
+            return ramming;
         }
         public Vector2 GetPlayerPosition()
         {
@@ -147,7 +150,7 @@ namespace SpacuShuutar
                 }
                 else if (keissitimer1 < 10)
                 {
-
+                    ramming = false;
                     ShootPlayer();
                     number = random.Next(1, 200);
                     if (number == 2)
@@ -223,11 +226,11 @@ namespace SpacuShuutar
 
         public void UpdateTurret(GameTime gameTime)
         {
-            turretPosition = position;
-            if (target != null)
-            {
-                TurnTurret();
-            }
+                turretPosition = position;
+                if (target != null && !ramming)
+                {
+                    TurnTurret();
+                }
 
         }
         public void DrawTurret(SpriteBatch spriteBatch)

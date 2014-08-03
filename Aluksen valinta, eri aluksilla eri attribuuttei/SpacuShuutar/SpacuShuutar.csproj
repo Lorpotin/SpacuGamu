@@ -130,6 +130,7 @@
     <Compile Include="Bullet.cs" />
     <Compile Include="Asteroid.cs" />
     <Compile Include="Button.cs" />
+    <Compile Include="ScrollingBackground.cs" />
     <Compile Include="EpicHealthBar.cs" />
     <Compile Include="IntroVideo.cs" />
     <Compile Include="LayeredBackground.cs" />
@@ -206,6 +207,9 @@
     <Content Include="Content\Credits.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\creditz.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\crosshair.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -265,6 +269,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\smallasteroid.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\SpaceDustLayer.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\SpaucShuutar.png">
@@ -349,6 +356,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\machinegun1.xnb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\ScifiFont%2872%29.xnb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />

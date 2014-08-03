@@ -56,7 +56,7 @@ namespace SpacuShuutar
                 var contents = await FileIO.ReadLinesAsync(file);
                 foreach (var line in contents)
                 {
-                    scores.Add(line);
+                    scores.Add(line);                 
                 }
             }
             catch (FileNotFoundException exception)
@@ -66,37 +66,20 @@ namespace SpacuShuutar
         }
         public async void WriteFile(int score)      //Toimii?
         {
-            string hiscore = score.ToString();
-
+            scores.Add(score.ToString());
             var folder = KnownFolders.DocumentsLibrary;
             var file = await folder.CreateFileAsync("Highscore.txt", CreationCollisionOption.OpenIfExists);
-            await FileIO.WriteTextAsync(file, hiscore);
-
-        }
-        public void Update()
-        {
+            await FileIO.WriteLinesAsync(file, scores);
 
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(font, "YOUR POINTS: ", new Vector2(600, 600), Color.White);
-            for (int i = 0; i < 1; i++)
-            {
-                spriteBatch.DrawString(font, (i + 1).ToString() + ".", new Vector2(50, (650 + (30 * i))), Color.White);
-                if (i < scores.Count)
-                {
-                    //Purkkaa, jolla saadaan poistettua kymmenennen pelaajan päällekkäisyys
-                    if (i != 9)
-                        spriteBatch.DrawString(font, scores[i], new Vector2(70, (650 + (30 * i))), Color.White);
-                    else
-                        spriteBatch.DrawString(font, scores[i], new Vector2(85, (650 + (30 * i))), Color.White);
-
-                }
-
-
-
-            }
+            
+            spriteBatch.DrawString(font, "HIGHSCORES", new Vector2(600, 50), Color.White);
+            spriteBatch.DrawString(font, "1. " + scores[0], new Vector2(600, 300), Color.White);
+            spriteBatch.DrawString(font, "2. " + scores[1], new Vector2(600, 500), Color.White);
+            spriteBatch.DrawString(font, "3. " + scores[2], new Vector2(600, 700), Color.White);    
         }
     }
 }
