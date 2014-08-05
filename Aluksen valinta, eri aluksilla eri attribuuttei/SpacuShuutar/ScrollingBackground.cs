@@ -25,6 +25,7 @@ namespace SpacuShuutar
         private Vector2 screenPos, origin, textureSize;
         private Texture2D screenTexture;
         public bool credits;
+        public float speed = 10f;
 
         public ScrollingBackground(Texture2D texture, bool creditz)
         {
@@ -34,26 +35,17 @@ namespace SpacuShuutar
             screenPos = new Vector2(1920 / 2, 1080 / 2);
             textureSize = new Vector2(0, screenTexture.Height);
             credits = creditz;
-            if (credits)
-                origin = new Vector2(screenTexture.Width / 2, 0);
-            else
-                origin = new Vector2(screenTexture.Width / 2, 0);
+            origin = new Vector2(screenTexture.Width / 2, 0);
         }
 
         public void Update(GameTime gameTime)
         {
-            if (credits)
-            {
-                float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
-                screenPos.Y -= elapsed * 50;
-                screenPos.Y = screenPos.Y % screenTexture.Height;
-            }
-            else
-            {
+            
+          
                 float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
                 screenPos.Y += elapsed * 60;
                 screenPos.Y = screenPos.Y % screenTexture.Height;
-            }
+            
         }
         public void Draw(SpriteBatch spriteBatch)
         {

@@ -155,23 +155,23 @@ namespace SpacuShuutar
 
                 //Tarkastellaan ettei mennä ulos ruudusta
 
-                arrowPosition.X = MathHelper.Clamp(arrowPosition.X, playerTexture.Width, 1920);
+                arrowPosition.X = MathHelper.Clamp(arrowPosition.X, 0, 1920);
                 if (arrowPosition.X >= 1920)
                 {
-                    velocity.X *= -0.3f;
+                    velocity.X *= -0.2f;
                 }
-                if (arrowPosition.X <= playerTexture.Width)
+                if (arrowPosition.X <= 0)
                 {
-                    velocity.X *= -0.3f;
+                    velocity.X *= -0.2f;
                 }
-                arrowPosition.Y = MathHelper.Clamp(arrowPosition.Y, playerTexture.Height, 1080);
+                arrowPosition.Y = MathHelper.Clamp(arrowPosition.Y, 0, 1080);
                 if (arrowPosition.Y >= 1080)
                 {
-                    velocity.Y *= -0.3f;
+                    velocity.Y *= -0.2f;
                 }
-                if (arrowPosition.Y <= playerTexture.Height)
+                if (arrowPosition.Y <= 0)
                 {
-                    velocity.Y *= -0.3f;
+                    velocity.Y *= -0.2f;
                 }
                 //Ase kehittyy combon mukaan
                 

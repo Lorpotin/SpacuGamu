@@ -52,9 +52,9 @@ namespace SpacuShuutar
         public StarField starfield;
         public Player Player;
         public Bullet Bullet;
-        public Button play, quit, options, ship1, ship2, ship3, playAgain, quitGameOver;
+        public Button play, quit, options, ship1, ship2, ship3, playAgain, quitGameOver, highScoresButton;
         public Texture2D Choose, menuLine;
-        public Texture2D ship_1, ship_2, ship_3, _credits, creditsTexture;
+        public Texture2D ship_1, ship_2, ship_3, _credits, creditsTexture, highScoreButton, lazerBall;
         public Texture2D playTexture;
         public Texture2D quitTexture;
         public Texture2D helpTexture;
@@ -95,6 +95,8 @@ namespace SpacuShuutar
         public SpriteAnimation spriteAnimation;
         public Player menuPlayer;
         public ScrollingBackground credits, dustLayer;
+        public IntroVideo creditz;
+             
 
 
 
@@ -146,6 +148,7 @@ namespace SpacuShuutar
             exp3 = Content.Load<SoundEffect>("exp3");
             laser = Content.Load<SoundEffect>("laser1");
             machinegun = Content.Load<SoundEffect>("machinegun1");
+            lazerBall = Content.Load<Texture2D>("lazerball");
             highScores = Content.Load<Texture2D>("highscore");
             menuLine = Content.Load<Texture2D>("line");
             scifiFont = Content.Load<SpriteFont>("ScifiFont(72)");
@@ -163,6 +166,7 @@ namespace SpacuShuutar
             alien = Content.Load<Texture2D>("alien_2");
             Choose = Content.Load<Texture2D>("choosebackground");
             intro = Content.Load<Texture2D>("intro");
+            highScoreButton = Content.Load<Texture2D>("highscorebutton");
             explosionTexture = Content.Load<Texture2D>("explosion");
             explosionTexture2 = Content.Load<Texture2D>("Exp_type_A");
             explosionTexture3 = Content.Load<Texture2D>("Exp_type_C");
@@ -194,13 +198,14 @@ namespace SpacuShuutar
             starfield = new StarField(1920, 1080, 300, new Vector2(0, 75), star, new Rectangle(1920, 1080, 2, 2));
             MiniGun = new Minigun(supaGun, Player, false);
             hiScores = new Highscore(scifiFont);
-            introScreen = new IntroVideo(intro);
+            introScreen = new IntroVideo(intro, scifiFont);
             //Menua varten
             menuPlayer = new Player(Bullet, menuShip);
             //Menu-valikon näppäimet
-            play = new Button(playTexture, new Vector2(1170, 500), new Vector2(377, 145));
-            quit = new Button(quitTexture, new Vector2(1200, 860), new Vector2(344, 110));
-            options = new Button(optionsTexture, new Vector2(1200, 680), new Vector2(594, 115));
+            play = new Button(playTexture, new Vector2(970, 400), new Vector2(377, 145));
+            quit = new Button(quitTexture, new Vector2(1000, 940), new Vector2(344, 110));
+            options = new Button(optionsTexture, new Vector2(1000, 580), new Vector2(594, 115));
+            highScoresButton = new Button(highScoreButton, new Vector2(1000, 760), new Vector2(877, 103));
             //Game-over-valikon näppäimet
             quitGameOver = new Button(quitTexture, new Vector2(700, 600), new Vector2(344, 110));
             playAgain = new Button(again, new Vector2(700, 100), new Vector2(400, 116));
@@ -218,8 +223,9 @@ namespace SpacuShuutar
             //Luetaan tiedostosta nykyinen highscore
             hiScores.ReadFile();
             //rullaavia taustoja, true/false parametreillä katsotaan onko credits vai savut
-            credits = new ScrollingBackground(creditsTexture, true);
+            //credits = new ScrollingBackground(creditsTexture, true);
             dustLayer = new ScrollingBackground(spaceDustLayer, false);
+            creditz = new IntroVideo(intro, scifiFont);
             
         }
         public void ResetFade()
@@ -228,7 +234,7 @@ namespace SpacuShuutar
             fadeCounter = 0;
             fading = true;
         }
-        //Häivytetään ruutu mustan kautta ruudun vaihdoksissa, otetaan parametrina uusi GameState
+        //Häivytetään ruutu mustan kautta ruudun vaihdoksissa
         public int FadeBetweenScreens(SpriteBatch spriteBatch)
         {
             //Nostetaan mustan ruudun Alpha-arvoa hiljalleen, jolloin saadaan häivytysefekti aikaiseksi
@@ -886,6 +892,7 @@ namespace SpacuShuutar
                     play.Update(mouse);
                     options.Update(mouse);
                     quit.Update(mouse);
+                    highScoresButton.Update(mouse);
                     menuPlayer.playerTexture = menuShip;
                     menuPlayer.UpdateMenu(gameTime);
                     particleEngine.EmitterLocation = new Vector2(menuPlayer.menuPosition.X + 60, menuPlayer.menuPosition.Y + 100);
@@ -894,17 +901,14 @@ namespace SpacuShuutar
                         gameState = GameStates.ShipChoose;
                     if (options.isClicked == true)
                         gameState = GameStates.Credits;
-
+                    if (highScoresButton.isClicked == true)
+                        gameState = GameStates.Highscores;
                     if (quit.isClicked)
                     {
                         Exit();
                     }
 
-                    if ((Keyboard.GetState().IsKeyDown(Keys.Enter)))
-                    {
-                        gameState = GameStates.Highscores;
-                        //hiScores.ReadTextFile();
-                    }
+                   
                     break;
 
                 case GameStates.ShipChoose:
@@ -1091,7 +1095,7 @@ namespace SpacuShuutar
                         timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
                         if (timer >= 10 && bossArray.Count < 1)
                         {
-                            boss = new Boss(bossTexture, Player, bulletTexture, bossTurretTexture);
+                            boss = new Boss(bossTexture, Player, lazerBall, bossTurretTexture);
                             bossArray.Add(boss);
                             boss.active = true;
                             bossActive = true;
@@ -1254,7 +1258,7 @@ namespace SpacuShuutar
                             else
                                 optionsCounter++;
                         }
-                        credits.Update(gameTime);
+                        creditz.UpdateCredits();
                         
                         break;
                     }
@@ -1275,10 +1279,11 @@ namespace SpacuShuutar
             if (gameState == GameStates.Menu)
             {
                 spriteBatch.Draw(backGroundTexture, new Rectangle(0, 0, 1920, 1080), Color.White);
-                spriteBatch.Draw(menuLine, new Rectangle(0, 0, 1920, 1080), Color.White);
+                spriteBatch.Draw(menuLine,new Vector2(900, 380) , Color.White);
                 play.Draw(spriteBatch);
                 options.Draw(spriteBatch);
                 quit.Draw(spriteBatch);
+                highScoresButton.Draw(spriteBatch);
                 if (menuPlayer.menuPosition.X >= 1200)
                     spriteBatch.Draw(title1, new Rectangle(0, 0, 1920, 1080), Color.White);
                 if (menuPlayer.menuPosition.X >= 2100)
@@ -1369,22 +1374,22 @@ namespace SpacuShuutar
                 spriteBatch.DrawString(font, "Position " + Player.arrowPosition, new Vector2(50, 550), Color.White);
                 //Pelin alkuspiikkei
                 if (startGameTimer > 2 && startGameTimer < 7)
-                    spriteBatch.DrawString(scifiFont, "WELCOME....", new Vector2(650, 400), Color.White);
+                    spriteBatch.DrawString(scifiFont, "WELCOME....", new Vector2(600, 400), Color.White);
                 else if (startGameTimer > 7 && startGameTimer < 11)
-                    spriteBatch.DrawString(scifiFont, "KEEP UP COMBO TO " + "\n" + "UPGRADE YOUR WEAPON!", new Vector2(650, 400), Color.White);
+                    spriteBatch.DrawString(scifiFont, "KEEP UP COMBO TO " + "\n" + "UPGRADE YOUR WEAPON!", new Vector2(550, 400), Color.White);
                 else if (startGameTimer > 11.5 && startGameTimer < 13)
                     spriteBatch.DrawString(scifiFont, "LETS GO!", new Vector2(650, 400), Color.White);
                 if (Player.score > hiscore)
                 {
                     hsTimer++;
                     if (hsTimer < 75)
-                        spriteBatch.DrawString(scifiFont, "New Highscore!!", new Vector2(650, 400), Color.White);
+                        spriteBatch.DrawString(scifiFont, "New Highscore!!", new Vector2(600, 400), Color.White);
                 }
                 else if (MiniGun.isActive)
                 {
                     minigunTimer++;
                     if (minigunTimer < 35)
-                        spriteBatch.DrawString(scifiFont, "Minigun Activated!", new Vector2(650, 400), Color.White);
+                        spriteBatch.DrawString(scifiFont, "Minigun Activated!", new Vector2(600, 400), Color.White);
                 }
 
 
@@ -1432,7 +1437,9 @@ namespace SpacuShuutar
 
 
             }
-            else if (gameState == GameStates.Boss)
+            spriteBatch.End();
+            spriteBatch.Begin();
+            if (gameState == GameStates.Boss)
             {
                 int hiscore;
                 Int32.TryParse(hiScores.scores[0], out hiscore);
@@ -1443,20 +1450,33 @@ namespace SpacuShuutar
                 starfield.Draw(spriteBatch);
                 particleEngine.Draw(spriteBatch);
                 dustLayer.Draw(spriteBatch);
+                foreach (Bullet b in bulletArray)
+                {
+                    if (b != null)
+                        b.Draw(spriteBatch);
+                }
+                spriteBatch.End();
+                
                 if (bossActive == true)
                 {
                     for (int i = 0; i < bossArray.Count; i++)
                     {
+                        spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.NonPremultiplied);
                         bossArray[i].Draw(spriteBatch);
                         bossArray[i].DrawTurret(spriteBatch);
+                        spriteBatch.End();
+                        spriteBatch.Begin();
                         spriteBatch.DrawString(font, "Boss Health " + bossArray[i].health, new Vector2(900, 15), Color.White);
+                        spriteBatch.End();
                     }
 
                 }
+                
+                spriteBatch.Begin();
                 //Piirrellään ja päivitellään tietoja pelaajan statistiikoista.
                 healthBar.Draw(spriteBatch);
                 if (timer > 1 && timer < 11)
-                    spriteBatch.DrawString(scifiFont, "DANGER AHEAD!", new Vector2(650, 400), Color.White);
+                    spriteBatch.DrawString(scifiFont, "DANGER AHEAD!", new Vector2(550, 400), Color.White);
                 spriteBatch.DrawString(font, "Health " + Player.health, new Vector2(50, 30), Color.White);
                 spriteBatch.DrawString(font, "Score " + Player.score, new Vector2(50, 150), Color.White);
                 spriteBatch.DrawString(font, "HighScore " + hiScores.scores[0], new Vector2(50, 200), Color.White);
@@ -1516,41 +1536,45 @@ namespace SpacuShuutar
                     explosions[i].Draw(spriteBatch);
                 }
                 Player.Draw(spriteBatch);
-                foreach (Bullet b in bulletArray)
-                {
-                    if (b != null)
-                        b.Draw(spriteBatch);
-                }
+               
                 
                     
                 if (MiniGun.isActive)
                     MiniGun.Draw(spriteBatch);
+                spriteBatch.End();
                 
 
             }
-            else if (gameState == GameStates.Victory)
+            spriteBatch.End();
+            spriteBatch.Begin();
+            if (gameState == GameStates.Victory)
             {
                 int hiscore, remainder;
                 Int32.TryParse(hiScores.scores[0], out hiscore);
                 spriteBatch.Draw(victory, new Rectangle(0, 0, 1920, 1080), Color.White);
-                spriteBatch.DrawString(epicfont, "Your score is: " + Player.score, new Vector2(700, 700), Color.White);
+                spriteBatch.DrawString(scifiFont, "Your score is: " + Player.score, new Vector2(700, 700), Color.White);
                 if (Player.score > hiscore)
-                    spriteBatch.DrawString(epicfont, "It's a new highscore! ", new Vector2(900, 900), Color.White);
+                    spriteBatch.DrawString(scifiFont, "It's a new highscore! ", new Vector2(500, 880), Color.White);
                 if (Player.score < hiscore)
                 {
                     remainder = hiscore - Player.score;
-                    spriteBatch.DrawString(epicfont, "Highscore was " + remainder + "better than your score!", new Vector2(900, 900), Color.White);
+                    spriteBatch.DrawString(scifiFont, "Highscore was /n " + remainder + "better than your score!", new Vector2(300, 880), Color.White);
                 }
+                
             }
-            else if (gameState == GameStates.Credits)
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.NonPremultiplied);
+            if (gameState == GameStates.Credits)
             {
-                credits.Draw(spriteBatch);
+                spriteBatch.Draw(backGroundTexture, new Rectangle(0, 0, 1920, 1080), Color.White);
+                creditz.DrawCredits(spriteBatch);
             }
-            else if (gameState == GameStates.Pause)
+            spriteBatch.End();
+            spriteBatch.Begin();
+            if (gameState == GameStates.Pause)
             {
                 spriteBatch.Draw(pause, new Rectangle(0, 0, 1920, 1080), Color.White);
             }
-
             else if (gameState == GameStates.GameOver)
             {
                 spriteBatch.Draw(backGroundTexture, new Rectangle(0, 0, 1920, 1080), Color.White);
@@ -1561,8 +1585,6 @@ namespace SpacuShuutar
             else if (gameState == GameStates.Highscores)
             {
                 spriteBatch.Draw(backGroundTexture, new Rectangle(0, 0, 1920, 1080), Color.White);
-                
-                
                 hiScores.Draw(spriteBatch);
             }
             spriteBatch.End();

@@ -124,8 +124,14 @@
     <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\fadetexture.png">
       <PackagePath>Content\fadetexture.png</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\highscorebutton.png">
+      <PackagePath>Content\highscorebutton.png</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\IT%27S OVER 9000!.png">
       <PackagePath>Content\IT%27S OVER 9000!.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\lazerball.png">
+      <PackagePath>Content\lazerball.png</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Otto\Documents\GitHub\SpacuGamu\Aluksen valinta, eri aluksilla eri attribuuttei\SpacuShuutar\Content\Line.png">
       <PackagePath>Content\Line.png</PackagePath>
